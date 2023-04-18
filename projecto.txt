@@ -1,0 +1,40 @@
+wildcard pathsubs
+ver brogue e outros roguelites
+make
+makefile
+fazer.h
+curses
+struc para armazenar estadoe mapa
+fazer um mapa 3 pancadas 
+depois de ter obstaculos fazer  a parte da vusao 
+matriz e o mapa usando as coordenadas da janela matriz dinamica tamanho maximo
+    para ma ap 
+      1. estados vazio e parede , por percentagem de parede (+/-50%)
+
+
+      2. ciclo que faz x vezes {cria nova matriz com novo estado e apos criaçao substitui a matriz anterior , se 5 em 8 forem parede , no proximo turno sera(=>) parede senao sera vazio 
+      se 0 em raio 2 => parede }  
+      3. definir que casas nao sao atravessavei atraves da luz 
+        fazer raios dos angulos ade 0 ate 360 somando 0.1 grausº
+        marcar as casas viziveis 
+        a cada turno reinicialiso esta funcao 
+
+
+--
+cada casa tem struck wue determina as caracteristicas da casa 
+typedef struct cell {
+  bool is_wall;
+  bool was_seen;
+  int dist ;
+  bool is_ocupied ;
+}
+visibilidade 
+cada casa começa a um valor muito alto 
+so atualiza se for mais baixo que o valor anterior
+primeiro na casa do jogador valor 0 , depois recursivamente as casas a volta valor 1 
+quando atualiza passa a atualixzar vizinhos 
+--
+movimento dos inimigoss, 
+vai mover na direcçao do jogador (descendo a as casas de acordo com a vizibilidade, encontrando uma perto e continuando ate chegar a  casa marcadas com 1 na vizibilidade )
+o monstro cça o jogador se estiver numa casq que o jogador consegue ver 
+
