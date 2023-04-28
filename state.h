@@ -19,7 +19,7 @@ typedef struct state {
 	CELL mapaHard[1500][750];
 
 
-	ENEMY enemy_list [5];
+	ENEMY enemy_list[5];
 
 } STATE;
 

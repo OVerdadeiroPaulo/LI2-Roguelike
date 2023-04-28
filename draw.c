@@ -10,6 +10,8 @@
 
 
 	// Função que desenha as coordenadas do jogador
+	// Ultilizar essa função para eventualmente desenhar
+	// a vida e itens do jogador
 void draw_Cood (STATE *st, int ncols, int nrows){
 
 	move(nrows - 2, 5);
@@ -24,9 +26,9 @@ void draw_Cood (STATE *st, int ncols, int nrows){
 	// Função que desenha o jogador
 void draw_player (STATE *st) {
 
-	attron(COLOR_PAIR(COLOR_YELLOW));
+	attron(COLOR_PAIR(COLOR_CYAN));
 	mvaddch(st->playerY, st->playerX, '@' | A_BOLD);
-	attroff(COLOR_PAIR(COLOR_YELLOW));
+	attroff(COLOR_PAIR(COLOR_CYAN));
 
 }
 
@@ -38,12 +40,36 @@ void draw_objects (STATE *st, int x, int y) {
 	int vertical = st->playerY + y;
 	int horizontal = st->playerX + x;
 
-	if (st->mapaEasy[horizontal][vertical].is_wall == TRUE)
+	// if (exist_Enemy(st, x, y)) {
+	// 	attron(COLOR_PAIR(COLOR_CYAN));
+	//  	mvaddch (vertical, horizontal, '#' | A_BOLD);
+	// 	attroff(COLOR_PAIR(COLOR_CYAN));
+	// }
+	
+		// Caso seja uma Parede
+	if (st->mapaEasy[horizontal][vertical].is_wall == TRUE) {
+		attron(COLOR_PAIR(COLOR_GREEN));
 		mvaddch (vertical, horizontal, '#' | A_BOLD);
-	// else if (exist_Enemy(st, x, y))
-	// 	mvaddch (vertical, horizontal, 'K' | A_BOLD);
-	else
+		attroff(COLOR_PAIR(COLOR_GREEN));
+	}
+		// Caso seja um terreno de Rio
+	else if (st->mapaEasy[horizontal][vertical].is_water == TRUE) {
+		attron(COLOR_PAIR(COLOR_BLUE));
+		mvaddch (vertical, horizontal, '~' | A_BOLD);
+		attroff(COLOR_PAIR(COLOR_BLUE));
+	}
+		// Caso seja um terreno de Relva
+	else if (st->mapaEasy[horizontal][vertical].is_grass == TRUE) {
+		attron(COLOR_PAIR(COLOR_GREEN));
+		mvaddch (vertical, horizontal, '.' | A_BOLD);
+		attroff(COLOR_PAIR(COLOR_GREEN));
+	}
+		// Caso seja um terreno vazio
+	else {
+		attron(COLOR_PAIR(COLOR_WHITE));
 		mvaddch (vertical, horizontal, '-' | A_BOLD);
+		attroff(COLOR_PAIR(COLOR_WHITE));
+	}
 }
 
 
@@ -53,7 +79,7 @@ void draw_light (STATE *st, int raio) {
 	int x;
 	int y;
 
-	attron(COLOR_PAIR(COLOR_GREEN));
+		// Definição do circulo de luz do jogador
 	for (x = 0; x < 2*raio+1; x++) {
 		for (y = 0; y < 2*raio+1; y++) {
 			float d = sqrt ((x * x) + (y * y));
@@ -65,13 +91,11 @@ void draw_light (STATE *st, int raio) {
 			}
 		}
 	}
-	attroff(COLOR_PAIR(COLOR_GREEN));
-
 }
 
 
 
-	// Função para dar refresh na iluminação
+	// Função para apagar certa área do ecrã
 void earse_all (STATE *st, int cumprimento, int altura) {
 	int x, y;
 

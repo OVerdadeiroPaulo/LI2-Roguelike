@@ -4,6 +4,8 @@
 	// Deinição para cada bloco de piso
 typedef struct cell {
 	bool is_wall;
+	bool is_water;
+	bool is_grass;
 	bool was_seen;
 
 } CELL;
