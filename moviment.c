@@ -10,8 +10,13 @@
 
     // Função que avalia se o terreno é valido para movimento
 void move_action (STATE *st, int movex, int movey) {
-	st->playerX += movex;
-	st->playerY += movey;
+	int x = st->playerX + movex;
+	int y = st->playerY + movey;
+
+	if (st->mapaEasy[x][y].is_wall != TRUE) {
+		st->playerX = x;
+		st->playerY = y;
+	}
 }
 
 
