@@ -13,10 +13,10 @@
 void play (STATE *st, int ncols, int nrows, int raio) {
 
 	draw_Cood (st, ncols, nrows);
-	draw_light (st, raio);
-	draw_player (st);
+	draw_light (st, raio, ncols, nrows);
+	draw_player (ncols, nrows);
 
-	moviment (st);
+	moviment (st, ncols, nrows);
 }
 
 
@@ -27,7 +27,7 @@ int main () {
 	getmaxyx(wnd,nrows,ncols);
 
 		// Variavel que define o raio de iluminação do jogador
-	int radius_light = 20;
+	int radius_light = 15;
 		// Estado Inicial do Jogo, mapa, jogador e inimigos
 	STATE st;
 
@@ -43,7 +43,7 @@ int main () {
     init_pair(COLOR_CYAN, COLOR_CYAN, COLOR_BLACK);
     init_pair(COLOR_RED, COLOR_RED, COLOR_BLACK);
 
-	gerar(&st, ncols, nrows);
+	gerar(&st);
 
 	while (1) {
 		play (&st, ncols, nrows, radius_light);
