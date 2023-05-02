@@ -9,34 +9,32 @@
 
 
     // Função que avalia se o terreno é valido para movimento
-void move_action (STATE *st, int movex, int movey) {
-	int x = st->playerX + movex;
-	int y = st->playerY + movey;
+void move_action (STATE *st, int movex, int movey, int ncols, int nrows) {
+	int x = st->playerX + movex + (ncols / 2);
+	int y = st->playerY + movey + (nrows / 2);
 
 	if (st->mapaEasy[x][y].is_wall != TRUE) {
-		st->playerX = x;
-		st->playerY = y;
+		st->playerX += movex;
+		st->playerY += movey;
 	}
 }
 
 
 
     // Função que busca o caractere do jogador
-void moviment(STATE *st) {
+void moviment(STATE *st, int ncols, int nrows) {
 
 	int key = getch();
 
-	earse_all (st, 1000, 1000);
-
     switch(key) {
-		case KEY_UP: move_action(st, 0, -1); break;
-		case KEY_DOWN: move_action(st, +0, +1); break;
-		case KEY_LEFT: move_action(st, -1, +0); break;
-		case KEY_RIGHT: move_action(st, +1, +0); break;
-		case KEY_A1: move_action(st, -1, -1); break;
-		case KEY_A3: move_action(st, -1, +1); break;
-		case KEY_C1: move_action(st, +1, -1); break;
-		case KEY_C3: move_action(st, +1, +1); break;
+		case KEY_UP: move_action(st, +0, -1, ncols, nrows); break;
+		case KEY_DOWN: move_action(st, +0, +1, ncols, nrows); break;
+		case KEY_LEFT: move_action(st, -1, +0, ncols, nrows); break;
+		case KEY_RIGHT: move_action(st, +1, +0, ncols, nrows); break;
+		case KEY_A1: move_action(st, -1, -1, ncols, nrows); break;
+		case KEY_A3: move_action(st, -1, +1, ncols, nrows); break;
+		case KEY_C1: move_action(st, +1, -1, ncols, nrows); break;
+		case KEY_C3: move_action(st, +1, +1, ncols, nrows); break;
 		case KEY_B2: break;
 		case 'q': endwin(); exit(0); break;
 	}

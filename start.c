@@ -9,14 +9,21 @@
 
 
 	// Função que gera um mapa aleatorio
-void random_map(STATE *s, int nCols, int nRows) {
+void random_map(STATE *s, int maxHeight, int MaxWidth) {
 	int i, j;
 
 		// gerando mapa inicial
-	for (i = 0; i < nCols; i++) {
-		for (j = 0; j < nRows; j ++) {
+	for (i = 0; i < maxHeight; i++) {
+		for (j = 0; j < MaxWidth; j ++) {
 		// Local das paredes
-			if (i == 0 || i == nCols - 1 || j == 0 || j == nRows - 1) {
+			if (i == 0 || i == maxHeight - 1|| j == 0 || j == MaxWidth - 1) {
+				s->mapaEasy[i][j].is_wall = TRUE;
+				s->mapaEasy[i][j].was_seen = FALSE;
+				s->mapaEasy[i][j].is_grass = FALSE;
+				s->mapaEasy[i][j].is_water = FALSE;
+			}
+		// Local dos Parede_Meio
+			else if ((i-140)*(i-140) + (j-25)*(j-25) <= 81) {
 				s->mapaEasy[i][j].is_wall = TRUE;
 				s->mapaEasy[i][j].was_seen = FALSE;
 				s->mapaEasy[i][j].is_grass = FALSE;
@@ -73,11 +80,11 @@ void random_Enemy(STATE *s) {
 
 
 	// Inicialização do mapa e Jogador
-void gerar(STATE *s, int nCols, int nRows) {
+void gerar(STATE *s) {
 		// Colocando o Jogador no meio do mapa
-	s->playerX = nCols / 2;
-	s->playerY = nRows / 2;
+	s->playerX = 0;
+	s->playerY = 0;
 
 	random_Enemy(s);
-	random_map(s, nCols, nRows);
+	random_map(s, 250, 55);
 }
