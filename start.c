@@ -18,35 +18,34 @@ void random_map(STATE *s, int maxHeight, int MaxWidth) {
 		// Local das paredes
 			if (i == 0 || i == maxHeight - 1|| j == 0 || j == MaxWidth - 1) {
 				s->mapaEasy[i][j].is_wall = TRUE;
-				s->mapaEasy[i][j].was_seen = FALSE;
 				s->mapaEasy[i][j].is_grass = FALSE;
 				s->mapaEasy[i][j].is_water = FALSE;
 			}
 		// Local dos Parede_Meio
 			else if ((i-140)*(i-140) + (j-25)*(j-25) <= 81) {
 				s->mapaEasy[i][j].is_wall = TRUE;
-				s->mapaEasy[i][j].was_seen = FALSE;
+				s->mapaEasy[i][j].is_mud = FALSE;
 				s->mapaEasy[i][j].is_grass = FALSE;
 				s->mapaEasy[i][j].is_water = FALSE;
 			}
 		// Local dos Rios
 			else if ((i-60)*(i-60) + (j-15)*(j-15) <= 100) {
 				s->mapaEasy[i][j].is_wall = FALSE;
-				s->mapaEasy[i][j].was_seen = FALSE;
+				s->mapaEasy[i][j].is_mud = FALSE;
 				s->mapaEasy[i][j].is_grass = FALSE;
 				s->mapaEasy[i][j].is_water = TRUE;
 			}
 		// Local das Relvas
 			else if (((i > 1 && j > 1) && (i < 20 && j < 45))) {
 				s->mapaEasy[i][j].is_wall = FALSE;
-				s->mapaEasy[i][j].was_seen = FALSE;
+				s->mapaEasy[i][j].is_mud = FALSE;
 				s->mapaEasy[i][j].is_grass = TRUE;
 				s->mapaEasy[i][j].is_water = FALSE;
 			}
 		// Espaços vazios
 			else {
 				s->mapaEasy[i][j].is_wall = FALSE;
-				s->mapaEasy[i][j].was_seen = FALSE;
+				s->mapaEasy[i][j].is_mud = FALSE;
 				s->mapaEasy[i][j].is_grass = FALSE;
 				s->mapaEasy[i][j].is_water = FALSE;
 			}

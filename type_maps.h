@@ -6,7 +6,6 @@ typedef struct cell {
 	bool is_wall;
 	bool is_water;
 	bool is_grass;
-	bool was_seen;
 	bool is_mud;
 
 } CELL;
