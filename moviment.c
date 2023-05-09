@@ -12,8 +12,14 @@
 void move_action (STATE *st, int movex, int movey, int ncols, int nrows) {
 	int x = st->playerX + movex + (ncols / 2);
 	int y = st->playerY + movey + (nrows / 2);
+	int ny = st->playerY - movey + (nrows / 2);
 
-	if (st->mapaEasy[x][y].is_wall != TRUE) {
+	
+	if (st->mapaEasy[x][ny].is_water == TRUE) {
+		st->playerX += movex;
+		st->playerY -= movey;
+	}
+	else if (st->mapaEasy[x][y].is_wall != TRUE) {
 		st->playerX += movex;
 		st->playerY += movey;
 	}
