@@ -82,9 +82,9 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 	bool aux;
 
 		// Definição do circulo de luz do jogador
-	for (i = 0; i < 360; i++) {
+	for (i = 360; i > 0; i--) {
 		aux = TRUE;
-		grau = i * 0.0174533;
+		grau = i * 0.01745329251;
 
 		for (j = 0; j <= raio; j++) {
 			x = ceil (j * cosf (grau) + (ncols / 2));
@@ -103,6 +103,24 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 					draw_objects (st, x, y);
 				else
 					erase_objects (x, y);
+		}
+	}
+
+		// Adicionando paredes no sentido anti-horario
+	for (i = 0; i < 360; i++) {
+		aux = TRUE;
+		grau = i * 0.01745329251;
+
+		for (j = 0; j <= raio; j++) {
+			x = ceil (j * cosf (grau) + (ncols / 2));
+			y = ceil (j * sinf (grau) + (nrows / 2));
+
+			if (st->mapaEasy[x + st->playerX][y + st->playerY].is_wall == TRUE) {
+				if (aux == TRUE) {
+					draw_objects (st, x, y);
+					aux = FALSE;
+				}
+			}
 		}
 	}
 }
