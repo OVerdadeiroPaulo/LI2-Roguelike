@@ -64,55 +64,12 @@ void draw_objects (STATE *st, int x, int y) {
 }
 
 
+	// Função que identifica parede, inimigos ou vazio na CELL
+void erase_objects (int x, int y) {
 
-void erase_area (STATE *st, int x, int y, int raio) {
-	int i, j;
-
-	float dest;
-	int quad = 0;
-
-	if (st->playerX < x)
-		dest = (y - st->playerY) / (x - st->playerX);
-	else if (st->playerX > x)
-		dest = (st->playerY - y) / (st->playerX - x);
-	else
-		quad = 1;
-
-	for (i = 0; i < raio; i++) {
-		for (j = 0; j < raio; j++) {
-			if (quad != 1) {
-				if (j >= round ((3/4) * dest * i) && j <= round ((5/4) * dest * i)) {
-					mvaddch (j + st->playerY, i + st->playerX, ' ' | A_BOLD);
-				}
-			}
-			else {
-				
-			}
-		}
-	}
-}
-
-
-
-void erase_shadow (STATE *st, int raio, int ncols, int nrows) {
-	int i, j;
-	int x, y;
-
-		// Definição do circulo de luz do jogador
-	for (x = - (2 * raio); x < 2 * raio; x++) {
-		for (y = -(2 * raio); y < 2*raio; y++) {
-
-			i = st->playerX + x + (ncols / 2);
-			j = st->playerY + y + (nrows / 2);
-
-			if (st->mapaEasy[i][j].is_wall == TRUE) {
-				i = i - st->playerX;
-				j = j - st->playerY;
-
-				erase_area (st, i, j, raio);
-			}
-		}
-	}
+		attron(COLOR_PAIR(COLOR_GREEN));
+		mvaddch (y, x, ' ' | A_BOLD);
+		attroff(COLOR_PAIR(COLOR_GREEN));
 }
 
 
@@ -120,19 +77,32 @@ void erase_shadow (STATE *st, int raio, int ncols, int nrows) {
 	// Função que desenha a iluminação
 void draw_light (STATE *st, int raio, int ncols, int nrows) {
 	int x, y;
+	float grau;
+	int i, j;
+	bool aux;
 
 		// Definição do circulo de luz do jogador
-	for (x = - (2 * raio); x < 2 * raio; x++) {
-		for (y = -(2 * raio); y < 2*raio; y++) {
-			int i = (ncols / 2) + x;
-			int j = (nrows / 2) + y;
+	for (i = 0; i < 360; i++) {
+		aux = TRUE;
+		grau = i * 0.0174533;
 
-			float d = sqrt ((x * x) + (y * y));
-			if (d <= raio ) {
-				draw_objects(st, i, j);
+		for (j = 0; j <= raio; j++) {
+			x = ceil (j * cosf (grau) + (ncols / 2));
+			y = ceil (j * sinf (grau) + (nrows / 2));
+
+			if (st->mapaEasy[x + st->playerX][y + st->playerY].is_wall == TRUE) {
+				if (aux == TRUE) {
+					draw_objects (st, x, y);
+					aux = FALSE;
+				}
+				else
+					erase_objects (x, y);
 			}
+			else
+				if (aux == TRUE)
+					draw_objects (st, x, y);
+				else
+					erase_objects (x, y);
 		}
 	}
-
-	erase_shadow (st, raio, ncols, nrows);
 }
