@@ -16,8 +16,8 @@ typedef struct state {
 		// 2 if Hard
 	int dificulty;
 
-	CELL mapaEasy[250][55];
-	CELL mapaMid[750][300];
+	CELL mapaEasy[55][250];
+	CELL mapaMid[300][750];
 	CELL mapaHard[1500][750];
 
 	ENEMY enemy_list[5];

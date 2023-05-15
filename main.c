@@ -27,7 +27,8 @@ int main () {
 	getmaxyx(wnd,nrows,ncols);
 
 		// Variavel que define o raio de iluminação do jogador
-	int radius_light = 15;
+	int radius_light = 18;
+
 		// Estado Inicial do Jogo, mapa, jogador e inimigos
 	STATE st;
 
