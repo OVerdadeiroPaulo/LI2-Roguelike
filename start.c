@@ -11,8 +11,8 @@
 #define HEIGHT_room 55
 #define WIDTH_room 250
 
-int map_criation = 1;   // variavel para activar a escolha do mapa tipo quartos e tuneis;
-int dungeon_mod = 1;  // variavel para activar a escolha do mapa tipo gruta. 
+int map_criation = 0;   // variavel para activar a escolha do mapa tipo quartos e tuneis;
+int dungeon_mod = 0;  // variavel para activar a escolha do mapa tipo gruta. 
 int r_oldcenter_y, r_center_y, r_oldcenter_x, r_center_x;
 int player_criation = 0, playerX = 1, playerY = 1;
 
@@ -281,6 +281,8 @@ void gerar(STATE *s) {
 	srand(time(NULL));
 	//random_Enemy(s);
 	gen_map(s);
+
+	s->dificulty = 1;
 	
 }
 
