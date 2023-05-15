@@ -26,7 +26,7 @@ void Initialize_dungeon(STATE *s) {
 				s->mapaMid[i][j].is_mud = FALSE;
 				s->mapaMid[i][j].is_grass = FALSE;
 				s->mapaMid[i][j].is_water = FALSE;
-				s->mapaMid[i][j].is_stairs_up = FALSE;
+				s->mapaMid[i][j].is_stairs = FALSE;
 
 			if (i == 0 || i == HEIGHT_dungeon - 1 || j == 0 || j == WIDTH_dungeon - 1) {
                 s->mapaMid[i][j].is_wall = TRUE;
@@ -106,7 +106,7 @@ void Initialize_rooms(STATE *s){
 	    	s->mapaEasy[y][x].is_mud = FALSE;
 	    	s->mapaEasy[y][x].is_grass = FALSE;
 	    	s->mapaEasy[y][x].is_water = FALSE;
-	    	s->mapaEasy[y][x].is_stairs_up = FALSE;   
+	    	s->mapaEasy[y][x].is_stairs = FALSE;   
 	    	
 			if (x == WIDTH_room || x == 0){
 	    		
@@ -247,7 +247,7 @@ void Build_rooms(STATE *s, int ncols, int nrows){
            }
             while (s->mapaEasy[stairs_y] [stairs_x].is_wall != FALSE); 
 
-            s->mapaEasy [stairs_y] [stairs_x].is_stairs_up = TRUE;
+            s->mapaEasy [stairs_y] [stairs_x].is_stairs = TRUE;
 
 	int x, y = 0;
 

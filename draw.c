@@ -54,7 +54,7 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 			mvaddch (y, x, '.' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));
 		}
-		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_stairs_up == TRUE) {
+		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_stairs == TRUE) {
 			attron(COLOR_PAIR(COLOR_GREEN));
 			mvaddch (y, x, '^' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));
@@ -87,7 +87,7 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 			mvaddch (y, x, '.' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));
 		}
-		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_stairs_up == TRUE) {
+		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_stairs == TRUE) {
 			attron(COLOR_PAIR(COLOR_GREEN));
 			mvaddch (y, x, '^' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));
@@ -120,7 +120,7 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 			mvaddch (y, x, '.' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));
 		}
-		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_stairs_up == TRUE) {
+		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_stairs == TRUE) {
 			attron(COLOR_PAIR(COLOR_GREEN));
 			mvaddch (y, x, '^' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));

@@ -61,43 +61,38 @@ void stairs_move (STATE *st, int ncols, int nrows) {
 	int y = st->playerY + (nrows / 2);
 
 	if (st->dificulty == 1) {
-		if (st->mapaEasy[y][x].is_stairs_up) {
+		if (st->mapaEasy[y][x].is_stairs) {
 			st->dificulty ++;
-			st->playerX = 0;
-			st->playerY = 0;
-		}
-		else if (st->mapaEasy[y][x].is_stairs_down) {
-			st->dificulty --;
-			st->playerX = 0;
-			st->playerY = 0;
+			int i, j = 0;
+
+			for (i = 0; st->mapaHard[j][i].is_wall; i++) {
+				for (j = 0; st->mapaHard[j][i].is_wall; j++) { };
+			} 
+
+			st->playerX = i;
+			st->playerY = j;
 		}
 	}
 
 
 	else if (st->dificulty == 2) {
-		if (st->mapaMid[y][x].is_stairs_up) {
+		if (st->mapaMid[y][x].is_stairs) {
 			st->dificulty ++;
-			st->playerX = 0;
-			st->playerY = 0;
-		}
-		else if (st->mapaMid[y][x].is_stairs_down) {
-			st->dificulty --;
-			st->playerX = 0;
-			st->playerY = 0;
+			int i, j = 0;
+
+			for (i = 0; st->mapaHard[j][i].is_wall; i++) {
+				for (j = 0; st->mapaHard[j][i].is_wall; j++) { };
+			} 
+
+			st->playerX = i;
+			st->playerY = j;
 		}
 	}
 
 
 	else if (st->dificulty == 3) {
-		if (st->mapaHard[y][x].is_stairs_up) {
-			st->dificulty ++;
-			st->playerX = 0;
-			st->playerY = 0;
-		}
-		else if (st->mapaHard[y][x].is_stairs_down) {
-			st->dificulty --;
-			st->playerX = 0;
-			st->playerY = 0;
+		if (st->mapaHard[y][x].is_stairs) {
+			clear ();
 		}
 	}
 }
