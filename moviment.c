@@ -15,12 +15,12 @@ void move_action (STATE *st, int movex, int movey, int ncols, int nrows) {
 	int ny = st->playerY - movey + (nrows / 2);
 
 	
-	if (st->mapaEasy[x][ny].is_water == TRUE &&
-		st->mapaEasy[st->playerX + (ncols / 2)][st->playerY + (nrows / 2)].is_water == TRUE) {
+	if (st->mapaEasy[ny][x].is_water == TRUE &&
+		st->mapaEasy[st->playerY + (nrows / 2)][st->playerX + (ncols / 2)].is_water == TRUE) {
 			st->playerX += movex;
 			st->playerY -= movey;
 	}
-	else if (st->mapaEasy[x][y].is_wall != TRUE) {
+	else if (st->mapaEasy[y][x].is_wall != TRUE) {
 		st->playerX += movex;
 		st->playerY += movey;
 	}
@@ -34,6 +34,7 @@ void moviment(STATE *st, int ncols, int nrows) {
 	int key = getch();
 
     switch(key) {
+		case 'm': st->dificulty ++; break;
 		case KEY_UP: move_action(st, +0, -1, ncols, nrows); break;
 		case KEY_DOWN: move_action(st, +0, +1, ncols, nrows); break;
 		case KEY_LEFT: move_action(st, -1, +0, ncols, nrows); break;

@@ -7,7 +7,8 @@ typedef struct cell {
 	bool is_water;
 	bool is_grass;
 	bool is_mud;
-    bool is_stairs;
+    bool is_stairs_up;
+    bool is_stairs_down;
 
 } CELL;
 #endif

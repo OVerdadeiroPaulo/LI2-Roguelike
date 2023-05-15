@@ -36,44 +36,102 @@ void draw_player (int ncols, int nrows) {
 
 	// Função que identifica parede, inimigos ou vazio na CELL
 void draw_objects (STATE *st, int x, int y, int dif) {
-	if (st->mapaEasy[x + st->playerX][y + st->playerY].is_wall == TRUE) {
-		if (dif == 1) {
+	if (dif == 1) {
+		if (st->mapaEasy[y + st->playerY][x + st->playerX].is_wall == TRUE) {
+				attron(COLOR_PAIR(COLOR_GREEN));
+				mvaddch (y, x, '#' | A_BOLD);
+				attroff(COLOR_PAIR(COLOR_GREEN));
+		}
+			// Caso seja um terreno de Rio
+		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_water == TRUE) {
+			attron(COLOR_PAIR(COLOR_BLUE));
+			mvaddch (y, x, '~' | A_BOLD);
+			attroff(COLOR_PAIR(COLOR_BLUE));
+		}
+			// Caso seja um terreno de Relva
+		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_grass == TRUE) {
 			attron(COLOR_PAIR(COLOR_GREEN));
-			mvaddch (y, x, '#' | A_BOLD);
+			mvaddch (y, x, '.' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));
-		} else if (dif == 2) {
+		}
+		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_stairs_up == TRUE) {
+			attron(COLOR_PAIR(COLOR_GREEN));
+			mvaddch (y, x, '^' | A_BOLD);
+			attroff(COLOR_PAIR(COLOR_GREEN));
+		}
+			// Caso seja um terreno vazio
+		else {
+			attron(COLOR_PAIR(COLOR_WHITE));
+			mvaddch (y, x, '-' | A_BOLD);
+			attroff(COLOR_PAIR(COLOR_WHITE));
+		}
+	}
+	
+
+	
+	else if (dif == 2) {
+		if (st->mapaMid[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 			attron(COLOR_PAIR(COLOR_YELLOW));
 			mvaddch (y, x, '#' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_YELLOW));
-		} else if (dif == 3) {
-			attron(COLOR_PAIR(COLOR_RED));
-			mvaddch (y, x, '#' | A_BOLD);
-			attroff(COLOR_PAIR(COLOR_RED));
+		}
+			// Caso seja um terreno de Rio
+		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_water == TRUE) {
+			attron(COLOR_PAIR(COLOR_BLUE));
+			mvaddch (y, x, '~' | A_BOLD);
+			attroff(COLOR_PAIR(COLOR_BLUE));
+		}
+			// Caso seja um terreno de Relva
+		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_grass == TRUE) {
+			attron(COLOR_PAIR(COLOR_GREEN));
+			mvaddch (y, x, '.' | A_BOLD);
+			attroff(COLOR_PAIR(COLOR_GREEN));
+		}
+		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_stairs_up == TRUE) {
+			attron(COLOR_PAIR(COLOR_GREEN));
+			mvaddch (y, x, '^' | A_BOLD);
+			attroff(COLOR_PAIR(COLOR_GREEN));
+		}
+			// Caso seja um terreno vazio
+		else {
+			attron(COLOR_PAIR(COLOR_WHITE));
+			mvaddch (y, x, '-' | A_BOLD);
+			attroff(COLOR_PAIR(COLOR_WHITE));
 		}
 	}
-		// Caso seja um terreno de Rio
-	else if (st->mapaEasy[x + st->playerX][y + st->playerY].is_water == TRUE) {
-		attron(COLOR_PAIR(COLOR_BLUE));
-		mvaddch (y, x, '~' | A_BOLD);
-		attroff(COLOR_PAIR(COLOR_BLUE));
-	}
-		// Caso seja um terreno de Relva
-	else if (st->mapaEasy[x + st->playerX][y + st->playerY].is_grass == TRUE) {
-		attron(COLOR_PAIR(COLOR_GREEN));
-		mvaddch (y, x, '.' | A_BOLD);
-		attroff(COLOR_PAIR(COLOR_GREEN));
-	}
-	else if (st->mapaEasy[x + st->playerX][y + st->playerY].is_stairs == TRUE) {
-		attron(COLOR_PAIR(COLOR_GREEN));
-		mvaddch (y, x, '>' | A_BOLD);
-		attroff(COLOR_PAIR(COLOR_GREEN));
-	}
-		// Caso seja um terreno vazio
-	else {
-		attron(COLOR_PAIR(COLOR_WHITE));
-		mvaddch (y, x, '-' | A_BOLD);
-		attroff(COLOR_PAIR(COLOR_WHITE));
-	}
+	
+
+	
+	// else if (dif == 3) {
+	// 	if (st->mapaHard[y + st->playerY][x + st->playerX].is_wall == TRUE) {
+	// 		attron(COLOR_PAIR(COLOR_RED));
+	// 		mvaddch (y, x, '#' | A_BOLD);
+	// 		attroff(COLOR_PAIR(COLOR_RED));
+	// 	}
+	// 		// Caso seja um terreno de Rio
+	// 	else if (st->mapaHard[y + st->playerY][x + st->playerX].is_water == TRUE) {
+	// 		attron(COLOR_PAIR(COLOR_BLUE));
+	// 		mvaddch (y, x, '~' | A_BOLD);
+	// 		attroff(COLOR_PAIR(COLOR_BLUE));
+	// 	}
+	// 		// Caso seja um terreno de Relva
+	// 	else if (st->mapaHard[y + st->playerY][x + st->playerX].is_grass == TRUE) {
+	// 		attron(COLOR_PAIR(COLOR_GREEN));
+	// 		mvaddch (y, x, '.' | A_BOLD);
+	// 		attroff(COLOR_PAIR(COLOR_GREEN));
+	// 	}
+	// 	else if (st->mapaHard[y + st->playerY][x + st->playerX].is_stairs_up == TRUE) {
+	// 		attron(COLOR_PAIR(COLOR_GREEN));
+	// 		mvaddch (y, x, '^' | A_BOLD);
+	// 		attroff(COLOR_PAIR(COLOR_GREEN));
+	// 	}
+	// 		// Caso seja um terreno vazio
+	// 	else {
+	// 		attron(COLOR_PAIR(COLOR_WHITE));
+	// 		mvaddch (y, x, '-' | A_BOLD);
+	// 		attroff(COLOR_PAIR(COLOR_WHITE));
+	// 	}
+	// }
 }
 
 
@@ -106,7 +164,7 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 				x = ceil (j * cosf (grau) + (ncols / 2));
 				y = ceil (j * sinf (grau) + (nrows / 2));
 
-				if (st->mapaEasy[x + st->playerX][y + st->playerY].is_wall == TRUE) {
+				if (st->mapaEasy[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 					if (aux == TRUE) {
 						draw_objects (st, x, y, 1);
 						aux = FALSE;
@@ -131,7 +189,7 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 				x = ceil (j * cosf (grau) + (ncols / 2));
 				y = ceil (j * sinf (grau) + (nrows / 2));
 
-				if (st->mapaEasy[x + st->playerX][y + st->playerY].is_wall == TRUE) {
+				if (st->mapaEasy[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 					if (aux == TRUE) {
 						draw_objects (st, x, y, 1);
 						aux = FALSE;
@@ -152,7 +210,7 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 				x = ceil (j * cosf (grau) + (ncols / 2));
 				y = ceil (j * sinf (grau) + (nrows / 2));
 
-				if (st->mapaEasy[x + st->playerX][y + st->playerY].is_wall == TRUE) {
+				if (st->mapaMid[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 					if (aux == TRUE) {
 						draw_objects (st, x, y, 2);
 						aux = FALSE;
@@ -177,7 +235,7 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 				x = ceil (j * cosf (grau) + (ncols / 2));
 				y = ceil (j * sinf (grau) + (nrows / 2));
 
-				if (st->mapaEasy[x + st->playerX][y + st->playerY].is_wall == TRUE) {
+				if (st->mapaMid[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 					if (aux == TRUE) {
 						draw_objects (st, x, y, 2);
 						aux = FALSE;
@@ -198,7 +256,7 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 				x = ceil (j * cosf (grau) + (ncols / 2));
 				y = ceil (j * sinf (grau) + (nrows / 2));
 
-				if (st->mapaEasy[x + st->playerX][y + st->playerY].is_wall == TRUE) {
+				if (st->mapaHard[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 					if (aux == TRUE) {
 						draw_objects (st, x, y, 3);
 						aux = FALSE;
@@ -223,7 +281,7 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 				x = ceil (j * cosf (grau) + (ncols / 2));
 				y = ceil (j * sinf (grau) + (nrows / 2));
 
-				if (st->mapaEasy[x + st->playerX][y + st->playerY].is_wall == TRUE) {
+				if (st->mapaHard[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 					if (aux == TRUE) {
 						draw_objects (st, x, y, 3);
 						aux = FALSE;

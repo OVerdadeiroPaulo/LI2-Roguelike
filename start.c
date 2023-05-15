@@ -26,7 +26,7 @@ void Initialize_dungeon(STATE *s) {
 				s->mapaEasy[i][j].is_mud = FALSE;
 				s->mapaEasy[i][j].is_grass = FALSE;
 				s->mapaEasy[i][j].is_water = FALSE;
-				s->mapaEasy[i][j].is_stairs = FALSE;
+				s->mapaEasy[i][j].is_stairs_up = FALSE;
 
 			if (i == 0 || i == HEIGHT_dungeon - 1 || j == 0 || j == WIDTH_dungeon - 1) {
                 s->mapaEasy[i][j].is_wall = TRUE;
@@ -101,7 +101,7 @@ void Initialize_rooms(STATE *s){
 	    	s->mapaEasy[y][x].is_mud = FALSE;
 	    	s->mapaEasy[y][x].is_grass = FALSE;
 	    	s->mapaEasy[y][x].is_water = FALSE;
-	    	s->mapaEasy[y][x].is_stairs = FALSE;   
+	    	s->mapaEasy[y][x].is_stairs_up = FALSE;   
 	    	
 			if (x == WIDTH_room || x == 0){
 	    		
@@ -161,7 +161,7 @@ void dig_tunnel(STATE *s, int prev_center_x, int prev_center_y, int to_x, int to
 }
 
 // Funcao que controi os quartos.
-void Build_rooms(STATE *s){
+void Build_rooms(STATE *s, int ncols, int nrows){
 	
 	int n_rooms;
 
@@ -236,54 +236,44 @@ void Build_rooms(STATE *s){
            }
             while (s->mapaEasy[stairs_y] [stairs_x].is_wall != FALSE); 
 
-            s->mapaEasy [stairs_y] [stairs_x].is_stairs = TRUE;
+            s->mapaEasy [stairs_y] [stairs_x].is_stairs_up = TRUE;
 
-	s->playerX = 0;
-	s->playerY = 0;
+	int x, y = 0;
 
+	for (x = 0; s->mapaEasy[y + (nrows/2)][x + (ncols/2)].is_wall == TRUE; x++) {
+		for ( ; s->mapaEasy[y + (nrows/2)][x + (ncols/2)].is_wall == TRUE; y++) { };
+	}
+
+	s->playerX = x;
+	s->playerY = y;
 
 }
 
 // Funcao que gera e controla a geracao dos mapas.
-int gen_map(STATE *s) {
+int gen_map(STATE *s, int ncols, int nrows) {
 	
-	if (map_criation == 0){
     
-        Initialize_rooms(s);
-
-	   }
-
-	if (map_criation == 0){
-     
-      Build_rooms(s);
-
-	   }
+    Initialize_rooms(s);
+    Build_rooms(s, ncols, nrows);
      
     if (dungeon_mod == 1 ) {
-
-    Initialize_dungeon(s);
-    
-       }
-
-    if (dungeon_mod == 1){
-    
-	Build_dungeon(s);
-
-	dungeon_mod++;
+		Initialize_dungeon(s);
+		Build_dungeon(s);
+		dungeon_mod++;
 	}
 
 	return 0;
 	}
 	
-void gerar(STATE *s) {
+
+void gerar(STATE *s, int ncols, int nrows) {
 		// Colocando o Jogador no meio do mapa
 	
 	srand(time(NULL));
 	//random_Enemy(s);
-	gen_map(s);
+	gen_map(s, ncols, nrows);
 
 	s->dificulty = 1;
-	
 }
 
 

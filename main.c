@@ -44,7 +44,7 @@ int main () {
     init_pair(COLOR_CYAN, COLOR_CYAN, COLOR_BLACK);
     init_pair(COLOR_RED, COLOR_RED, COLOR_BLACK);
 
-	gerar(&st);
+	gerar(&st, ncols, nrows);
 
 	while (1) {
 		play (&st, ncols, nrows, radius_light);
