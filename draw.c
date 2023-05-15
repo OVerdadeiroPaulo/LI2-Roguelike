@@ -13,7 +13,7 @@
 	// Ultilizar essa função para eventualmente desenhar
 	// a vida e itens do jogador
 void draw_Cood (STATE *st, int ncols, int nrows){
-
+    
 	move(nrows - 2, 5);
 	attron(COLOR_PAIR(COLOR_BLUE));
 	printw("(%d, %d) %d %d", st->playerX, st->playerY, ncols, nrows);
@@ -36,8 +36,6 @@ void draw_player (int ncols, int nrows) {
 
 	// Função que identifica parede, inimigos ou vazio na CELL
 void draw_objects (STATE *st, int x, int y, int dif) {
-
-	// Caso seja uma Parede
 	if (st->mapaEasy[x + st->playerX][y + st->playerY].is_wall == TRUE) {
 		if (dif == 1) {
 			attron(COLOR_PAIR(COLOR_GREEN));
@@ -65,6 +63,11 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 		mvaddch (y, x, '.' | A_BOLD);
 		attroff(COLOR_PAIR(COLOR_GREEN));
 	}
+	else if (st->mapaEasy[x + st->playerX][y + st->playerY].is_stairs == TRUE) {
+		attron(COLOR_PAIR(COLOR_GREEN));
+		mvaddch (y, x, '>' | A_BOLD);
+		attroff(COLOR_PAIR(COLOR_GREEN));
+	}
 		// Caso seja um terreno vazio
 	else {
 		attron(COLOR_PAIR(COLOR_WHITE));
@@ -83,8 +86,6 @@ void erase_objects (int x, int y) {
 		mvaddch (y, x, ' ' | A_BOLD);
 		attroff(COLOR_PAIR(COLOR_GREEN));
 }
-
-
 
 
 
