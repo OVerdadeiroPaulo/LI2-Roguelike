@@ -102,36 +102,36 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 	
 
 	
-	// else if (dif == 3) {
-	// 	if (st->mapaHard[y + st->playerY][x + st->playerX].is_wall == TRUE) {
-	// 		attron(COLOR_PAIR(COLOR_RED));
-	// 		mvaddch (y, x, '#' | A_BOLD);
-	// 		attroff(COLOR_PAIR(COLOR_RED));
-	// 	}
-	// 		// Caso seja um terreno de Rio
-	// 	else if (st->mapaHard[y + st->playerY][x + st->playerX].is_water == TRUE) {
-	// 		attron(COLOR_PAIR(COLOR_BLUE));
-	// 		mvaddch (y, x, '~' | A_BOLD);
-	// 		attroff(COLOR_PAIR(COLOR_BLUE));
-	// 	}
-	// 		// Caso seja um terreno de Relva
-	// 	else if (st->mapaHard[y + st->playerY][x + st->playerX].is_grass == TRUE) {
-	// 		attron(COLOR_PAIR(COLOR_GREEN));
-	// 		mvaddch (y, x, '.' | A_BOLD);
-	// 		attroff(COLOR_PAIR(COLOR_GREEN));
-	// 	}
-	// 	else if (st->mapaHard[y + st->playerY][x + st->playerX].is_stairs_up == TRUE) {
-	// 		attron(COLOR_PAIR(COLOR_GREEN));
-	// 		mvaddch (y, x, '^' | A_BOLD);
-	// 		attroff(COLOR_PAIR(COLOR_GREEN));
-	// 	}
-	// 		// Caso seja um terreno vazio
-	// 	else {
-	// 		attron(COLOR_PAIR(COLOR_WHITE));
-	// 		mvaddch (y, x, '-' | A_BOLD);
-	// 		attroff(COLOR_PAIR(COLOR_WHITE));
-	// 	}
-	// }
+	else if (dif == 3) {
+		if (st->mapaHard[y + st->playerY][x + st->playerX].is_wall == TRUE) {
+			attron(COLOR_PAIR(COLOR_RED));
+			mvaddch (y, x, '#' | A_BOLD);
+			attroff(COLOR_PAIR(COLOR_RED));
+		}
+			// Caso seja um terreno de Rio
+		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_water == TRUE) {
+			attron(COLOR_PAIR(COLOR_BLUE));
+			mvaddch (y, x, '~' | A_BOLD);
+			attroff(COLOR_PAIR(COLOR_BLUE));
+		}
+			// Caso seja um terreno de Relva
+		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_grass == TRUE) {
+			attron(COLOR_PAIR(COLOR_GREEN));
+			mvaddch (y, x, '.' | A_BOLD);
+			attroff(COLOR_PAIR(COLOR_GREEN));
+		}
+		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_stairs_up == TRUE) {
+			attron(COLOR_PAIR(COLOR_GREEN));
+			mvaddch (y, x, '^' | A_BOLD);
+			attroff(COLOR_PAIR(COLOR_GREEN));
+		}
+			// Caso seja um terreno vazio
+		else {
+			attron(COLOR_PAIR(COLOR_WHITE));
+			mvaddch (y, x, '-' | A_BOLD);
+			attroff(COLOR_PAIR(COLOR_WHITE));
+		}
+	}
 }
 
 

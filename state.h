@@ -17,8 +17,8 @@ typedef struct state {
 	int dificulty;
 
 	CELL mapaEasy[55][250];
-	CELL mapaMid[300][750];
-	CELL mapaHard[1500][750];
+	CELL mapaMid[150][300];
+	CELL mapaHard[200][350];
 
 	ENEMY enemy_list[5];
 
