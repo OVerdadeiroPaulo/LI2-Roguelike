@@ -28,7 +28,7 @@ typedef struct Jogador // struct que define o jogador
     Item inventario;
 } Jogador;
 
-void atribuiCamposItem(Item item)
+void atribuiCamposItem(Item item) //auxiliar que da o tipo nome e char ao item
 {
     int semente = rand() % 4;
     if (semente == 0)
@@ -57,7 +57,7 @@ void atribuiCamposItem(Item item)
         item->visual = 'H';
     }
 }
-Item geraArrow()
+Item geraArrow() // igual a de baixo mas so para arrows para possibilitar um  inicio com items random
 {
     Item item = (Item)malloc(sizeof(struct item));
     if (item != NULL)
@@ -70,7 +70,7 @@ Item geraArrow()
     }
     return item;
 }
-Item geraitem()
+Item geraitem() //gera um item auxiliar
 {
     Item item = (Item)malloc(sizeof(struct item));
     if (item != NULL)
@@ -83,7 +83,7 @@ Item geraitem()
     }
     return item;
 }
-Item spawnaItem(ENEMY inimigo)
+Item spawnaItem(ENEMY inimigo) // cria um item na posiçao do inimigo quando este morre
 {
     int semente = rand() % 3;
     if (inimigo.hp <= 0)
@@ -102,8 +102,8 @@ Item spawnaItem(ENEMY inimigo)
         }
     }
 }
-void apanhaItem(Jogador player, Item item)
-{
+void apanhaItem(Jogador player, Item item) // colecta um item do chao
+{ 
 
     if (player.posX == item->posx && player.posY == item->posy)
     {
@@ -120,6 +120,6 @@ void apanhaItem(Jogador player, Item item)
         }
     }
 }
-void equipaitems(Jogador player)
-{
+void equipaitems(Jogador player) // auxiliar para gerir inventario
+{ 
 }
