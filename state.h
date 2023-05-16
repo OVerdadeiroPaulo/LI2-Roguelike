@@ -16,6 +16,16 @@ typedef struct state {
 		// 2 if Hard
 	int dificulty;
 
+		// 0 if Start
+		// 1 if Play
+		// 2 if Pause
+	int menu;
+
+		// If in Start or Pause
+		// TRUE if play
+		// False if Exit
+	bool selection;
+
 	CELL mapaEasy[55][250];
 	CELL mapaMid[55][250];
 	CELL mapaHard[150][300];

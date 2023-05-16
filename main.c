@@ -6,7 +6,6 @@
 
 #include "state.h"
 #include "draw.c"
-#include "moviment.c"
 
 
 
@@ -21,6 +20,20 @@ void play (STATE *st, int ncols, int nrows, int raio) {
 
 
 
+void play_menu (STATE *st, int ncols, int nrows) {
+	draw_menu (st, ncols, nrows);
+	moviment_menu (st, ncols, nrows);
+}
+
+
+
+void play_pause (STATE *st, int ncols, int nrows) {
+	draw_pause (st, ncols, nrows);
+	moviment_menu (st, ncols, nrows);
+}
+
+
+
 int main () {
 	WINDOW *wnd = initscr();
 	int ncols, nrows;
@@ -31,6 +44,7 @@ int main () {
 
 		// Estado Inicial do Jogo, mapa, jogador e inimigos
 	STATE st;
+	st.menu = 0;
 
 	srand48(time(NULL));
 	start_color();
@@ -44,10 +58,16 @@ int main () {
     init_pair(COLOR_CYAN, COLOR_CYAN, COLOR_BLACK);
     init_pair(COLOR_RED, COLOR_RED, COLOR_BLACK);
 
-	gerar(&st, ncols, nrows);
+	
+	st.selection = TRUE;
 
 	while (1) {
-		play (&st, ncols, nrows, radius_light);
+		while (st.menu == 0)
+			play_menu (&st, ncols, nrows);
+		while (st.menu == 1)
+			play (&st, ncols, nrows, radius_light);
+		while (st.menu == 2)
+			play_pause (&st, ncols, nrows);
 	}
 
 	return 0;

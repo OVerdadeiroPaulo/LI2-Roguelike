@@ -5,6 +5,7 @@
 #include <math.h>
 
 #include "state.h"
+#include "start.c"
 
 
 
@@ -56,6 +57,37 @@ void move_action (STATE *st, int movex, int movey, int ncols, int nrows) {
 
 
 
+
+    // Função que avalia se o terreno é valido para movimento
+void move_menu (STATE *st, int move, int ncols, int nrows) {
+	if  (move == 1)
+		if (st->selection == FALSE)
+			st->selection = TRUE;
+		else
+			st->selection = FALSE;
+	else if  (move == 2) {
+		if (st->menu == 0) {
+			if (st->selection == TRUE) {
+				gerar(st, ncols, nrows);
+				st->menu = 1;
+			}
+			else if (st->selection == FALSE) {
+				endwin ();
+				exit (0);
+			}
+		}
+		else if (st->menu == 2) {
+			if (st->selection == TRUE)
+				st->menu = 1;
+			else if (st->selection == FALSE) {
+				st->menu = 0;
+			}
+		}
+	}
+}
+
+
+
 void stairs_move (STATE *st, int ncols, int nrows) {
 	int x = st->playerX + (ncols / 2);
 	int y = st->playerY + (nrows / 2);
@@ -80,8 +112,8 @@ void stairs_move (STATE *st, int ncols, int nrows) {
 			st->dificulty ++;
 			int i, j = 0;
 
-			for (i = 0; st->mapaHard[j][i].is_wall; i++) {
-				for (j = 0; st->mapaHard[j][i].is_wall; j++) { };
+			for (i = 0; st->mapaHard[j][i].is_wall == TRUE; i++) {
+				for (j = 0; st->mapaHard[j][i].is_wall == TRUE; j++) { };
 			} 
 
 			st->playerX = i;
@@ -105,16 +137,29 @@ void moviment(STATE *st, int ncols, int nrows) {
 	int key = getch();
 
     switch(key) {
-		case 'm': stairs_move (st, ncols, nrows); break;
+		case KEY_BACKSPACE: stairs_move (st, ncols, nrows); break;
 		case KEY_UP: move_action(st, +0, -1, ncols, nrows); break;
 		case KEY_DOWN: move_action(st, +0, +1, ncols, nrows); break;
 		case KEY_LEFT: move_action(st, -1, +0, ncols, nrows); break;
 		case KEY_RIGHT: move_action(st, +1, +0, ncols, nrows); break;
-		case KEY_A1: move_action(st, -1, -1, ncols, nrows); break;
-		case KEY_A3: move_action(st, -1, +1, ncols, nrows); break;
-		case KEY_C1: move_action(st, +1, -1, ncols, nrows); break;
-		case KEY_C3: move_action(st, +1, +1, ncols, nrows); break;
-		case KEY_B2: break;
+		case 'p': st->menu = 2; break;
+		case 'q': endwin(); exit(0); break;
+	}
+}
+
+
+
+    // Função que busca o caractere do jogador
+void moviment_menu(STATE *st, int ncols, int nrows) {
+
+	int key = getch();
+
+    switch(key) {
+		case KEY_BACKSPACE: move_menu(st, 2, ncols, nrows); break;
+		case KEY_UP: move_menu(st, 1, ncols, nrows); break;
+		case KEY_DOWN: move_menu(st, 1, ncols, nrows); break;
+		case KEY_LEFT: move_menu(st, 1, ncols, nrows); break;
+		case KEY_RIGHT: move_menu(st, 1, ncols, nrows); break;
 		case 'q': endwin(); exit(0); break;
 	}
 }

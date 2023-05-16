@@ -391,6 +391,5 @@ void gerar(STATE *s, int ncols, int nrows) {
 	srand(time(NULL));
 	//random_Enemy(s);
 	gen_map(s, ncols, nrows);
-
 	s->dificulty = 1;
 }

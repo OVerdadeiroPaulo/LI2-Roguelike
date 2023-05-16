@@ -5,7 +5,7 @@
 #include <math.h>
 
 #include "state.h"
-#include "start.c"
+#include "moviment.c"
 
 
 
@@ -42,6 +42,11 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 				mvaddch (y, x, '#' | A_BOLD);
 				attroff(COLOR_PAIR(COLOR_GREEN));
 		}
+		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_stairs == TRUE) {
+			attron(COLOR_PAIR(COLOR_GREEN));
+			mvaddch (y, x, '^' | A_BOLD);
+			attroff(COLOR_PAIR(COLOR_GREEN));
+		}
 			// Caso seja um terreno de Rio
 		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_water == TRUE) {
 			attron(COLOR_PAIR(COLOR_BLUE));
@@ -52,11 +57,6 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_grass == TRUE) {
 			attron(COLOR_PAIR(COLOR_GREEN));
 			mvaddch (y, x, '.' | A_BOLD);
-			attroff(COLOR_PAIR(COLOR_GREEN));
-		}
-		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_stairs == TRUE) {
-			attron(COLOR_PAIR(COLOR_GREEN));
-			mvaddch (y, x, '^' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));
 		}
 			// Caso seja um terreno vazio
@@ -75,6 +75,11 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 			mvaddch (y, x, '#' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_YELLOW));
 		}
+		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_stairs == TRUE) {
+			attron(COLOR_PAIR(COLOR_GREEN));
+			mvaddch (y, x, '^' | A_BOLD);
+			attroff(COLOR_PAIR(COLOR_GREEN));
+		}
 			// Caso seja um terreno de Rio
 		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_water == TRUE) {
 			attron(COLOR_PAIR(COLOR_BLUE));
@@ -85,11 +90,6 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_grass == TRUE) {
 			attron(COLOR_PAIR(COLOR_GREEN));
 			mvaddch (y, x, '.' | A_BOLD);
-			attroff(COLOR_PAIR(COLOR_GREEN));
-		}
-		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_stairs == TRUE) {
-			attron(COLOR_PAIR(COLOR_GREEN));
-			mvaddch (y, x, '^' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));
 		}
 			// Caso seja um terreno vazio
@@ -108,6 +108,11 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 			mvaddch (y, x, '#' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_RED));
 		}
+		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_stairs == TRUE) {
+			attron(COLOR_PAIR(COLOR_GREEN));
+			mvaddch (y, x, '^' | A_BOLD);
+			attroff(COLOR_PAIR(COLOR_GREEN));
+		}
 			// Caso seja um terreno de Rio
 		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_water == TRUE) {
 			attron(COLOR_PAIR(COLOR_BLUE));
@@ -118,11 +123,6 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_grass == TRUE) {
 			attron(COLOR_PAIR(COLOR_GREEN));
 			mvaddch (y, x, '.' | A_BOLD);
-			attroff(COLOR_PAIR(COLOR_GREEN));
-		}
-		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_stairs == TRUE) {
-			attron(COLOR_PAIR(COLOR_GREEN));
-			mvaddch (y, x, '^' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));
 		}
 			// Caso seja um terreno vazio
@@ -288,5 +288,43 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 				}
 			}
 		}
+	}
+}
+
+
+
+void draw_menu (STATE *st, int ncols, int nrows) {
+	clear ();
+
+	if (st->selection == TRUE) {
+		move(nrows / 2, ncols / 2);
+		attron(COLOR_PAIR(COLOR_BLUE));
+		printw("Play");
+		attroff(COLOR_PAIR(COLOR_BLUE));
+	}
+	else if (st->selection == FALSE) {
+		move(nrows / 2, ncols / 2);
+		attron(COLOR_PAIR(COLOR_BLUE));
+		printw("Exit");
+		attroff(COLOR_PAIR(COLOR_BLUE));
+	}
+}
+
+
+
+void draw_pause (STATE *st, int ncols, int nrows) {
+	clear();
+
+	if (st->selection == TRUE) {
+		move(nrows / 2, ncols / 2);
+		attron(COLOR_PAIR(COLOR_BLUE));
+		printw("Continue");
+		attroff(COLOR_PAIR(COLOR_BLUE));
+	}
+	else if (st->selection == FALSE) {
+		move(nrows / 2, ncols / 2);
+		attron(COLOR_PAIR(COLOR_BLUE));
+		printw("Back to menu");
+		attroff(COLOR_PAIR(COLOR_BLUE));
 	}
 }
