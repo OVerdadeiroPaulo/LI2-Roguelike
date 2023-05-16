@@ -136,7 +136,6 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 
 
 
-
 	// Função que identifica parede, inimigos ou vazio na CELL
 void erase_objects (int x, int y) {
 

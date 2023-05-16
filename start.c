@@ -6,10 +6,12 @@
 
 #include "state.h"
 
-#define HEIGHT_dungeon 150
-#define WIDTH_dungeon 299
+#define HEIGHT_dungeon 55
+#define WIDTH_dungeon 249
 #define HEIGHT_room 55
 #define WIDTH_room 250
+#define HEIGHT_dungeon_Hard 150
+#define WIDTH_dungeon_Hard 299
 
 int map_criation = 0;   // variavel para activar a escolha do mapa tipo quartos e tuneis;
 int dungeon_mod = 1;  // variavel para activar a escolha do mapa tipo gruta. 
@@ -17,7 +19,7 @@ int r_oldcenter_y, r_center_y, r_oldcenter_x, r_center_x;
 int player_criation = 0, playerX = 1, playerY = 1;
 
 // Funcao que inicializa todo o array para criar grutas. 
-void Initialize_dungeon(STATE *s) {
+void Initialize_dungeon_Mid(STATE *s) {
     
     for (int i = 0; i < HEIGHT_dungeon; i++) {
         for (int j = 0; j < WIDTH_dungeon; j++) {
@@ -48,7 +50,7 @@ void Initialize_dungeon(STATE *s) {
 
 
 // Funcao que pega no array inicializado e controi as grutas.
-void Build_dungeon(STATE *s) {
+void Build_dungeon_Mid(STATE *s) {
     int n_walls;
     int dungeon_data [HEIGHT_dungeon][WIDTH_dungeon];
 
@@ -92,7 +94,111 @@ void Build_dungeon(STATE *s) {
             s->mapaMid [i][j].is_wall = dungeon_data [i][j];
         }
     }
+
+		   // criacao de escadas.
+    int stairs_y, stairs_x;
+
+    do { 
+            stairs_y = rand() %55;
+            stairs_x = rand() %250;
+     
+           }
+            while (s->mapaEasy[stairs_y] [stairs_x].is_wall != FALSE); 
+
+            s->mapaEasy [stairs_y] [stairs_x].is_stairs = TRUE;
 }
+
+
+// Funcao que inicializa todo o array para criar grutas. 
+void Initialize_dungeon_Hard(STATE *s) {
+    
+    for (int i = 0; i < HEIGHT_dungeon_Hard; i++) {
+        for (int j = 0; j < WIDTH_dungeon_Hard; j++) {
+                
+				s->mapaHard[i][j].is_wall = FALSE;
+				s->mapaHard[i][j].is_mud = FALSE;
+				s->mapaHard[i][j].is_grass = FALSE;
+				s->mapaHard[i][j].is_water = FALSE;
+				s->mapaHard[i][j].is_stairs = FALSE;
+
+			if (i == 0 || i == HEIGHT_dungeon_Hard - 1 || j == 0 || j == WIDTH_dungeon_Hard - 1) {
+                s->mapaHard[i][j].is_wall = TRUE;
+
+               } 
+			else {
+               
+			    if (rand() % 100 < 45){
+				   s->mapaHard[i][j].is_wall = TRUE;
+				   }
+			        else{ 
+						s->mapaHard[i][j].is_wall = FALSE;
+						 }
+                }
+        }
+    }
+}
+
+
+
+// Funcao que pega no array inicializado e controi as grutas.
+void Build_dungeon_Hard(STATE *s) {
+    int n_walls;
+    int dungeon_data [HEIGHT_dungeon_Hard][WIDTH_dungeon_Hard];
+
+    for (int i = 0; i < HEIGHT_dungeon_Hard; i++) {
+        for (int j = 0; j < WIDTH_dungeon_Hard; j++) {
+            n_walls = 0;
+
+            // Clausulas para contar o numero de paredes vizinhas.
+            if (s->mapaHard [i - 1][j - 1].is_wall == TRUE) n_walls++;
+            if (s->mapaHard[i - 1][j].is_wall == TRUE) n_walls++;
+            if (s->mapaHard[i - 1][j + 1].is_wall == TRUE) n_walls++;
+            if (s->mapaHard[i][j - 1].is_wall == TRUE) n_walls++;
+            if (s->mapaHard[i][j + 1].is_wall == TRUE) n_walls++;
+            if (s->mapaHard[i + 1][j - 1].is_wall == TRUE) n_walls++;
+            if (s->mapaHard[i + 1][j].is_wall == TRUE) n_walls++;
+            if (s->mapaHard[i + 1][j + 1].is_wall == TRUE) n_walls++;
+
+            // Clausula para escolher o conteudo de cada celula.
+            if (s->mapaHard[i][j].is_wall == TRUE) {
+                 if (n_walls >= 4){
+					dungeon_data [i][j] = TRUE;
+					} 
+				 else{
+					dungeon_data [i][j] = FALSE;
+					}
+            }
+			    else {
+                    if (n_walls >= 5){
+					   dungeon_data [i][j] = TRUE;
+					   } 
+					else {
+					   dungeon_data [i][j] = FALSE;
+					   }
+                   }
+        }
+    }
+
+    // clausula para copiar para o array novo mapa.
+    for (int i = 0; i < HEIGHT_dungeon_Hard; i++) {
+        for (int j = 0; j < WIDTH_dungeon_Hard; j++) {
+            s->mapaHard [i][j].is_wall = dungeon_data [i][j];
+        }
+    }
+
+		   // criacao de escadas.
+    int stairs_y, stairs_x;
+
+    do { 
+            stairs_y = rand() %55;
+            stairs_x = rand() %250;
+     
+           }
+            while (s->mapaEasy[stairs_y] [stairs_x].is_wall != FALSE); 
+
+            s->mapaEasy [stairs_y] [stairs_x].is_stairs = TRUE;
+}
+
 
 
 
@@ -269,8 +375,11 @@ void gen_map (STATE *s, int ncols, int nrows) {
     Initialize_rooms(s);
     Build_rooms(s, ncols, nrows);
 
-	Initialize_dungeon(s);
-	Build_dungeon(s);
+	Initialize_dungeon_Mid(s);
+	Build_dungeon_Mid(s);
+
+	Initialize_dungeon_Hard(s);
+	Build_dungeon_Hard(s);
 	dungeon_mod++;
 
 }
@@ -278,7 +387,6 @@ void gen_map (STATE *s, int ncols, int nrows) {
 
 
 void gerar(STATE *s, int ncols, int nrows) {
-		// Colocando o Jogador no meio do mapa
 	
 	srand(time(NULL));
 	//random_Enemy(s);

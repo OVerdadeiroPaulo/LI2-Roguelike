@@ -65,8 +65,8 @@ void stairs_move (STATE *st, int ncols, int nrows) {
 			st->dificulty ++;
 			int i, j = 0;
 
-			for (i = 0; st->mapaHard[j][i].is_wall; i++) {
-				for (j = 0; st->mapaHard[j][i].is_wall; j++) { };
+			for (i = 0; st->mapaHard[j][i].is_wall == TRUE; i++) {
+				for (j = 0; st->mapaHard[j][i].is_wall == TRUE; j++) { };
 			} 
 
 			st->playerX = i;
