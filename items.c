@@ -30,7 +30,7 @@ typedef struct Jogador // struct que define o jogador
 
 void atribuiCamposItem(Item item)
 {
-    int semente = rand() % 3;
+    int semente = rand() % 4;
     if (semente == 0)
     {
         strcpy(item->tipo, "potion");
@@ -41,26 +41,35 @@ void atribuiCamposItem(Item item)
     {
         strcpy(item->tipo, "melee");
         strcpy(item->nome, "Sword");
-                item->visual = 'l';
-
+        item->visual = 'l';
     }
     else if (semente == 2)
     {
         strcpy(item->tipo, "ranged");
         strcpy(item->nome, "Bow");
-                item->visual = 'D';
-
+        item->visual = 'D';
     }
-    else
-    {
-        strcpy(item->tipo, "Impossivel");
-        strcpy(item->nome, "ERROR");
-                item->visual = 'E';
-                
 
+    else if (semente == 3)
+    {
+        strcpy(item->tipo, "armor");
+        strcpy(item->nome, "Armour");
+        item->visual = 'H';
     }
 }
-
+Item geraArrow()
+{
+    Item item = (Item)malloc(sizeof(struct item));
+    if (item != NULL)
+    {
+        strcpy(item->nome, "Arrow");
+                strcpy(item->nome, "Arrow");
+        item->magnitude = 10;
+        item->visual = 'i';
+        item->prox = NULL;
+    }
+    return item;
+}
 Item geraitem()
 {
     Item item = (Item)malloc(sizeof(struct item));
@@ -77,12 +86,31 @@ Item geraitem()
 Item spawnaItem(ENEMY inimigo)
 {
     if (inimigo.hp <= 0)
-    { geraitem;
+    {
+        Item item = geraitem;
+        item->posx = inimigo.enemyX;
+        item->posy = inimigo.enemyY;
+        return item;
     }
 }
-void apanhaItem (Jogador player, Item item) {
+void apanhaItem(Jogador player, Item item)
+{
+
     if (player.posX == item->posx && player.posY == item->posy)
-{    Item inv = player.inventario;
-    while (inv->prox !=NULL) inv = inv->prox;
-    inv->prox = item ;}
+    {
+        Item inv = player.inventario;
+        if (item->tipo == "ammo")
+        {
+            player.ammo += item->magnitude;
+        }
+        else
+        {
+            while (inv->prox != NULL)
+                inv = inv->prox;
+            inv->prox = item;
+        }
+    }
+}
+void equipaitems(Jogador player)
+{
 }
