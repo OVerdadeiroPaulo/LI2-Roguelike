@@ -63,7 +63,7 @@ Item geraArrow()
     if (item != NULL)
     {
         strcpy(item->nome, "Arrow");
-                strcpy(item->nome, "Arrow");
+        strcpy(item->nome, "Arrow");
         item->magnitude = 10;
         item->visual = 'i';
         item->prox = NULL;
@@ -85,12 +85,21 @@ Item geraitem()
 }
 Item spawnaItem(ENEMY inimigo)
 {
+    int semente = rand() % 3;
     if (inimigo.hp <= 0)
     {
-        Item item = geraitem;
-        item->posx = inimigo.enemyX;
-        item->posy = inimigo.enemyY;
-        return item;
+        if (semente == 1)
+        {
+            Item item = geraArrow;
+            return item;
+        }
+        else
+        {
+            Item item = geraitem;
+            item->posx = inimigo.enemyX;
+            item->posy = inimigo.enemyY;
+            return item;
+        }
     }
 }
 void apanhaItem(Jogador player, Item item)
