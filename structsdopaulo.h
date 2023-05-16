@@ -1,15 +1,31 @@
-typedef struct item
-{
+
+#include <stdbool.h>
+typedef struct item //struct quer define os items 
+{   int posx,posy;
     char nome[10];
     char tipo[10];
-    char elemento[10];
     int magnitude;
+    char visual;
     struct item *prox;
 } *Item;
-void efeitodapocao (){
-    
+
+void pocao (Jogador player, Item pocao){ //funcao modular que da vida quando a pocao e consumida
+    player.hp += pocao->magnitude;
 }
-typedef struct Jogador
+
+typedef struct enemy { //struct do inimigo
+    int hp, attack;
+    int enemyX;
+    int enemyY;
+    int type;
+    int direction;
+
+    bool is_Following;
+    bool just_Walking;
+    bool attack;
+    char visual;
+} ENEMY;
+typedef struct Jogador //struct que define o jogador
 {
     int hp, mp, ammo, atk, def, speed;
     int posX;
@@ -18,7 +34,7 @@ typedef struct Jogador
     Item armadura;
     struct item;
 } Jogador;
-typedef struct atacks
+typedef struct atacks //antiga struct dos inimigos e atques
 {
     char nome[10];
     char elemento[10];
@@ -31,14 +47,16 @@ typedef struct Monstro
     int hp, def, speed;
     int posX;
     int posY;
-    struct atacks;
+    struct atacks ataques;
+    char visual;
 } Monstro;
 char *Elementos[] = {"Agua", "Fogo", "Terra", "Ar", "Holy", "Unholy"};
 
 int dmggiven(Jogador playr, Monstro monstr)
 {
     int dano = playr.atk - monstr.def;
-    float varElement = elementMult(playr.armadura->elemento, monstr.atacks.elemento);
+   // float varElement = elementMult(playr.armadura->elemento, monstr.ataques.elemento);
+
 }
 float elementMult(char *element1, char *element2) // funcao quer controla os efeitos elementais sendo o element 1 o atacante e element 2 o do defensor 
 {
