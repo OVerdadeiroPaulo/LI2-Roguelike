@@ -5,6 +5,7 @@
 #include <time.h>
 
 #include "state.h"
+#include "enemy.c"
 
 #define HEIGHT_dungeon 55
 #define WIDTH_dungeon 249
@@ -70,7 +71,7 @@ void Build_dungeon_Mid(STATE *s) {
 
             // Clausula para escolher o conteudo de cada celula.
             if (s->mapaMid[i][j].is_wall == TRUE) {
-                 if (n_walls >= 6){
+                 if (n_walls >= 8){
 					dungeon_data [i][j] = TRUE;
 					} 
 				 else{
@@ -78,7 +79,7 @@ void Build_dungeon_Mid(STATE *s) {
 					}
             }
 			    else {
-                    if (n_walls >= 8){
+                    if (n_walls >= 10){
 					   dungeon_data [i][j] = TRUE;
 					   } 
 					else {
@@ -389,7 +390,8 @@ void gen_map (STATE *s, int ncols, int nrows) {
 void gerar(STATE *s, int ncols, int nrows) {
 	
 	srand(time(NULL));
-	//random_Enemy(s);
 	gen_map(s, ncols, nrows);
+	random_Enemy(s);
 	s->dificulty = 1;
+
 }

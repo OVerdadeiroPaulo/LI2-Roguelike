@@ -36,11 +36,21 @@ void draw_player (int ncols, int nrows) {
 
 	// Função que identifica parede, inimigos ou vazio na CELL
 void draw_objects (STATE *st, int x, int y, int dif) {
-	if (dif == 1) {
+	int res = 0, i;
+
+	for (i = 0; i < 9; i++) {
+		if (st->enemy_list[i].enemyX == x + st->playerX && st->enemy_list[i].enemyY == y + st->playerY)
+			res = i + 1;
+	}
+
+	if (res >= 1) {
+			draw_enemy (st->enemy_list[res - 1], x, y);
+	}
+	else if (dif == 1) {
 		if (st->mapaEasy[y + st->playerY][x + st->playerX].is_wall == TRUE) {
-				attron(COLOR_PAIR(COLOR_GREEN));
-				mvaddch (y, x, '#' | A_BOLD);
-				attroff(COLOR_PAIR(COLOR_GREEN));
+			attron(COLOR_PAIR(COLOR_GREEN));
+			mvaddch (y, x, '#' | A_BOLD);
+			attroff(COLOR_PAIR(COLOR_GREEN));
 		}
 		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_stairs == TRUE) {
 			attron(COLOR_PAIR(COLOR_GREEN));
@@ -200,6 +210,9 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 
 
 	}
+
+
+
 	else if (st->dificulty == 2) {
 		for (i = 360; i > 0; i--) {
 			aux = TRUE;
@@ -242,10 +255,10 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 				}
 			}
 		}
-
-
-
 	}
+
+
+
 	else if (st->dificulty == 3) {
 		for (i = 360; i > 0; i--) {
 			aux = TRUE;

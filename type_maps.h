@@ -10,4 +10,5 @@ typedef struct cell {
     bool is_stairs;
 
 } CELL;
+
 #endif
