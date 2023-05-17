@@ -12,7 +12,7 @@ typedef struct enemy { //struct do inimigo
 
     bool is_Following;
     bool just_Walking;
-    bool attack;
+ //   bool attack;
     char visual;
 } ENEMY;
 #endif

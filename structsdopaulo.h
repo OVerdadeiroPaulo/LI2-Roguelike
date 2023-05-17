@@ -1,4 +1,4 @@
-
+/*
 #include <stdbool.h>
 typedef struct item //struct quer define os items 
 {   int posx,posy;
@@ -66,3 +66,5 @@ float elementMult(char *element1, char *element2) // funcao quer controla os efe
        else if ((*element1 == "Holy" && *element2 == "Unholy")||(*element2 == "Holy" && *element1 == "Unholy")) return 2;
        else return 1;
 }
+
+*/

@@ -52,7 +52,7 @@ void Initialize_dungeon_Mid(STATE *s) {
 // Funcao que pega no array inicializado e controi as grutas.
 void Build_dungeon_Mid(STATE *s) {
     int n_walls;
-    int dungeon_data [HEIGHT_dungeon][WIDTH_dungeon];
+    int dungeon_dataMID [HEIGHT_dungeon][WIDTH_dungeon];
 
     for (int i = 0; i < HEIGHT_dungeon; i++) {
         for (int j = 0; j < WIDTH_dungeon; j++) {
@@ -71,18 +71,18 @@ void Build_dungeon_Mid(STATE *s) {
             // Clausula para escolher o conteudo de cada celula.
             if (s->mapaMid[i][j].is_wall == TRUE) {
                  if (n_walls >= 6){
-					dungeon_data [i][j] = TRUE;
+					dungeon_dataMID [i][j] = TRUE;
 					} 
 				 else{
-					dungeon_data [i][j] = FALSE;
+					dungeon_dataMID [i][j] = FALSE;
 					}
             }
 			    else {
                     if (n_walls >= 8){
-					   dungeon_data [i][j] = TRUE;
+					   dungeon_dataMID [i][j] = TRUE;
 					   } 
 					else {
-					   dungeon_data [i][j] = FALSE;
+					   dungeon_dataMID [i][j] = FALSE;
 					   }
                    }
         }
@@ -91,7 +91,7 @@ void Build_dungeon_Mid(STATE *s) {
     // clausula para copiar para o array novo mapa.
     for (int i = 0; i < HEIGHT_dungeon; i++) {
         for (int j = 0; j < WIDTH_dungeon; j++) {
-            s->mapaMid [i][j].is_wall = dungeon_data [i][j];
+            s->mapaMid [i][j].is_wall = dungeon_dataMID [i][j];
         }
     }
 
@@ -103,9 +103,9 @@ void Build_dungeon_Mid(STATE *s) {
             stairs_x = rand() %250;
      
            }
-            while (s->mapaEasy[stairs_y] [stairs_x].is_wall != FALSE); 
+            while (s->mapaMid[stairs_y] [stairs_x].is_wall != FALSE); 
 
-            s->mapaEasy [stairs_y] [stairs_x].is_stairs = TRUE;
+            s->mapaMid [stairs_y] [stairs_x].is_stairs = TRUE;
 }
 
 
@@ -194,9 +194,9 @@ void Build_dungeon_Hard(STATE *s) {
             stairs_x = rand() %250;
      
            }
-            while (s->mapaEasy[stairs_y] [stairs_x].is_wall != FALSE); 
+            while (s->mapaHard[stairs_y] [stairs_x].is_wall != FALSE); 
 
-            s->mapaEasy [stairs_y] [stairs_x].is_stairs = TRUE;
+            s->mapaHard [stairs_y] [stairs_x].is_stairs = TRUE;
 }
 
 
@@ -204,7 +204,6 @@ void Build_dungeon_Hard(STATE *s) {
 
 // Funcao que inicializa o array para com tudo walls para comecar a contruir os mapas.
 void Initialize_rooms(STATE *s){
-
      for(int y = 0; y < HEIGHT_room; y++){
 	  	for(int x = 0; x < WIDTH_room; x++){
 	    		
@@ -214,11 +213,11 @@ void Initialize_rooms(STATE *s){
 	    	s->mapaEasy[y][x].is_water = FALSE;
 	    	s->mapaEasy[y][x].is_stairs = FALSE;   
 	    	
-			if (x == WIDTH_room || x == 0){
+			if (x == WIDTH_room-1 || x == 0){
 	    		
 	    		s -> mapaEasy [y] [x].is_wall = TRUE;
 			}   
-	    	else if (y == HEIGHT_room || y == 0) {   
+	    	else if (y == HEIGHT_room-1 || y == 0) {   
 	    		s -> mapaEasy [y] [x].is_wall = TRUE;
 	    	}
 	    	
@@ -227,23 +226,25 @@ void Initialize_rooms(STATE *s){
 	    	      }
 	    }
 	 }
+ 
 }
 
 
 
 // Funcao que verifica se um quarto esta a sobrepor-se a outro.
+
 int is_valid_room(STATE *s, int center_x, int center_y, int size_x, int size_y) {
+    for (int y = center_y; y <= center_y + size_y; y++) {
+        for (int x = center_x; x <= center_x + size_x; x++) {
+            if ((s->mapaEasy[y][x].is_wall != TRUE || s->mapaEasy[y + 2][x].is_wall != TRUE || s->mapaEasy[y - 2][x].is_wall != TRUE || s->mapaEasy[y][x + 2].is_wall != TRUE || s->mapaEasy[y][x - 2].is_wall != TRUE)/* && y >= 0 && y < 55 && x >= 0 && x < 250*/) {
 
-	for (int y = center_y; y <= center_y + size_y ; y++){
-           for(int x = center_x; x <= center_x + size_x ; x++){
-              if ((s -> mapaEasy [y] [x].is_wall != TRUE  || s -> mapaEasy [y+2][x].is_wall != TRUE|| s -> mapaEasy[y-2][x].is_wall != TRUE || s -> mapaEasy [y][x + 2].is_wall != TRUE|| s -> mapaEasy [y][x - 2].is_wall != TRUE) && y >= 0 && y < 55 && x >= 0 && x < 250){
-
-				return FALSE;
-              }
-           }
-       }
-	return TRUE;
+                return FALSE;
+            }
+        }
+    }
+    return TRUE;
 }
+
 
 
 
@@ -279,7 +280,6 @@ void dig_tunnel(STATE *s, int prev_center_x, int prev_center_y, int to_x, int to
 
 // Funcao que controi os quartos.
 void Build_rooms(STATE *s, int ncols, int nrows){
-	
 	int n_rooms;
 
 	n_rooms = rand () % 15 + 7;
@@ -288,13 +288,6 @@ void Build_rooms(STATE *s, int ncols, int nrows){
         int r_size_x, r_size_y, r_start_x, r_start_y;
         int max_iterations = 100, n_iteration = 0;
       
-	  if ( i == n_rooms){
-         r_start_x =38;
-         r_start_y =16;
-         r_size_x = 5;
-         r_size_y = 5;
-	  }
-	  else{
 	 do {		
             r_start_x = rand() % 250;
             r_start_y = rand() % 55;
@@ -303,15 +296,14 @@ void Build_rooms(STATE *s, int ncols, int nrows){
             
 			n_iteration++;
 
-        } while (!is_valid_room(s, r_start_x, r_start_y, r_size_x, r_size_y) && n_iteration < max_iterations);
+        } while ((!is_valid_room(s, r_start_x, r_start_y, r_size_x, r_size_y)) && n_iteration < max_iterations);
 
 	    if ( n_iteration == max_iterations ) {
-            // 
+            
             r_start_y = 0; r_start_x = 0;
             r_size_y = 5; r_size_x = 5;
-		 	//continue;
            }      
-		   }
+		   
 
 	 //Clausula que cria os quartos .
        for (int y = r_start_y; y <= r_start_y + r_size_y ; y++){
@@ -364,6 +356,7 @@ void Build_rooms(STATE *s, int ncols, int nrows){
 	s->playerX = x;
 	s->playerY = y;
 
+    
 }
 
 
@@ -371,16 +364,14 @@ void Build_rooms(STATE *s, int ncols, int nrows){
 // Funcao que gera e controla a geracao dos mapas.
 void gen_map (STATE *s, int ncols, int nrows) {
 	
-    
     Initialize_rooms(s);
     Build_rooms(s, ncols, nrows);
-
+    
 	Initialize_dungeon_Mid(s);
 	Build_dungeon_Mid(s);
 
 	Initialize_dungeon_Hard(s);
 	Build_dungeon_Hard(s);
-	dungeon_mod++;
 
 }
 
