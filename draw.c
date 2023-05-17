@@ -53,17 +53,27 @@ void draw_player (int ncols, int nrows) {
 
 	// Função que identifica parede, inimigos ou vazio na CELL
 void draw_objects (STATE *st, int x, int y, int dif) {
-	int res = 0, i;
+	int i;
+	int  enemy_easy = 0, enemy_Mid = 0, enemy_Hard = 0;
 
-	for (i = 0; i < 9; i++) {
+	for (i = 0; i < 10; i++) {
 		if (st->enemy_list_Easy[i].enemyX == x + st->playerX && st->enemy_list_Easy[i].enemyY == y + st->playerY)
-			res = i + 1;
+			enemy_easy = i + 1;
 	}
+	for (i = 0; i < 15; i++) {
+		if (st->enemy_list_Mid[i].enemyX == x + st->playerX && st->enemy_list_Mid[i].enemyY == y + st->playerY)
+			enemy_Mid = i + 1;
+	}
+	// for (i = 0; i < 30; i++) {
+	// 	if (st->enemy_list_Ha[i].enemyX == x + st->playerX && st->enemy_list_Ha[i].enemyY == y + st->playerY)
+	// 		enemy_Hard = i + 1;
+	// }
+
 
 
 	if (dif == 1) {
-		if (res >= 1) {
-			draw_enemy (st->enemy_list_Easy[res - 1], x, y);
+		if (enemy_easy >= 1) {
+			draw_enemy (st->enemy_list_Easy[enemy_easy - 1], x, y);
 		}
 		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 			attron(COLOR_PAIR(COLOR_GREEN));
@@ -98,7 +108,10 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 
 	
 	else if (dif == 2) {
-		if (st->mapaMid[y + st->playerY][x + st->playerX].is_wall == TRUE) {
+		if (enemy_Mid >= 1) {
+			draw_enemy (st->enemy_list_Mid[enemy_Mid - 1], x, y);
+		}
+		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 			attron(COLOR_PAIR(COLOR_YELLOW));
 			mvaddch (y, x, '#' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_YELLOW));
@@ -131,7 +144,10 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 
 	
 	else if (dif == 3) {
-		if (st->mapaHard[y + st->playerY][x + st->playerX].is_wall == TRUE) {
+		if (enemy_Hard >= 1) {
+			draw_enemy (st->enemy_list_Easy[enemy_easy - 1], x, y);
+		}
+		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 			attron(COLOR_PAIR(COLOR_RED));
 			mvaddch (y, x, '#' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_RED));
