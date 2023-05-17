@@ -70,7 +70,7 @@ void Build_dungeon_Mid(STATE *s) {
 
             // Clausula para escolher o conteudo de cada celula.
             if (s->mapaMid[i][j].is_wall == TRUE) {
-                 if (n_walls >= 4){
+                 if (n_walls >= 6){
 					dungeon_data [i][j] = TRUE;
 					} 
 				 else{
@@ -78,7 +78,7 @@ void Build_dungeon_Mid(STATE *s) {
 					}
             }
 			    else {
-                    if (n_walls >= 5){
+                    if (n_walls >= 8){
 					   dungeon_data [i][j] = TRUE;
 					   } 
 					else {
