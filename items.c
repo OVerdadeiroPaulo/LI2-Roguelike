@@ -16,6 +16,7 @@ typedef struct item // struct que define os items
 void pocao(Jogador player, Item pocao)
 { // funcao modular que da vida quando a pocao e consumida
     player.hp += pocao->magnitude;
+    pocao= pocao->prox;
 }
 
 typedef struct Jogador // struct que define o jogador
