@@ -10,6 +10,8 @@ typedef struct state {
 	int playerX;
 	int playerY;
 
+	int playerHP;
+
 		// 0 if Easy
 		// 1 if medium
 		// 2 if Hard
@@ -18,6 +20,7 @@ typedef struct state {
 		// 0 if Start
 		// 1 if Play
 		// 2 if Pause
+		// 3 GameOver
 	int menu;
 
 		// If in Start or Pause
@@ -29,7 +32,9 @@ typedef struct state {
 	CELL mapaMid[55][250];
 	CELL mapaHard[150][300];
    // Item items[10];
-	ENEMY enemy_list[10];
+	ENEMY enemy_list_Easy[10];
+	ENEMY enemy_list_Mid[15];
+	ENEMY enemy_list_Hard[30];
 
 } STATE;
 

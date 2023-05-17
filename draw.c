@@ -13,10 +13,27 @@
 	// Ultilizar essa função para eventualmente desenhar
 	// a vida e itens do jogador
 void draw_Cood (STATE *st, int ncols, int nrows){
-    
-	move(nrows - 2, 5);
+
 	attron(COLOR_PAIR(COLOR_BLUE));
-	printw("(%d, %d) %d %d", st->playerX, st->playerY, ncols, nrows);
+	// Coordenadas
+		move(nrows - 2, 5);
+		printw("(%d, %d) %d %d", st->playerX, st->playerY, ncols, nrows);
+
+	// Vida doJogador
+		move(1, 3);
+		printw("HP:\n");
+		move(2, 3);
+		for (int i = 0; i < (st->playerHP / 10); i++)
+			printw ("@");
+
+	// Itens
+		move(4, 3);
+		printw("Inventário:\n");
+		move(5, 3);
+		for (int i = 0; i < 6; i++)
+			printw ("O");
+
+		
 	attroff(COLOR_PAIR(COLOR_BLUE));
 
 }
@@ -39,15 +56,16 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 	int res = 0, i;
 
 	for (i = 0; i < 9; i++) {
-		if (st->enemy_list[i].enemyX == x + st->playerX && st->enemy_list[i].enemyY == y + st->playerY)
+		if (st->enemy_list_Easy[i].enemyX == x + st->playerX && st->enemy_list_Easy[i].enemyY == y + st->playerY)
 			res = i + 1;
 	}
 
-	if (res >= 1) {
-			draw_enemy (st->enemy_list[res - 1], x, y);
-	}
-	else if (dif == 1) {
-		if (st->mapaEasy[y + st->playerY][x + st->playerX].is_wall == TRUE) {
+
+	if (dif == 1) {
+		if (res >= 1) {
+			draw_enemy (st->enemy_list_Easy[res - 1], x, y);
+		}
+		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 			attron(COLOR_PAIR(COLOR_GREEN));
 			mvaddch (y, x, '#' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));

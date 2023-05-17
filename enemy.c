@@ -9,7 +9,7 @@
     //Função para checkar se terreno é valido para gerar inimigo.
 int relva_check (STATE *st, int y, int x){
     if (st->mapaEasy[y][x].is_grass == TRUE && st->mapaEasy[y][x].is_wall == FALSE && 
-        st->mapaEasy[y][x].is_water == FALSE && st->mapaEasy[y][x].is_mud == FALSE && 
+        st->mapaEasy[y][x].is_water == FALSE && 
         st->mapaEasy[y][x].is_stairs == FALSE) 
             return 1;
     return 0;
@@ -34,12 +34,14 @@ void random_Enemy (STATE *st){
                         x ++;
                         aux = 1;
                     }
-                    for ( ; st->mapaEasy[y][x].is_wall == TRUE && aux == 0; y++) {
-                        if (st->mapaEasy[y + 1][x].is_wall == FALSE) {
-                            y ++;
-                            aux = 1;
+                    else {
+                        for ( ; st->mapaEasy[y][x].is_wall == TRUE && aux == 0; y++) {
+                            if (st->mapaEasy[y + 1][x].is_wall == FALSE) {
+                                y ++;
+                                aux = 1;
+                            }
                         }
-                    };
+                    }
                 }
             else
                 for ( ; st->mapaEasy[y][x].is_wall == TRUE && aux == 0; x--) {
@@ -47,39 +49,41 @@ void random_Enemy (STATE *st){
                         x --;
                         aux = 1;
                     }
-                    for ( ; st->mapaEasy[y][x].is_wall == TRUE && aux == 0; y++) {
-                        if (st->mapaEasy[y - 1][x].is_wall == FALSE) {
-                            y --;
-                            aux = 1;
+                    else {
+                        for ( ; st->mapaEasy[y][x].is_wall == TRUE && aux == 0; y++) {
+                            if (st->mapaEasy[y - 1][x].is_wall == FALSE) {
+                                y --;
+                                aux = 1;
+                            }
                         }
-                    };
+                    }
                 }
 
 
-            st->enemy_list[i].enemyX = x;
-            st->enemy_list[i].enemyY = y;
-            st->enemy_list[i].direction = 1;
+            st->enemy_list_Easy[i].enemyX = x;
+            st->enemy_list_Easy[i].enemyY = y;
+            st->enemy_list_Easy[i].direction = 1;
 
-            st->enemy_list[i].is_Following = FALSE;
-            st->enemy_list[i].just_Walking = FALSE;
-            st->enemy_list[i].can_attack = FALSE;
+            st->enemy_list_Easy[i].is_Following = FALSE;
+            st->enemy_list_Easy[i].just_Walking = FALSE;
+            st->enemy_list_Easy[i].can_attack = FALSE;
 
             if (i < 4) {
-                st->enemy_list[i].type = 1;
-                st->enemy_list[i].attack = 10;
-                st->enemy_list[i].hp = 50;
+                st->enemy_list_Easy[i].type = 1;
+                st->enemy_list_Easy[i].attack = 10;
+                st->enemy_list_Easy[i].hp = 50;
             }
 
             else if (i >= 4 && i < 7) {
-                st->enemy_list[i].type = 2;
-                st->enemy_list[i].attack = 20;
-                st->enemy_list[i].hp = 40;
+                st->enemy_list_Easy[i].type = 2;
+                st->enemy_list_Easy[i].attack = 20;
+                st->enemy_list_Easy[i].hp = 40;
             }
 
             else if (i == 7 || i == 8) {
-                st->enemy_list[i].type = 3;
-                st->enemy_list[i].attack = 30;
-                st->enemy_list[i].hp = 100;
+                st->enemy_list_Easy[i].type = 3;
+                st->enemy_list_Easy[i].attack = 30;
+                st->enemy_list_Easy[i].hp = 100;
             }
         }
 
@@ -90,17 +94,17 @@ void random_Enemy (STATE *st){
         //         for ( ; st->mapaEasy[y + (nrows/2)][x + (ncols/2)].is_wall == TRUE; y++) { };
         //     }
 
-        //     st->enemy_list[0].enemyX = x + (ncols / 2);
-        //     st->enemy_list[0].enemyY = y + (nrows / 2);
-        //     st->enemy_list[i].direction = 1;
+        //     st->enemy_list_Easy[0].enemyX = x + (ncols / 2);
+        //     st->enemy_list_Easy[0].enemyY = y + (nrows / 2);
+        //     st->enemy_list_Easy[i].direction = 1;
 
-        //     st->enemy_list[i].is_Following = FALSE;
-        //     st->enemy_list[i].just_Walking = TRUE;
-        //     st->enemy_list[i].can_attack = FALSE;
+        //     st->enemy_list_Easy[i].is_Following = FALSE;
+        //     st->enemy_list_Easy[i].just_Walking = TRUE;
+        //     st->enemy_list_Easy[i].can_attack = FALSE;
 
-        //     st->enemy_list[i].type = 4;
-        //     st->enemy_list[i].attack = 50;
-        //     st->enemy_list[i].hp = 200;
+        //     st->enemy_list_Easy[i].type = 4;
+        //     st->enemy_list_Easy[i].attack = 50;
+        //     st->enemy_list_Easy[i].hp = 200;
         // }
     }
 }
@@ -108,19 +112,19 @@ void random_Enemy (STATE *st){
     // Função que define o caminho do inimigo sem direção
 // void walk_unactive (STATE *st, int ind, int ncols) {
     
-//     // if (st->enemy_list[ind].type != 4){
-//     //     int x = st->enemy_list[ind].enemyX;
-//     //     int y = st->enemy_list[ind].enemyY;
-//     //     int direction = st->enemy_list[ind].direction;
+//     // if (st->enemy_list_Easy[ind].type != 4){
+//     //     int x = st->enemy_list_Easy[ind].enemyX;
+//     //     int y = st->enemy_list_Easy[ind].enemyY;
+//     //     int direction = st->enemy_list_Easy[ind].direction;
 
 //     //     if (direction == 1 && x+1 < ncols && terreno_check (st, y, x+1)){
-//     //         st->enemy_list[ind].enemyX++;
-//     //         st->enemy_list[ind].direction++;  
+//     //         st->enemy_list_Easy[ind].enemyX++;
+//     //         st->enemy_list_Easy[ind].direction++;  
 //     //     }
 //     //     else if (direction == -1 && x-1 > 0 && terreno_check(st, y, x-1)){
-//     //         st->enemy_list[ind].enemyX--;
+//     //         st->enemy_list_Easy[ind].enemyX--;
 //     //     }
-//     //     st->enemy_list[ind].direction *= -1;
+//     //     st->enemy_list_Easy[ind].direction *= -1;
 //     }
 // }
 
@@ -160,14 +164,14 @@ void draw_enemy (ENEMY enemy, int x, int y){
 //     int playerOffsetY = nrows/2;
 
 //     for (int i = 0; i < 10; i++) {
-//         int dx = st->enemy_list[i].enemyX - (st->playerX + playerOffsetX);
-//         int dy = st->enemy_list[i].enemyY - (st->playerY + playerOffsetY);
+//         int dx = st->enemy_list_Easy[i].enemyX - (st->playerX + playerOffsetX);
+//         int dy = st->enemy_list_Easy[i].enemyY - (st->playerY + playerOffsetY);
 //         int distance = sqrt (dx * dx + dy * dy);
 
         
 //         if (distance < raio) {
-//             st->enemy_list[i].just_Walking = FALSE;
-//             st->enemy_list[i].is_Following = TRUE;
+//             st->enemy_list_Easy[i].just_Walking = FALSE;
+//             st->enemy_list_Easy[i].is_Following = TRUE;
 //         }
 //         else {
 //             walk_unactive (st, i, ncols);

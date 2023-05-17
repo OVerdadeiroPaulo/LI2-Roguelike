@@ -26,7 +26,6 @@ void Initialize_dungeon_Mid(STATE *s) {
         for (int j = 0; j < WIDTH_dungeon; j++) {
                
                 s->mapaMid[i][j].is_wall = FALSE;
-                s->mapaMid[i][j].is_mud = FALSE;
                 s->mapaMid[i][j].is_grass = FALSE;
                 s->mapaMid[i][j].is_water = FALSE;
                 s->mapaMid[i][j].is_stairs = FALSE;
@@ -118,7 +117,6 @@ void Initialize_dungeon_Hard(STATE *s) {
         for (int j = 0; j < WIDTH_dungeon_Hard; j++) {
                
                 s->mapaHard[i][j].is_wall = FALSE;
-                s->mapaHard[i][j].is_mud = FALSE;
                 s->mapaHard[i][j].is_grass = FALSE;
                 s->mapaHard[i][j].is_water = FALSE;
                 s->mapaHard[i][j].is_stairs = FALSE;
@@ -201,7 +199,6 @@ void Initialize_rooms(STATE *s){
         for(int x = 0; x < WIDTH_room; x++){
                
             s->mapaEasy[y][x].is_wall = FALSE;
-            s->mapaEasy[y][x].is_mud = FALSE;
             s->mapaEasy[y][x].is_grass = FALSE;
             s->mapaEasy[y][x].is_water = FALSE;
             s->mapaEasy[y][x].is_stairs = FALSE;  
@@ -373,7 +370,8 @@ void gen_map (STATE *s, int ncols, int nrows) {
 void gerar(STATE *s, int ncols, int nrows) {
    
     srand(time(NULL));
-    //random_Enemy(s);
     gen_map(s, ncols, nrows);
+    random_Enemy(s);
     s->dificulty = 1;
+    s->playerHP = 150;
 }
