@@ -23,12 +23,13 @@ typedef struct Jogador // struct que define o jogador
     int hp, mp, ammo, atk, def, speed;
     int posX;
     int posY;
+    Item bowEquipado;
     Item weapEquipado;
     Item armadura;
     Item inventario;
 } Jogador;
 
-void atribuiCamposItem(Item item) //auxiliar que da o tipo nome e char ao item
+void atribuiCamposItem(Item item) // auxiliar que da o tipo nome e char ao item
 {
     int semente = rand() % 4;
     if (semente == 0)
@@ -70,7 +71,7 @@ Item geraArrow() // igual a de baixo mas so para arrows para possibilitar um  in
     }
     return item;
 }
-Item geraitem() //gera um item auxiliar
+Item geraitem() // gera um item auxiliar
 {
     Item item = (Item)malloc(sizeof(struct item));
     if (item != NULL)
@@ -103,7 +104,7 @@ Item spawnaItem(ENEMY inimigo) // cria um item na posiçao do inimigo quando est
     }
 }
 void apanhaItem(Jogador player, Item item) // colecta um item do chao
-{ 
+{
 
     if (player.posX == item->posx && player.posY == item->posy)
     {
@@ -120,6 +121,30 @@ void apanhaItem(Jogador player, Item item) // colecta um item do chao
         }
     }
 }
-void equipaitems(Jogador player) // auxiliar para gerir inventario
-{ 
+void equipaitems(Jogador player, Item item) // auxiliar para gerir inventario
+{
+    Item temp;
+
+    if (item->nome == "Bow")
+    {
+        temp = player.bowEquipado;
+        player.bowEquipado = item;
+        item = temp;
+    }
+    else if (item->nome == "Sword")
+    {
+        temp = player.weapEquipado;
+        player.weapEquipado = item;
+        item = temp;
+    }
+    else if (item->nome == "Armour")
+    {
+        temp = player.armadura;
+        player.armadura = item;
+        item = temp;
+    }
+    free(temp);
+}
+void dropaItems(Jogador player, Item item) {// auxiliar para deitar fora items
+item = item->prox;
 }
