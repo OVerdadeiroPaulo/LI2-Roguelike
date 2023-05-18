@@ -1,6 +1,8 @@
 #ifndef ___STATE_H___
 #define ___STATE_H___
 
+#include <time.h>
+
 #include "type_maps.h"
 #include "type_enemies.h"
 
@@ -12,16 +14,21 @@ typedef struct state {
 
 	int playerHP;
 
-		// 0 if Easy
-		// 1 if medium
-		// 2 if Hard
+		// 1 if Easy
+		// 2 if medium
+		// 3 if Hard
 	int dificulty;
 
 		// 0 if Start
 		// 1 if Play
 		// 2 if Pause
-		// 3 GameOver
+		// 3 GameWon
+		// 4 GameOver
 	int menu;
+
+		// Tempo Inicial
+	time_t timeStart;
+	time_t timeCurrent;
 
 		// If in Start or Pause
 		// TRUE if play

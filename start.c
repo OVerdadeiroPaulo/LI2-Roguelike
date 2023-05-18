@@ -382,4 +382,5 @@ void gerar(STATE *s, int ncols, int nrows) {
     random_Enemy(s);
     s->dificulty = 1;
     s->playerHP = 150;
+    time(&(s->timeStart));
 }

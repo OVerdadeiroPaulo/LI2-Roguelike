@@ -76,10 +76,13 @@ int main () {
 	st.selection = TRUE;
 
 	while (1) {
+
 		while (st.menu == 0)
 			play_menu (&st, ncols, nrows);
-		while (st.menu == 1)
+		while (st.menu == 1) {
+			update_enemies (&st);
 			play (&st, ncols, nrows, radius_light);
+		}
 		while (st.menu == 2)
 			play_pause (&st, ncols, nrows);
 		while (st.menu == 3)

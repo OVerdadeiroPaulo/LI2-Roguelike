@@ -13,11 +13,13 @@
 	// Ultilizar essa função para eventualmente desenhar
 	// a vida e itens do jogador
 void draw_Cood (STATE *st, int ncols, int nrows){
+	time(&st->timeCurrent);
 
-	attron(COLOR_PAIR(COLOR_BLUE));
 	// Coordenadas
+	attron(COLOR_PAIR(COLOR_BLUE));
 		move(nrows - 2, 5);
 		printw("(%d, %d) %d %d", st->playerX, st->playerY, ncols, nrows);
+		// printw(" TIME: %ld\n", st->timeCurrent - st->timeStart);
 	attroff(COLOR_PAIR(COLOR_BLUE));
 
 	// Vida doJogador
