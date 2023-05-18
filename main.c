@@ -34,6 +34,20 @@ void play_pause (STATE *st, int ncols, int nrows) {
 
 
 
+void play_GameWon (STATE *st, int ncols, int nrows) {
+	draw_GameWon (st, ncols, nrows);
+	moviment_menu (st, ncols, nrows);
+}
+
+
+
+void play_GameOver (STATE *st, int ncols, int nrows) {
+	draw_GameOver (st, ncols, nrows);
+	moviment_menu (st, ncols, nrows);
+}
+
+
+
 int main () {
 	WINDOW *wnd = initscr();
 	int ncols, nrows;
@@ -62,12 +76,19 @@ int main () {
 	st.selection = TRUE;
 
 	while (1) {
+
 		while (st.menu == 0)
 			play_menu (&st, ncols, nrows);
-		while (st.menu == 1)
+		while (st.menu == 1) {
+			update_enemies (&st);
 			play (&st, ncols, nrows, radius_light);
+		}
 		while (st.menu == 2)
 			play_pause (&st, ncols, nrows);
+		while (st.menu == 3)
+			play_GameWon (&st, ncols, nrows);
+		while (st.menu == 4)
+			play_GameOver (&st, ncols, nrows);
 	}
 
 	return 0;

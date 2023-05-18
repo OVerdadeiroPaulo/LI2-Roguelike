@@ -13,10 +13,38 @@
 	// Ultilizar essa função para eventualmente desenhar
 	// a vida e itens do jogador
 void draw_Cood (STATE *st, int ncols, int nrows){
-    
-	move(nrows - 2, 5);
+	time(&st->timeCurrent);
+
+	// Coordenadas
 	attron(COLOR_PAIR(COLOR_BLUE));
-	printw("(%d, %d) %d %d", st->playerX, st->playerY, ncols, nrows);
+		move(nrows - 2, 5);
+		printw("(%d, %d) %d %d", st->playerX, st->playerY, ncols, nrows);
+		// printw(" TIME: %ld\n", st->timeCurrent - st->timeStart);
+	attroff(COLOR_PAIR(COLOR_BLUE));
+
+	// Vida doJogador
+	attron(COLOR_PAIR(COLOR_GREEN));
+		move(1, 3);
+		printw("HP:\n");
+	attroff(COLOR_PAIR(COLOR_GREEN));
+	attron(COLOR_PAIR(COLOR_RED));
+		move(2, 3);
+		for (int i = 0; i < (st->playerHP / 10); i++)
+			printw ("@");
+	attroff(COLOR_PAIR(COLOR_RED));
+
+	// Itens
+	attron(COLOR_PAIR(COLOR_GREEN));
+		move(4, 3);
+		printw("Inventário:\n");
+	attroff(COLOR_PAIR(COLOR_GREEN));
+	attron(COLOR_PAIR(COLOR_BLUE));
+		move(5, 3);
+		for (int i = 0; i < 6; i++)
+			printw ("O");
+	attroff(COLOR_PAIR(COLOR_BLUE));
+
+		
 	attroff(COLOR_PAIR(COLOR_BLUE));
 
 }
@@ -35,11 +63,32 @@ void draw_player (int ncols, int nrows) {
 
 	// Função que identifica parede, inimigos ou vazio na CELL
 void draw_objects (STATE *st, int x, int y, int dif) {
+	int i;
+	int  enemy_easy = 0, enemy_Mid = 0, enemy_Hard = 0;
+
+	for (i = 0; i < 20; i++) {
+		if (st->enemy_list_Easy[i].enemyX == x + st->playerX && st->enemy_list_Easy[i].enemyY == y + st->playerY)
+			enemy_easy = i + 1;
+	}
+	for (i = 0; i < 30; i++) {
+		if (st->enemy_list_Mid[i].enemyX == x + st->playerX && st->enemy_list_Mid[i].enemyY == y + st->playerY)
+			enemy_Mid = i + 1;
+	}
+	// for (i = 0; i < 30; i++) {
+	// 	if (st->enemy_list_Ha[i].enemyX == x + st->playerX && st->enemy_list_Ha[i].enemyY == y + st->playerY)
+	// 		enemy_Hard = i + 1;
+	// }
+
+
+
 	if (dif == 1) {
-		if (st->mapaEasy[y + st->playerY][x + st->playerX].is_wall == TRUE) {
-				attron(COLOR_PAIR(COLOR_GREEN));
-				mvaddch (y, x, '#' | A_BOLD);
-				attroff(COLOR_PAIR(COLOR_GREEN));
+		if (enemy_easy >= 1 && st->enemy_list_Easy[enemy_easy - 1].hp > 0) {
+			draw_enemy (st->enemy_list_Easy[enemy_easy - 1], x, y);
+		}
+		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_wall == TRUE) {
+			attron(COLOR_PAIR(COLOR_GREEN));
+			mvaddch (y, x, '#' | A_BOLD);
+			attroff(COLOR_PAIR(COLOR_GREEN));
 		}
 		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_stairs == TRUE) {
 			attron(COLOR_PAIR(COLOR_GREEN));
@@ -69,7 +118,10 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 
 	
 	else if (dif == 2) {
-		if (st->mapaMid[y + st->playerY][x + st->playerX].is_wall == TRUE) {
+		if (enemy_Mid >= 1 && st->enemy_list_Mid[enemy_Mid - 1].hp > 0) {
+			draw_enemy (st->enemy_list_Mid[enemy_Mid - 1], x, y);
+		}
+		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 			attron(COLOR_PAIR(COLOR_YELLOW));
 			mvaddch (y, x, '#' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_YELLOW));
@@ -102,7 +154,10 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 
 	
 	else if (dif == 3) {
-		if (st->mapaHard[y + st->playerY][x + st->playerX].is_wall == TRUE) {
+		if (enemy_Hard >= 1  && st->enemy_list_Hard[enemy_Hard - 1].hp > 0) {
+			draw_enemy (st->enemy_list_Easy[enemy_easy - 1], x, y);
+		}
+		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 			attron(COLOR_PAIR(COLOR_RED));
 			mvaddch (y, x, '#' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_RED));
@@ -126,9 +181,9 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 		}
 			// Caso seja um terreno vazio
 		else {
-			attron(COLOR_PAIR(COLOR_WHITE));
+			attron(COLOR_PAIR(COLOR_YELLOW));
 			mvaddch (y, x, '-' | A_BOLD);
-			attroff(COLOR_PAIR(COLOR_WHITE));
+			attroff(COLOR_PAIR(COLOR_YELLOW));
 		}
 	}
 }
@@ -199,6 +254,9 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 
 
 	}
+
+
+
 	else if (st->dificulty == 2) {
 		for (i = 360; i > 0; i--) {
 			aux = TRUE;
@@ -241,10 +299,10 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 				}
 			}
 		}
-
-
-
 	}
+
+
+
 	else if (st->dificulty == 3) {
 		for (i = 360; i > 0; i--) {
 			aux = TRUE;
@@ -318,6 +376,56 @@ void draw_pause (STATE *st, int ncols, int nrows) {
 		move(nrows / 2, ncols / 2);
 		attron(COLOR_PAIR(COLOR_BLUE));
 		printw("Continue");
+		attroff(COLOR_PAIR(COLOR_BLUE));
+	}
+	else if (st->selection == FALSE) {
+		move(nrows / 2, ncols / 2);
+		attron(COLOR_PAIR(COLOR_BLUE));
+		printw("Back to menu");
+		attroff(COLOR_PAIR(COLOR_BLUE));
+	}
+}
+
+
+
+void draw_GameWon (STATE *st, int ncols, int nrows) {
+	clear();
+
+	move (nrows / 2 - 5, ncols / 2);
+		attron(COLOR_PAIR(COLOR_BLUE));
+		printw("Game Won!");
+		attroff(COLOR_PAIR(COLOR_BLUE));
+
+
+	if (st->selection == TRUE) {
+		move(nrows / 2, ncols / 2);
+		attron(COLOR_PAIR(COLOR_BLUE));
+		printw("Play Again");
+		attroff(COLOR_PAIR(COLOR_BLUE));
+	}
+	else if (st->selection == FALSE) {
+		move(nrows / 2, ncols / 2);
+		attron(COLOR_PAIR(COLOR_BLUE));
+		printw("Back to menu");
+		attroff(COLOR_PAIR(COLOR_BLUE));
+	}
+}
+
+
+
+void draw_GameOver (STATE *st, int ncols, int nrows) {
+	clear();
+
+	move (nrows / 2 - 5, ncols / 2);
+		attron(COLOR_PAIR(COLOR_BLUE));
+		printw("You Lose :(");
+		attroff(COLOR_PAIR(COLOR_BLUE));
+
+
+	if (st->selection == TRUE) {
+		move(nrows / 2, ncols / 2);
+		attron(COLOR_PAIR(COLOR_BLUE));
+		printw("Play Again");
 		attroff(COLOR_PAIR(COLOR_BLUE));
 	}
 	else if (st->selection == FALSE) {

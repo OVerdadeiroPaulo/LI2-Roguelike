@@ -16,8 +16,9 @@ void move_action (STATE *st, int movex, int movey, int ncols, int nrows) {
 	int ny = st->playerY - movey + (nrows / 2);
 
 
-	if (st->dificulty == 1) {	
-		if (st->mapaEasy[ny][x].is_water == TRUE &&
+	if (st->dificulty == 1) {
+		if (y <= 0 || y >= 55 || x <= 0 || x >= 250) { }
+		else if (st->mapaEasy[ny][x].is_water == TRUE &&
 			st->mapaEasy[st->playerY + (nrows / 2)][st->playerX + (ncols / 2)].is_water == TRUE) {
 				st->playerX += movex;
 				st->playerY -= movey;
@@ -30,7 +31,8 @@ void move_action (STATE *st, int movex, int movey, int ncols, int nrows) {
 	
 	
 	else if (st->dificulty == 2) {	
-		if (st->mapaMid[ny][x].is_water == TRUE &&
+		if (y <= 0 || y >= 55 || x <= 0 || x >= 250) { }
+		else if (st->mapaMid[ny][x].is_water == TRUE &&
 			st->mapaMid[st->playerY + (nrows / 2)][st->playerX + (ncols / 2)].is_water == TRUE) {
 				st->playerX += movex;
 				st->playerY -= movey;
@@ -42,8 +44,9 @@ void move_action (STATE *st, int movex, int movey, int ncols, int nrows) {
 	}
 	
 	
-	else if (st->dificulty == 3) {	
-		if (st->mapaHard[ny][x].is_water == TRUE &&
+	else if (st->dificulty == 3) {
+		if (y <= 0 || y >= 55 || x <= 0 || x >= 250) { }
+		else if (st->mapaHard[ny][x].is_water == TRUE &&
 			st->mapaHard[st->playerY + (nrows / 2)][st->playerX + (ncols / 2)].is_water == TRUE) {
 				st->playerX += movex;
 				st->playerY -= movey;
@@ -54,7 +57,6 @@ void move_action (STATE *st, int movex, int movey, int ncols, int nrows) {
 		}
 	}
 }
-
 
 
 
@@ -79,6 +81,24 @@ void move_menu (STATE *st, int move, int ncols, int nrows) {
 		else if (st->menu == 2) {
 			if (st->selection == TRUE)
 				st->menu = 1;
+			else if (st->selection == FALSE) {
+				st->menu = 0;
+			}
+		}
+		else if (st->menu == 3) {
+			if (st->selection == TRUE) {
+				gerar(st, ncols, nrows);
+				st->menu = 1;
+			}
+			else if (st->selection == FALSE) {
+				st->menu = 0;
+			}
+		}
+		else if (st->menu == 4) {
+			if (st->selection == TRUE) {
+				gerar(st, ncols, nrows);
+				st->menu = 1;
+			}
 			else if (st->selection == FALSE) {
 				st->menu = 0;
 			}
@@ -125,6 +145,7 @@ void stairs_move (STATE *st, int ncols, int nrows) {
 	else if (st->dificulty == 3) {
 		if (st->mapaHard[y][x].is_stairs) {
 			clear ();
+			st->menu = 3;
 		}
 	}
 }

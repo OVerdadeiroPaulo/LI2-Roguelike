@@ -3,16 +3,22 @@
 
 
  	// Definição para os inimigos e monstros
-typedef struct enemy { //struct do inimigo
-    int hp, attack;
-    int enemyX;
-    int enemyY;
-    int type;
-    int direction;
+typedef struct enemy {
+	int attack, hp;
+	int enemyX;
+	int enemyY;
+	int direction;
 
-    bool is_Following;
-    bool just_Walking;
-    bool attack;
-    char visual;
+	// 4 tipos de inimigos
+	// 1 - 'r'
+	// 2 - 'a'
+	// 3 - 'X'
+	// 4 - 'G' 
+	int type; 
+
+	bool is_Following;
+	bool just_Walking;
+	bool can_attack;
 } ENEMY;
+
 #endif
