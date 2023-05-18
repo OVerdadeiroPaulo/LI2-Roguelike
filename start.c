@@ -96,17 +96,16 @@ void Build_dungeon_Mid(STATE *s) {
     }
 
            // criacao de escadas.
-     for (int j = 0; j < HEIGHT_dungeon; j++){
-   int stairs_y_Mid, stairs_x_Mid;
-    do {
-            stairs_y_Mid = rand() % HEIGHT_dungeon;
-            stairs_x_Mid = rand() % WIDTH_dungeon;
-     
+    for (int j = 0; j < 3; j++){
+        int stairs_y_Mid, stairs_x_Mid;
+            do {
+                stairs_y_Mid = rand() % HEIGHT_dungeon;
+                stairs_x_Mid = rand() % WIDTH_dungeon;
            }
             while (s->mapaMid[stairs_y_Mid] [stairs_x_Mid].is_wall != FALSE);
 
             s->mapaMid [stairs_y_Mid] [stairs_x_Mid].is_stairs = TRUE;
-}
+    }
 }
 
 
@@ -186,8 +185,17 @@ void Build_dungeon_Hard(STATE *s) {
         }
     }
 
-           
+           // criacao de escadas.
+    for (int j = 0; j < 3; j++){
+        int stairs_y_Hard, stairs_x_Hard;
+            do {
+                stairs_y_Hard = rand() % HEIGHT_dungeon_Hard;
+                stairs_x_Hard = rand() % WIDTH_dungeon_Hard;
+           }
+            while (s->mapaHard[stairs_y_Hard] [stairs_x_Hard].is_wall != FALSE);
 
+            s->mapaHard [stairs_y_Hard] [stairs_x_Hard].is_stairs = TRUE;
+    }
 }
 
 
@@ -326,7 +334,7 @@ void Build_rooms(STATE *s, int ncols, int nrows){
     }
        
        // criacao de escadas.
-for (int j = 0; j < n_rooms; j++){
+for (int j = 0; j < 4; j++){
    int stairs_y, stairs_x;
     do {
             stairs_y = rand() %55;

@@ -204,10 +204,10 @@ void random_Enemy (STATE *st){
     int i = 0;
     srand(time(NULL));
 
-    for (i = 0; i < 10; i++) {
+    for (i = 0; i < 20; i++) {
 
-        int x = rand() % 250;
-        int y = rand() % 55;
+        int x = ((rand() % 50) * (rand() % 50)) / 10;
+        int y = ((rand() % 25) * (rand() % 25)) / 10;
         
         random_Pos_Easy (st, x, y, i);
         st->enemy_list_Easy[i].direction = 1;
@@ -215,50 +215,50 @@ void random_Enemy (STATE *st){
         st->enemy_list_Easy[i].just_Walking = FALSE;
         st->enemy_list_Easy[i].can_attack = FALSE;
 
-        if (i < 4) {
+        if (i < 12) {
             st->enemy_list_Easy[i].type = 1;
             st->enemy_list_Easy[i].attack = 10;
             st->enemy_list_Easy[i].hp = 50;
         }
 
-        else if (i >= 4 && i < 7) {
+        else if (i >= 12 && i < 17) {
             st->enemy_list_Easy[i].type = 2;
             st->enemy_list_Easy[i].attack = 20;
             st->enemy_list_Easy[i].hp = 40;
         }
 
-        else if (i >= 7) {
+        else if (i >= 17) {
             st->enemy_list_Easy[i].type = 3;
             st->enemy_list_Easy[i].attack = 30;
             st->enemy_list_Easy[i].hp = 100;
         }
     }
 
-    for (i = 0; i < 15; i++) {
+    for (i = 0; i < 30; i++) {
 
-        int x = rand() % 250;
-        int y = rand() % 55;
+        int x = ((rand() % 50) * (rand() % 50)) / 10;
+        int y = ((rand() % 25) * (rand() % 25)) / 10;
         
-        if (i < 13) {
+        if (i < 25) {
             random_Pos_Mid (st, x, y, i);
             st->enemy_list_Mid[i].direction = 1;
             st->enemy_list_Mid[i].is_Following = FALSE;
             st->enemy_list_Mid[i].just_Walking = FALSE;
             st->enemy_list_Mid[i].can_attack = FALSE;
 
-            if (i < 7) {
+            if (i < 20) {
                 st->enemy_list_Mid[i].type = 1;
                 st->enemy_list_Mid[i].attack = 10;
                 st->enemy_list_Mid[i].hp = 50;
             }
 
-            else if (i >= 7 && i < 11) {
+            else if (i >= 20 && i < 23) {
                 st->enemy_list_Mid[i].type = 2;
                 st->enemy_list_Mid[i].attack = 20;
                 st->enemy_list_Mid[i].hp = 40;
             }
 
-            else if (i > 11) {
+            else if (i > 23) {
                 st->enemy_list_Mid[i].type = 3;
                 st->enemy_list_Mid[i].attack = 30;
                 st->enemy_list_Mid[i].hp = 100;

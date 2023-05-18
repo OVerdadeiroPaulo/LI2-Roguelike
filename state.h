@@ -32,9 +32,9 @@ typedef struct state {
 	CELL mapaMid[55][250];
 	CELL mapaHard[150][300];
    // Item items[10];
-	ENEMY enemy_list_Easy[10];
-	ENEMY enemy_list_Mid[15];
-	ENEMY enemy_list_Hard[30];
+	ENEMY enemy_list_Easy[20];
+	ENEMY enemy_list_Mid[30];
+	ENEMY enemy_list_Hard[50];
 
 } STATE;
 
