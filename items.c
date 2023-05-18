@@ -85,7 +85,7 @@ Item geraitem() // gera um item auxiliar
     }
     return item;
 }
-Item spawnaItem(ENEMY inimigo) // cria um item na posiçao do inimigo quando este morre
+Item spawnaItem(ENEMY inimigo) // cria um item ncom as coordenadas do inimigo quando este morre
 {
     int semente = rand() % 3;
     if (inimigo.hp <= 0)

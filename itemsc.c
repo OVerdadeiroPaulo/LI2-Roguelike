@@ -106,7 +106,6 @@ Item spawnaItem(ENEMY inimigo) // cria um item na posiçao do inimigo quando est
             return item;
         }
     }
-    return NULL; // Add a return statement outside of the if statement
 }
 
 void apanhaItem(Jogador player, Item item) // colecta um item do chao

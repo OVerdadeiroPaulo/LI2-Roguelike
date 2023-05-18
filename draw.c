@@ -6,7 +6,7 @@
 
 #include "state.h"
 #include "moviment.c"
-
+#include "itemsc.c"
 
 
 	// Função que desenha as coordenadas do jogador
@@ -31,7 +31,6 @@ void draw_player (int ncols, int nrows) {
 	attroff(COLOR_PAIR(COLOR_CYAN));
 
 }
-
 
 
 	// Função que identifica parede, inimigos ou vazio na CELL
