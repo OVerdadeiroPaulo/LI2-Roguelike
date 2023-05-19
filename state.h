@@ -9,11 +9,11 @@
 
 	// Definição do Jogo e estados
 typedef struct state {
-	int playerX;
-	int playerY;
+ 	// Coordenadas do Jogador
+	int playerX, playerY;
 
-	int playerHP;
-	int playerAttack;
+ 	// Ataque e Hp do Jogador
+	int playerHP, playerAttack;
 
 		// 1 if Easy
 		// 2 if medium
@@ -39,7 +39,8 @@ typedef struct state {
 	CELL mapaEasy[55][250];
 	CELL mapaMid[55][250];
 	CELL mapaHard[150][300];
-   // Item items[10];
+
+
 	ENEMY enemy_list_Easy[20];
 	ENEMY enemy_list_Mid[30];
 	ENEMY enemy_list_Hard[50];

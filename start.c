@@ -380,9 +380,9 @@ void gerar(STATE *s, int ncols, int nrows) {
     srand(time(NULL));
     gen_map(s, ncols, nrows);
     random_Enemy(s);
+    time(&(s->timeStart));
     s->dificulty = 1;
     s->playerHP = 150;
-    time(&(s->timeStart));
     s->playerAttack = 10;
     s->numEnemies_Easy = 20;
     s->numEnemies_Mid = 30;

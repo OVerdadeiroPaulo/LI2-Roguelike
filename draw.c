@@ -31,20 +31,6 @@ void draw_Cood (STATE *st, int ncols, int nrows){
 			printw ("@");
 	attroff(COLOR_PAIR(COLOR_RED));
 
-	// Itens
-	attron(COLOR_PAIR(COLOR_GREEN));
-		move(4, 3);
-		printw("Inventário:\n");
-	attroff(COLOR_PAIR(COLOR_GREEN));
-	attron(COLOR_PAIR(COLOR_BLUE));
-		move(5, 3);
-		for (int i = 0; i < 6; i++)
-			printw ("O");
-	attroff(COLOR_PAIR(COLOR_BLUE));
-
-		
-	attroff(COLOR_PAIR(COLOR_BLUE));
-
 }
 
 
