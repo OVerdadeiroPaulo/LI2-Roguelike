@@ -108,11 +108,19 @@ void move_menu (STATE *st, int move, int ncols, int nrows) {
 
 
 
-void stairs_move (STATE *st, int ncols, int nrows) {
+void activate_move (STATE *st, int ncols, int nrows) {
+	int i;
+	int  items_easy = 0, items_Mid = 0;
+
 	int x = st->playerX + (ncols / 2);
 	int y = st->playerY + (nrows / 2);
 
 	if (st->dificulty == 1) {
+		for (i = 0; i < 10; i++) {
+			if (st->items_list_easy[i].posx == x&& st->items_list_easy[i].posy == y)
+				items_easy = i + 1;
+		}
+
 		if (st->mapaEasy[y][x].is_stairs) {
 			st->dificulty ++;
 			int i, j = 0;
@@ -124,10 +132,19 @@ void stairs_move (STATE *st, int ncols, int nrows) {
 			st->playerX = i;
 			st->playerY = j;
 		}
+		else if (items_easy != 0) {
+			st->playerHP = st->playerHP + st->items_list_easy[items_easy - 1].magnitude;
+			st->items_list_easy[items_easy - 1].used = TRUE;
+		}
 	}
 
 
 	else if (st->dificulty == 2) {
+		for (i = 0; i < 10; i++) {
+			if (st->items_list_Mid[i].posx == x && st->items_list_Mid[i].posy == y)
+				items_Mid = i + 1;
+		}
+
 		if (st->mapaMid[y][x].is_stairs) {
 			st->dificulty ++;
 			int i, j = 0;
@@ -138,6 +155,10 @@ void stairs_move (STATE *st, int ncols, int nrows) {
 
 			st->playerX = i;
 			st->playerY = j;
+		}
+		else if (items_Mid != 0) {
+			st->playerHP = st->playerHP + st->items_list_Mid[items_Mid - 1].magnitude;
+			st->items_list_Mid[items_Mid - 1].used = TRUE;
 		}
 	}
 
@@ -158,7 +179,7 @@ void moviment(STATE *st, int ncols, int nrows) {
 	int key = getch();
 
     switch(key) {
-		case KEY_BACKSPACE: stairs_move (st, ncols, nrows); break;
+		case KEY_BACKSPACE: activate_move (st, ncols, nrows); break;
 		case KEY_UP: move_action(st, +0, -1, ncols, nrows); break;
 		case KEY_DOWN: move_action(st, +0, +1, ncols, nrows); break;
 		case KEY_LEFT: move_action(st, -1, +0, ncols, nrows); break;

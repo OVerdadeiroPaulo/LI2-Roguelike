@@ -11,8 +11,8 @@ void random_Items (STATE *st, int ncols, int nrows) {
 
     for (i = 0; i < 10; i++) {
 
-        int x = (rand() % 50) - 25;
-        int y = (rand() % 50) - 25;
+        int x = rand() % 250;
+        int y = rand() % 55;
         
         for ( ; st->mapaEasy[y + (nrows/2)][x + (ncols/2)].is_wall == TRUE; x++) {
             for ( ; st->mapaEasy[y + (nrows/2)][x + (ncols/2)].is_wall == TRUE; y++) { };
@@ -26,8 +26,8 @@ void random_Items (STATE *st, int ncols, int nrows) {
 
     for (i = 0; i < 10; i++) {
 
-        int x = (rand() % 50) - 25;
-        int y = (rand() % 50) - 25;
+        int x = rand() % 250;
+        int y = rand() % 55;
         
         for ( ; st->mapaEasy[y + (nrows/2)][x + (ncols/2)].is_wall == TRUE; x++) {
             for ( ; st->mapaEasy[y + (nrows/2)][x + (ncols/2)].is_wall == TRUE; y++) { };
