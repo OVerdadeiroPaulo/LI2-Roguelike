@@ -42,7 +42,7 @@ typedef struct state {
 
 
 	ENEMY enemy_list_Easy[20];
-	ENEMY enemy_list_Mid[30];
+	ENEMY enemy_list_Mid[40];
 	ENEMY enemy_list_Hard[50];
 
 	

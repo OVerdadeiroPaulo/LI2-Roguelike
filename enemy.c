@@ -100,92 +100,37 @@ void random_Pos_Easy (STATE *st, int x, int y, int i) {
 
 
 
-
     //Função para gerar posições aleatórias dos inimigos na dificuldade Mid
 void random_Pos_Mid (STATE *st, int x, int y, int i) {
-    int aux = 0;
-
-    if (x < 120) {
-        if (y < 22) {
-            for ( ; st->mapaMid[y][x].is_wall == TRUE && aux == 0; x++) {
-                if (st->mapaMid[y][x + 1].is_wall == FALSE) {
-                    x ++;
-                    st->enemy_list_Easy[i].enemyX = x;
-                    st->enemy_list_Easy[i].enemyY = y;
-                    aux = 1;
-                }
-                else {
-                    for ( ; st->mapaMid[y][x].is_wall == TRUE && aux == 0; y++) {
-                        if (st->mapaMid[y + 1][x].is_wall == FALSE) {
-                            y ++;
-                            st->enemy_list_Easy[i].enemyX = x;
-                            st->enemy_list_Easy[i].enemyY = y;
-                            aux = 1;
-                        }
-                    }
-                }
-            }
-        }
-        else {
-            for ( ; st->mapaMid[y][x].is_wall == TRUE && aux == 0; x++) {
-                if (st->mapaMid[y][x + 1].is_wall == FALSE) {
-                    x ++;
-                    st->enemy_list_Easy[i].enemyX = x;
-                    st->enemy_list_Easy[i].enemyY = y;
-                    aux = 1;
-                }
-                else {
-                    for ( ; st->mapaMid[y][x].is_wall == TRUE && aux == 0; y--) {
-                        if (st->mapaMid[y - 1][x].is_wall == FALSE) {
-                            y --;
-                            st->enemy_list_Easy[i].enemyX = x;
-                            st->enemy_list_Easy[i].enemyY = y;
-                            aux = 1;
-                        }
-                    }
-                }
+    if (st->mapaMid[y][x].is_wall == FALSE) {
+        st->enemy_list_Mid[i].enemyX = x;
+        st->enemy_list_Mid[i].enemyY = y;
+    }
+    else {
+        for (; (x > 0 && x < 250) && (y > 0 && y < 55); x++, y++) {
+            if (st->mapaMid[y][x].is_wall == FALSE) {
+                st->enemy_list_Mid[i].enemyX = x;
+                st->enemy_list_Mid[i].enemyY = y;
+                break;
             }
         }
     }
-    else if (x < 120) {
-        if (y < 22) {
-            for ( ; st->mapaMid[y][x].is_wall == TRUE && aux == 0; x--) {
-                if (st->mapaMid[y][x - 1].is_wall == FALSE) {
-                    x --;
-                    st->enemy_list_Easy[i].enemyX = x;
-                    st->enemy_list_Easy[i].enemyY = y;
-                    aux = 1;
-                }
-                else {
-                    for ( ; st->mapaMid[y][x].is_wall == TRUE && aux == 0; y++) {
-                        if (st->mapaMid[y + 1][x].is_wall == FALSE) {
-                            y ++;
-                            st->enemy_list_Easy[i].enemyX = x;
-                            st->enemy_list_Easy[i].enemyY = y;
-                            aux = 1;
-                        }
-                    }
-                }
-            }
-        }
-        else {
-            for ( ; st->mapaMid[y][x].is_wall == TRUE && aux == 0; x--) {
-                if (st->mapaMid[y][x - 1].is_wall == FALSE) {
-                    x --;
-                    st->enemy_list_Easy[i].enemyX = x;
-                    st->enemy_list_Easy[i].enemyY = y;
-                    aux = 1;
-                }
-                else {
-                    for ( ; st->mapaMid[y][x].is_wall == TRUE && aux == 0; y--) {
-                        if (st->mapaMid[y - 1][x].is_wall == FALSE) {
-                            y --;
-                            st->enemy_list_Easy[i].enemyX = x;
-                            st->enemy_list_Easy[i].enemyY = y;
-                            aux = 1;
-                        }
-                    }
-                }
+}
+
+
+
+    //Função para gerar posições aleatórias dos inimigos na dificuldade Hard
+void random_Pos_Hard (STATE *st, int x, int y, int i) {
+    if (st->mapaHard[y][x].is_wall == FALSE) {
+        st->enemy_list_Hard[i].enemyX = x;
+        st->enemy_list_Hard[i].enemyY = y;
+    }
+    else {
+        for (; (x > 0 && x < 300) && (y > 0 && y < 150); x++, y++) {
+            if (st->mapaHard[y][x].is_wall == FALSE) {
+                st->enemy_list_Hard[i].enemyX = x;
+                st->enemy_list_Hard[i].enemyY = y;
+                break;
             }
         }
     }
@@ -226,34 +171,45 @@ void random_Enemy (STATE *st){
         }
     }
 
-    for (i = 0; i < 30; i++) {
+    for (i = 0; i < 40; i++) {
 
-        int x = ((rand() % 50) * (rand() % 50)) / 10;
-        int y = ((rand() % 25) * (rand() % 25)) / 10;
+        int x = (rand() % 249) + 1;
+        int y = (rand () % 54) + 1;
         
-        if (i < 30) {
-            random_Pos_Mid (st, x, y, i);
-            st->enemy_list_Mid[i].lastSwing = 0;
-            st->enemy_list_Mid[i].direction = 1;
+        random_Pos_Mid (st, x, y, i);
+        st->enemy_list_Mid[i].lastSwing = 0;
+        st->enemy_list_Mid[i].direction = 1;
 
-            if (i < 20) {
-                st->enemy_list_Mid[i].type = 1;
-                st->enemy_list_Mid[i].attack = 10;
-                st->enemy_list_Mid[i].hp = 50;
-            }
-
-            else if (i >= 20 && i < 23) {
-                st->enemy_list_Mid[i].type = 2;
-                st->enemy_list_Mid[i].attack = 15;
-                st->enemy_list_Mid[i].hp = 40;
-            }
-
-            else if (i > 23) {
-                st->enemy_list_Mid[i].type = 3;
-                st->enemy_list_Mid[i].attack = 30;
-                st->enemy_list_Mid[i].hp = 100;
-            }
+        if (i < 20) {
+            st->enemy_list_Mid[i].type = 1;
+            st->enemy_list_Mid[i].attack = 10;
+            st->enemy_list_Mid[i].hp = 50;
         }
+
+        else if (i >= 20  && i < 31) {
+            st->enemy_list_Mid[i].type = 2;
+            st->enemy_list_Mid[i].attack = 15;
+            st->enemy_list_Mid[i].hp = 40;
+        }
+
+        else if (i > 30) {
+            st->enemy_list_Mid[i].type = 3;
+            st->enemy_list_Mid[i].attack = 30;
+            st->enemy_list_Mid[i].hp = 100;
+        }
+    }
+
+    for (i = 0; i < 50; i++) {
+
+        int x = (rand() % 299) + 1;
+        int y = (rand () % 149) + 1;
+        
+        random_Pos_Hard (st, x, y, i);
+        st->enemy_list_Hard[i].lastSwing = 0;
+        st->enemy_list_Hard[i].direction = 1;
+        st->enemy_list_Hard[i].type = 3;
+        st->enemy_list_Hard[i].attack = 30;
+        st->enemy_list_Hard[i].hp = 100;
     }
 }
 
@@ -478,52 +434,25 @@ void combat_hard (STATE *st, int ncols, int nrows){
         }
 
         else {
-            if (st->enemy_list_Hard[i].type < 3) {
-                if (playerX == enemyX && playerY == enemyY){
-                    if (currentTime - st->enemy_list_Hard[i].lastSwing >= 2) {
-                        st->playerHP -= st->enemy_list_Hard[i].attack;
-                        st->enemy_list_Hard[i].lastSwing = currentTime;
-                    }
-
-                    st->enemy_list_Hard[i].hp -= st->playerAttack;
+            if (playerX == enemyX && playerY == enemyY){
+                if (currentTime - st->enemy_list_Hard[i].lastSwing >= 3) {
+                    st->playerHP -= st->enemy_list_Hard[i].attack;
+                    st->enemy_list_Hard[i].lastSwing = currentTime;
                 }
+                st->enemy_list_Hard[i].hp -= st->playerAttack;
+            }
 
-                if (playerY == enemyY && (playerX + 1 == enemyX || playerX == enemyX - 1)) {
-                    if (currentTime - st->enemy_list_Hard[i].lastSwing >= 2){
-                        st->playerHP -= st->enemy_list_Hard[i].attack;
-                        st->enemy_list_Hard[i].lastSwing = currentTime;
-                    }
-                }
-                
-                if (playerX == enemyX && (playerY + 1 == enemyY || playerY - 1 == enemyY)) {
-                    if (currentTime - st->enemy_list_Hard[i].lastSwing >= 2){
-                        st->playerHP -= st->enemy_list_Hard[i].attack;
-                        st->enemy_list_Hard[i].lastSwing = currentTime;
-                    }
+            if (playerY == enemyY && (playerX + 1 == enemyX || playerX == enemyX - 1)) {
+                if (currentTime - st->enemy_list_Hard[i].lastSwing >= 3){
+                    st->playerHP -= st->enemy_list_Hard[i].attack;
+                    st->enemy_list_Hard[i].lastSwing = currentTime;
                 }
             }
-            else {
-                if (playerX == enemyX && playerY == enemyY){
-                    if (currentTime - st->enemy_list_Hard[i].lastSwing >= 3) {
-                        st->playerHP -= st->enemy_list_Hard[i].attack;
-                        st->enemy_list_Hard[i].lastSwing = currentTime;
-                    }
-
-                    st->enemy_list_Hard[i].hp -= st->playerAttack;
-                }
-
-                if (playerY == enemyY && (playerX + 1 == enemyX || playerX == enemyX - 1)) {
-                    if (currentTime - st->enemy_list_Hard[i].lastSwing >= 3){
-                        st->playerHP -= st->enemy_list_Hard[i].attack;
-                        st->enemy_list_Hard[i].lastSwing = currentTime;
-                    }
-                }
-                
-                if (playerX == enemyX && (playerY + 1 == enemyY || playerY - 1 == enemyY)) {
-                    if (currentTime - st->enemy_list_Hard[i].lastSwing >= 3){
-                        st->playerHP -= st->enemy_list_Hard[i].attack;
-                        st->enemy_list_Hard[i].lastSwing = currentTime;
-                    }
+            
+            if (playerX == enemyX && (playerY + 1 == enemyY || playerY - 1 == enemyY)) {
+                if (currentTime - st->enemy_list_Hard[i].lastSwing >= 3){
+                    st->playerHP -= st->enemy_list_Hard[i].attack;
+                    st->enemy_list_Hard[i].lastSwing = currentTime;
                 }
             }
         }
@@ -533,25 +462,29 @@ void combat_hard (STATE *st, int ncols, int nrows){
 
 
     //Funções para desenhar os inimigos.
-void draw_enemy (ENEMY enemy, int x, int y){
-    if (enemy.type == 1) {
+void draw_enemy (ENEMY enemy, int x, int y, int dif){
+    if (dif < 3) {
         attron(COLOR_PAIR(COLOR_RED));
-        mvaddch(y, x, 'r' | A_BOLD);
+        if (enemy.type == 1)
+            mvaddch(y, x, 'r' | A_BOLD);
+        else if (enemy.type == 2)
+            mvaddch(y, x, 'a' | A_BOLD);
+        else if (enemy.type == 3)
+            mvaddch(y, x, 'X' | A_BOLD);
         attroff(COLOR_PAIR(COLOR_RED));
     }
-    else if (enemy.type == 2) {
-        attron(COLOR_PAIR(COLOR_RED));
-        mvaddch(y, x, 'a' | A_BOLD);
-        attroff(COLOR_PAIR(COLOR_RED));
-    }
-    else if (enemy.type == 3) {
-        attron(COLOR_PAIR(COLOR_RED));
-        mvaddch(y, x, 'X' | A_BOLD);
-        attroff(COLOR_PAIR(COLOR_RED));
-    }
-    else if (enemy.type == 4) {
-        attron(COLOR_PAIR(COLOR_RED));
-        mvaddch(y, x, 'G' | A_BOLD);
-        attroff(COLOR_PAIR(COLOR_RED));
+
+    else {
+        attron(COLOR_PAIR(COLOR_CYAN));
+        if (enemy.type == 1) {
+            mvaddch(y, x, 'r' | A_BOLD);
+        }
+        else if (enemy.type == 2) {
+            mvaddch(y, x, 'a' | A_BOLD);
+        }
+        else if (enemy.type == 3) {
+            mvaddch(y, x, 'X' | A_BOLD);
+        }
+        attroff(COLOR_PAIR(COLOR_CYAN));
     }
 }

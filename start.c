@@ -387,6 +387,6 @@ void gerar(STATE *s, int ncols, int nrows) {
     s->playerHP = 150;
     s->playerAttack = 10;
     s->numEnemies_Easy = 20;
-    s->numEnemies_Mid = 30;
+    s->numEnemies_Mid = 40;
     s->numEnemies_Hard = 50;
 }

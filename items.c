@@ -44,12 +44,12 @@ void random_Items (STATE *st, int ncols, int nrows) {
 
     //Funções para desenhar os inimigos.
 void draw_items (Item item, int x, int y){
-    if (item.magnitude == 10) {
+    if (item.magnitude <= 10 && item.magnitude >= 0) {
         attron(COLOR_PAIR(COLOR_WHITE));
         mvaddch(y, x, '+' | A_BOLD);
         attroff(COLOR_PAIR(COLOR_RED));
     }
-    if (item.magnitude == 15) {
+    else if (item.magnitude > 10 && item.magnitude <= 30) {
         attron(COLOR_PAIR(COLOR_YELLOW));
         mvaddch(y, x, '+' | A_BOLD);
         attroff(COLOR_PAIR(COLOR_YELLOW));

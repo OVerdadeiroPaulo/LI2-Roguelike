@@ -53,14 +53,14 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 		if (st->enemy_list_Easy[i].enemyX == x + st->playerX && st->enemy_list_Easy[i].enemyY == y + st->playerY)
 			enemy_easy = i + 1;
 	}
-	for (i = 0; i < 30; i++) {
+	for (i = 0; i < 40; i++) {
 		if (st->enemy_list_Mid[i].enemyX == x + st->playerX && st->enemy_list_Mid[i].enemyY == y + st->playerY)
 			enemy_Mid = i + 1;
 	}
-	// for (i = 0; i < 30; i++) {
-	// 	if (st->enemy_list_Ha[i].enemyX == x + st->playerX && st->enemy_list_Ha[i].enemyY == y + st->playerY)
-	// 		enemy_Hard = i + 1;
-	// }
+	for (i = 0; i < 30; i++) {
+		if (st->enemy_list_Hard[i].enemyX == x + st->playerX && st->enemy_list_Hard[i].enemyY == y + st->playerY)
+			enemy_Hard = i + 1;
+	}
 
 	for (i = 0; i < 10; i++) {
 		if (st->items_list_easy[i].posx == x + st->playerX && st->items_list_easy[i].posy == y + st->playerY)
@@ -75,7 +75,7 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 
 	if (dif == 1) {
 		if (enemy_easy >= 1 && st->enemy_list_Easy[enemy_easy - 1].hp > 0) {
-			draw_enemy (st->enemy_list_Easy[enemy_easy - 1], x, y);
+			draw_enemy (st->enemy_list_Easy[enemy_easy - 1], x, y, 1);
 		}
 		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 			attron(COLOR_PAIR(COLOR_GREEN));
@@ -114,7 +114,7 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 	
 	else if (dif == 2) {
 		if (enemy_Mid >= 1 && st->enemy_list_Mid[enemy_Mid - 1].hp > 0) {
-			draw_enemy (st->enemy_list_Mid[enemy_Mid - 1], x, y);
+			draw_enemy (st->enemy_list_Mid[enemy_Mid - 1], x, y, 2);
 		}
 		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 			attron(COLOR_PAIR(COLOR_YELLOW));
@@ -153,7 +153,7 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 	
 	else if (dif == 3) {
 		if (enemy_Hard >= 1  && st->enemy_list_Hard[enemy_Hard - 1].hp > 0) {
-			draw_enemy (st->enemy_list_Easy[enemy_easy - 1], x, y);
+			draw_enemy (st->enemy_list_Hard[enemy_Hard - 1], x, y, 3);
 		}
 		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 			attron(COLOR_PAIR(COLOR_RED));
