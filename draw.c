@@ -6,7 +6,6 @@
 
 #include "state.h"
 #include "moviment.c"
-#include "itemsc.c"
 
 	// Função que desenha as coordenadas do jogador
 	// Ultilizar essa função para eventualmente desenhar
@@ -48,6 +47,7 @@ void draw_player (int ncols, int nrows) {
 void draw_objects (STATE *st, int x, int y, int dif) {
 	int i;
 	int  enemy_easy = 0, enemy_Mid = 0, enemy_Hard = 0;
+	int  items_easy = 0, items_Mid = 0;
 
 	for (i = 0; i < 20; i++) {
 		if (st->enemy_list_Easy[i].enemyX == x + st->playerX && st->enemy_list_Easy[i].enemyY == y + st->playerY)
@@ -61,6 +61,15 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 	// 	if (st->enemy_list_Ha[i].enemyX == x + st->playerX && st->enemy_list_Ha[i].enemyY == y + st->playerY)
 	// 		enemy_Hard = i + 1;
 	// }
+
+	for (i = 0; i < 10; i++) {
+		if (st->items_list_easy[i].posx == x + st->playerX && st->items_list_easy[i].posy == y + st->playerY)
+			items_easy = i + 1;
+	}
+	for (i = 0; i < 10; i++) {
+		if (st->items_list_Mid[i].posx == x + st->playerX && st->items_list_Mid[i].posy == y + st->playerY)
+			items_Mid = i + 1;
+	}
 
 
 
@@ -77,6 +86,9 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 			attron(COLOR_PAIR(COLOR_GREEN));
 			mvaddch (y, x, '^' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));
+		}
+		else if (items_easy >= 1 && st->items_list_easy[items_easy - 1].used == FALSE) {
+			draw_items (st->items_list_easy[items_easy - 1], x, y);
 		}
 			// Caso seja um terreno de Rio
 		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_water == TRUE) {
@@ -113,6 +125,9 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 			attron(COLOR_PAIR(COLOR_GREEN));
 			mvaddch (y, x, '^' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));
+		}
+		else if (items_Mid >= 1 && st->items_list_Mid[items_Mid - 1].used == FALSE) {
+			draw_items (st->items_list_Mid[items_Mid - 1], x, y);
 		}
 			// Caso seja um terreno de Rio
 		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_water == TRUE) {
@@ -174,6 +189,16 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 
 
 	// Função que identifica parede, inimigos ou vazio na CELL
+void draw_wall (int x, int y) {
+
+		attron(COLOR_PAIR(COLOR_GREEN));
+		mvaddch (y, x, '#' | A_BOLD);
+		attroff(COLOR_PAIR(COLOR_GREEN));
+}
+
+
+
+	// Função que identifica parede, inimigos ou vazio na CELL
 void erase_objects (int x, int y) {
 
 		attron(COLOR_PAIR(COLOR_GREEN));
@@ -208,6 +233,14 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 					else
 						erase_objects (x, y);
 				}
+				else if (x + st->playerX == 0 || y + st->playerY == 0 || x + st->playerX == 250 || y + st->playerY == 55) {
+					if (aux == TRUE) {
+						draw_wall (x, y);
+						aux = FALSE;
+					}
+					else
+						erase_objects (x, y);
+				}
 				else
 					if (aux == TRUE)
 						draw_objects (st, x, y, 1);
@@ -230,6 +263,14 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 						draw_objects (st, x, y, 1);
 						aux = FALSE;
 					}
+				}
+				else if (x + st->playerX == 0 || y + st->playerY == 0 || x + st->playerX == 250 || y + st->playerY == 55) {
+					if (aux == TRUE) {
+						draw_wall (x, y);
+						aux = FALSE;
+					}
+					else
+						erase_objects (x, y);
 				}
 			}
 		}
@@ -303,6 +344,14 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 					else
 						erase_objects (x, y);
 				}
+				else if (x + st->playerX == 0 || y + st->playerY == 0 || x + st->playerX == 250 || y + st->playerY == 55) {
+					if (aux == TRUE) {
+						draw_wall (x, y);
+						aux = FALSE;
+					}
+					else
+						erase_objects (x, y);
+				}
 				else
 					if (aux == TRUE)
 						draw_objects (st, x, y, 3);
@@ -325,6 +374,14 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 						draw_objects (st, x, y, 3);
 						aux = FALSE;
 					}
+				}
+				else if (x + st->playerX == 0 || y + st->playerY == 0 || x + st->playerX == 250 || y + st->playerY == 55) {
+					if (aux == TRUE) {
+						draw_wall (x, y);
+						aux = FALSE;
+					}
+					else
+						erase_objects (x, y);
 				}
 			}
 		}

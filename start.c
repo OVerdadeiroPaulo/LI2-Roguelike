@@ -6,6 +6,7 @@
 
 #include "state.h"
 #include "enemy.c"
+#include "items.c"
 
 #define HEIGHT_dungeon 55
 #define WIDTH_dungeon 249
@@ -380,6 +381,7 @@ void gerar(STATE *s, int ncols, int nrows) {
     srand(time(NULL));
     gen_map(s, ncols, nrows);
     random_Enemy(s);
+    random_Items(s, ncols, nrows);
     time(&(s->timeStart));
     s->dificulty = 1;
     s->playerHP = 150;

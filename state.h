@@ -4,7 +4,7 @@
 #include <time.h>
 
 #include "type_maps.h"
-#include "type_enemies.h"
+#include "type_items.h"
 
 
 	// Definição do Jogo e estados
@@ -44,6 +44,10 @@ typedef struct state {
 	ENEMY enemy_list_Easy[20];
 	ENEMY enemy_list_Mid[30];
 	ENEMY enemy_list_Hard[50];
+
+	
+	Item items_list_easy [10];
+	Item items_list_Mid [10];
 
 	
 	int numEnemies_Easy;
