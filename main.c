@@ -63,7 +63,8 @@ int main () {
 		// Estado Inicial do Jogo, mapa, jogador e inimigos
 	STATE st;
 	st.menu = 0;
-
+    
+	curs_set (0);   // Funcao que esconde cursor
 	srand48(time(NULL));
 	start_color();
 	keypad(stdscr, true);
