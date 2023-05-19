@@ -13,6 +13,7 @@ typedef struct state {
 	int playerY;
 
 	int playerHP;
+	int playerAttack;
 
 		// 1 if Easy
 		// 2 if medium
@@ -42,6 +43,11 @@ typedef struct state {
 	ENEMY enemy_list_Easy[20];
 	ENEMY enemy_list_Mid[30];
 	ENEMY enemy_list_Hard[50];
+
+	
+	int numEnemies_Easy;
+	int numEnemies_Mid;
+	int numEnemies_Hard;
 
 } STATE;
 

@@ -19,6 +19,10 @@ typedef struct enemy {
 	bool is_Following;
 	bool just_Walking;
 	bool can_attack;
+
+
+	// variável para guardar o tempo do último ataque.
+	time_t lastSwing;
 } ENEMY;
 
 #endif

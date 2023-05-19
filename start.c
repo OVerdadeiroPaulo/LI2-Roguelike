@@ -383,4 +383,8 @@ void gerar(STATE *s, int ncols, int nrows) {
     s->dificulty = 1;
     s->playerHP = 150;
     time(&(s->timeStart));
+    s->playerAttack = 10;
+    s->numEnemies_Easy = 20;
+    s->numEnemies_Mid = 30;
+    s->numEnemies_Hard = 50;
 }
