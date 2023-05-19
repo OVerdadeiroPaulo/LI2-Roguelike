@@ -11,11 +11,15 @@
 
 void play (STATE *st, int ncols, int nrows, int raio) {
 
-	draw_Cood (st, ncols, nrows);
-	draw_light (st, raio, ncols, nrows);
-	draw_player (ncols, nrows);
+    draw_Cood (st, ncols, nrows);
+    draw_light (st, raio, ncols, nrows);
+    draw_player (ncols, nrows);
 
-	moviment (st, ncols, nrows);
+    if (st->dificulty == 1) combat_easy(st, ncols , nrows);
+    else if (st->dificulty == 2) combat_mid(st, ncols , nrows);
+    else combat_hard(st, ncols, nrows);
+
+    moviment (st, ncols, nrows);
 }
 
 
@@ -79,10 +83,8 @@ int main () {
 
 		while (st.menu == 0)
 			play_menu (&st, ncols, nrows);
-		while (st.menu == 1) {
-			update_enemies (&st);
+		while (st.menu == 1)
 			play (&st, ncols, nrows, radius_light);
-		}
 		while (st.menu == 2)
 			play_pause (&st, ncols, nrows);
 		while (st.menu == 3)

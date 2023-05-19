@@ -8,21 +8,19 @@
 #include "moviment.c"
 #include "itemsc.c"
 
-
 	// Função que desenha as coordenadas do jogador
 	// Ultilizar essa função para eventualmente desenhar
 	// a vida e itens do jogador
 void draw_Cood (STATE *st, int ncols, int nrows){
-	time(&st->timeCurrent);
 
-	// Coordenadas
 	attron(COLOR_PAIR(COLOR_BLUE));
+	// Coordenadas
 		move(nrows - 2, 5);
 		printw("(%d, %d) %d %d", st->playerX, st->playerY, ncols, nrows);
-		// printw(" TIME: %ld\n", st->timeCurrent - st->timeStart);
 	attroff(COLOR_PAIR(COLOR_BLUE));
 
 	// Vida doJogador
+	atualiza_hp();
 	attron(COLOR_PAIR(COLOR_GREEN));
 		move(1, 3);
 		printw("HP:\n");
@@ -48,7 +46,6 @@ void draw_Cood (STATE *st, int ncols, int nrows){
 	attroff(COLOR_PAIR(COLOR_BLUE));
 
 }
-
 
 
 	// Função que desenha o jogador
