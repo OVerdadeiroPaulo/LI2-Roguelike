@@ -57,7 +57,7 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 		if (st->enemy_list_Mid[i].enemyX == x + st->playerX && st->enemy_list_Mid[i].enemyY == y + st->playerY)
 			enemy_Mid = i + 1;
 	}
-	for (i = 0; i < 30; i++) {
+	for (i = 0; i < 50; i++) {
 		if (st->enemy_list_Hard[i].enemyX == x + st->playerX && st->enemy_list_Hard[i].enemyY == y + st->playerY)
 			enemy_Hard = i + 1;
 	}
