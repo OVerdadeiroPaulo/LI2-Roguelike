@@ -45,7 +45,68 @@ void Initialize_dungeon_Mid(STATE *s) {
 }
 
 
+void Build_rios_relva(STATE *s,int i, int j, int size_rel, int size_rel_max, int altura_rel, int altura_rel_max, int center_rel_x, int center_rel_y, int radius, int center_rel_x_2, int center_rel_y_2, int radius_2, int size_rio ,int size_rio_max ,int altura_rio ,int altura_rio_max , int size_rio_1, int size_rio_max_1, int altura_rio_1, int altura_rio_max_1,int center_rio_x ,int center_rio_y ,int radius_rio){
 
+ 
+
+      if (j > size_rel && j < size_rel + size_rel_max  && i > altura_rel && i < altura_rel + altura_rel_max){   // clausula para colocar paredes ao redor da gruta, para nao criar uma gruta infinita.
+                          
+              if (s->mapaMid [i][j].is_wall != TRUE) s->mapaMid[i][j].is_grass = TRUE;
+           }
+    
+            int distance_x = abs(j - center_rel_x);  // Calculos da distancia horizontal para o centro.
+            int distance_y = abs(i - center_rel_y);  // Calculos da distancia vertical para o centro.
+            
+            double distance = sqrt(distance_x * distance_x + distance_y * distance_y);  // Clausula para calcular a distancia euclidiana
+            if (distance <= radius) {  // clausula para checar se a distancia esta dentro do raio.
+                if (s->mapaMid[i][j].is_wall != TRUE) {
+                    s->mapaMid[i][j].is_grass = TRUE;
+                }
+            }
+            
+              int distance_x_2 = abs(j - center_rel_x_2);  // Calculos da distancia horizontal para o centro.
+            int distance_y_2 = abs(i - center_rel_y_2);  // Calculos da distancia vertical para o centro.
+            
+            double distance_2 = sqrt(distance_x_2 * distance_x_2 + distance_y_2 * distance_y_2);  // Clausula para calcular a distancia euclidiana
+            if (distance_2 <= radius_2) {  // clausula para checar se a distancia esta dentro do raio.
+                if (s->mapaMid[i][j].is_wall != TRUE) {
+                    s->mapaMid[i][j].is_grass = TRUE;
+                }
+            }
+
+           // geracao de rios 
+
+            if (j > size_rio && j < size_rio + size_rio_max  && i > altura_rio && i < altura_rio + altura_rio_max){   // clausula para colocar paredes ao redor da gruta, para nao criar uma gruta infinita.
+                     
+              if (s->mapaMid [i][j].is_wall != TRUE) {
+
+                 s->mapaMid[i][j].is_grass = FALSE;
+                 s->mapaMid[i][j].is_water = TRUE;
+              }
+           }
+           
+           if (j > size_rio_1 && j < size_rio_1 + size_rio_max_1  && i > altura_rio_1 && i < altura_rio_1 + altura_rio_max_1){   // clausula para colocar paredes ao redor da gruta, para nao criar uma gruta infinita.
+                     
+              if (s->mapaMid [i][j].is_wall != TRUE){
+                 s->mapaMid[i][j].is_grass = FALSE;
+                 s->mapaMid[i][j].is_water = TRUE;
+              }
+           }
+
+            int distance_x_rio = abs(j - center_rio_x);  // Calculos da distancia horizontal para o centro.
+            int distance_y_rio = abs(i - center_rio_y);  // Calculos da distancia vertical para o centro.
+            
+            double distance_rio = sqrt(distance_x_rio * distance_x_rio + distance_y_rio * distance_y_rio);  // Clausula para calcular a distancia euclidiana
+            if (distance_rio <= radius_rio) {  // clausula para checar se a distancia esta dentro do raio.
+                if (s->mapaMid[i][j].is_wall != TRUE) {
+                    s->mapaMid[i][j].is_grass = FALSE;
+                    s->mapaMid[i][j].is_water = TRUE;
+
+                }
+            }
+
+
+}
 // Funcao que pega no array inicializado e controi as grutas.
 void Build_dungeon_Mid(STATE *s) {
     int n_walls;
@@ -87,6 +148,38 @@ void Build_dungeon_Mid(STATE *s) {
                    }
         }
     }
+ int size_rel, size_rel_max, altura_rel, altura_rel_max, center_rel_x, center_rel_y, radius, center_rel_x_2, center_rel_y_2, radius_2;
+ int size_rio_1, size_rio_max_1, altura_rio_1, altura_rio_max_1, size_rio ,size_rio_max ,altura_rio ,altura_rio_max, center_rio_x, center_rio_y, radius_rio;
+
+//variaveis para relvas circulares e retangulares
+size_rel = rand() % 50 + 6;
+size_rel_max = rand() % 50 + 6;
+altura_rel = rand() % 20 + 15;
+altura_rel_max = rand() % 10 + 6;
+
+center_rel_x = rand () % 100 + 100;
+center_rel_y = rand () % 40 + 5;
+radius = rand() %10 +5;
+
+center_rel_x_2 = rand () % 100 + 50;
+center_rel_y_2 = rand () % 10 + 30;
+radius_2 = rand() % 5 + 5;
+
+// variaveis para rios retangulares e circulares
+size_rio = rand() % 20 + 6;
+size_rio_max = rand() % 40 + 10;
+altura_rio = rand() % 5 + 5 ;
+altura_rio_max = rand() % 8 + 6;
+
+size_rio_1 = rand() % 50 + 100;
+size_rio_max_1 = rand() % 20 + 10;
+altura_rio_1 = rand() % 20 + 6;
+altura_rio_max_1 = rand() % 9 + 6;
+
+center_rio_x = rand () % 100 + 100;
+center_rio_y = rand () % 10 + 10;
+radius_rio = rand() % 5 + 5;
+
 
     // clausula para copiar para o array novo mapa.
    for (int i = 0; i < HEIGHT_dungeon; i++) {
@@ -94,8 +187,14 @@ void Build_dungeon_Mid(STATE *s) {
            if (j == 0 || j == WIDTH_dungeon-1 || i == 0 || i == HEIGHT_dungeon-1){   // clausula para colocar paredes ao redor da gruta, para nao criar uma gruta infinita.
             s->mapaMid [i][j].is_wall = TRUE;
            }
+
            else{
-            s->mapaMid [i][j].is_wall = dungeon_dataMID [i][j];
+               
+                s->mapaMid [i][j].is_wall = dungeon_dataMID [i][j];    
+
+                Build_rios_relva(s, i, j, size_rel, size_rel_max, altura_rel, altura_rel_max, center_rel_x, center_rel_y, radius, center_rel_x_2, center_rel_y_2, radius_2, size_rio, size_rio_max, altura_rio,altura_rio_max, size_rio_1,size_rio_max_1,altura_rio_1,altura_rio_max_1,center_rio_x,center_rio_y,radius_rio);
+             
+
            }
         }
     }
