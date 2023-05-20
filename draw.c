@@ -177,6 +177,11 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 			mvaddch (y, x, '.' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));
 		}
+		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_mud == TRUE) {
+			attron(COLOR_PAIR(COLOR_BLACK));
+			mvaddch (y, x, ')' | A_BOLD);
+			attroff(COLOR_PAIR(COLOR_BLACK));
+		}
 			// Caso seja um terreno vazio
 		else {
 			attron(COLOR_PAIR(COLOR_YELLOW));

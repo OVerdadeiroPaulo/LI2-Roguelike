@@ -26,6 +26,7 @@ void Initialize_dungeon_Mid(STATE *s) {
                 s->mapaMid[i][j].is_grass = FALSE;
                 s->mapaMid[i][j].is_water = FALSE;
                 s->mapaMid[i][j].is_stairs = FALSE;
+                s->mapaMid[i][j].is_mud = FALSE;
 
             if (i == 0 || i == HEIGHT_dungeon - 5 || j == 0 || j == WIDTH_dungeon - 5) {
                 s->mapaMid[i][j].is_wall = TRUE;
@@ -223,6 +224,7 @@ void Initialize_dungeon_Hard(STATE *s) {
                 s->mapaHard[i][j].is_grass = FALSE;
                 s->mapaHard[i][j].is_water = FALSE;
                 s->mapaHard[i][j].is_stairs = FALSE;
+                s->mapaHard[i][j].is_mud = FALSE;
 
             if (i == 0 || i == HEIGHT_dungeon_Hard - 1 || j == 0 || j == WIDTH_dungeon_Hard - 1) {
                 s->mapaHard[i][j].is_wall = TRUE;
@@ -241,7 +243,23 @@ void Initialize_dungeon_Hard(STATE *s) {
     }
 }
 
+void Build_Mud(STATE *s, int i, int j, int center_mud_x, int center_mud_y, int radius_mud){  // Funcao que controi uma poca de lama no centro da caverna com tamanho aleatorio.
 
+            int distance_x_mud = abs(j - center_mud_x);  // Calculos da distancia horizontal para o centro.
+            int distance_y_mud = abs(i - center_mud_y);  // Calculos da distancia vertical para o centro.
+            
+            double distance_rio = sqrt(distance_x_mud * distance_x_mud + distance_y_mud * distance_y_mud);  // Clausula para calcular a distancia euclidiana
+            if (distance_rio <= radius_mud) {  // clausula para checar se a distancia esta dentro do raio.
+                
+                if (s->mapaHard[i][j].is_wall != TRUE) {
+                    s->mapaHard[i][j].is_grass = FALSE;
+                    s->mapaHard[i][j].is_mud = TRUE;
+
+                }
+            }
+
+    return; 
+}
 
 // Funcao que pega no array inicializado e controi as grutas.
 void Build_dungeon_Hard(STATE *s) {
@@ -284,10 +302,19 @@ void Build_dungeon_Hard(STATE *s) {
         }
     }
 
+int center_mud_x ,center_mud_y ,radius_mud;
+
+center_mud_x = WIDTH_dungeon_Hard/2;
+center_mud_y = HEIGHT_dungeon_Hard/2;
+radius_mud = rand() % 30 + 10;
+
     // clausula para copiar para o array novo mapa.
     for (int i = 0; i < HEIGHT_dungeon_Hard; i++) {
         for (int j = 0; j < WIDTH_dungeon_Hard; j++) {
             s->mapaHard [i][j].is_wall = dungeon_data [i][j];
+
+            Build_Mud(s ,i, j, center_mud_x, center_mud_y, radius_mud);  
+
         }
     }
 
@@ -301,6 +328,7 @@ void Build_dungeon_Hard(STATE *s) {
             while (s->mapaHard[stairs_y_Hard] [stairs_x_Hard].is_wall != FALSE);
 
             s->mapaHard [stairs_y_Hard] [stairs_x_Hard].is_stairs = TRUE;
+
     }
 }
 
@@ -316,6 +344,7 @@ void Initialize_rooms(STATE *s){
             s->mapaEasy[y][x].is_grass = FALSE;
             s->mapaEasy[y][x].is_water = FALSE;
             s->mapaEasy[y][x].is_stairs = FALSE;  
+            s->mapaEasy[y][x].is_mud = FALSE;
            
             if (x == WIDTH_room - 1 || x == 0){
                
