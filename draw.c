@@ -400,26 +400,22 @@ void draw_menu (STATE *st, int ncols, int nrows) {
 	clear ();
 	int i;
 
+	attron(COLOR_PAIR(COLOR_MAGENTA));
 	for (i = 5; i < ncols - 5; i++) {
 		move(7, i);
-		attron(COLOR_PAIR(COLOR_MAGENTA));
 		printw("-");
 		move(nrows - 7, i);
 		printw("-");
-		attroff(COLOR_PAIR(COLOR_MAGENTA));
-
 	}
 	for (i = 6; i < nrows - 5; i++) {
 		move(i, 7);
-		attron(COLOR_PAIR(COLOR_MAGENTA));
 		printw("|");
 		move(i, ncols - 7);
 		printw("|");
-		attroff(COLOR_PAIR(COLOR_MAGENTA));
-
 	}
+	attroff(COLOR_PAIR(COLOR_MAGENTA));
 
-	if (ncols > 90 && nrows >= 40) {
+	if (ncols >= 160 && nrows >= 44) {
 		if (st->selection == TRUE) {
 			move((nrows / 2) - 15, (ncols / 2) - 4);
 			attron(COLOR_PAIR(COLOR_GREEN));
@@ -507,35 +503,36 @@ void draw_menu (STATE *st, int ncols, int nrows) {
 	}
 	else {
 		if (st->selection == TRUE) {
-			move((nrows / 2) - 15, (ncols / 2) - 4);
+			move((nrows / 2) - 5, (ncols / 2) - 4);
 			attron(COLOR_PAIR(COLOR_GREEN));
 			printw("WELCOME!");
 			attroff(COLOR_PAIR(COLOR_GREEN));
 			attron(COLOR_PAIR(COLOR_MAGENTA));
-			move((nrows / 2) - 5, (ncols / 2) - 2);
+			move((nrows / 2), (ncols / 2) - 2);
 			printw("START");
 			attroff(COLOR_PAIR(COLOR_MAGENTA));
 			attron(COLOR_PAIR(COLOR_BLUE));
-			move((nrows / 2) + 4, (ncols / 2) - 2);
+			move((nrows / 2) + 1, (ncols / 2) - 2);
 			printw("QUIT!");
 			attroff(COLOR_PAIR(COLOR_BLUE));
 		}
 		else if (st->selection == FALSE) {
-			move((nrows / 2) - 15, (ncols / 2) - 4);
+			move((nrows / 2) - 5, (ncols / 2) - 4);
 			attron(COLOR_PAIR(COLOR_GREEN));
 			printw("WELCOME!");
 			attroff(COLOR_PAIR(COLOR_GREEN));
 			attron(COLOR_PAIR(COLOR_BLUE));
-			move((nrows / 2) - 5, (ncols / 2) - 2);
+			move((nrows / 2), (ncols / 2) - 2);
 			printw("START");
 			attroff(COLOR_PAIR(COLOR_BLUE));
 			attron(COLOR_PAIR(COLOR_MAGENTA));
-			move((nrows / 2) + 4, (ncols / 2) - 2);
+			move((nrows / 2) + 1, (ncols / 2) - 2);
 			printw("QUIT!");
 			attroff(COLOR_PAIR(COLOR_MAGENTA));
 		}
 	}
 }
+
 
 
 void draw_pause (STATE *st, int ncols, int nrows) {
@@ -557,46 +554,46 @@ void draw_pause (STATE *st, int ncols, int nrows) {
 	}
 	attroff(COLOR_PAIR(COLOR_GREEN));
 
-	if (ncols > 90 && nrows >= 40) {
+	if (ncols >= 160 && nrows >= 44) {
 		if (st->selection == TRUE) {
 			move((nrows / 2) - 15, (ncols / 2) - 3);
 			attron(COLOR_PAIR(COLOR_GREEN));
 			printw("PAUSED!");
 			attroff(COLOR_PAIR(COLOR_GREEN));
 			attron(COLOR_PAIR(COLOR_GREEN));
-			move((nrows / 2) - 5, (ncols / 2) - 42);
+			move((nrows / 2) - 5, (ncols / 2) - 46);
 			printw("  ,ad8888ba,   ,ad8888ba,   888b      88 888888888888 88 888b      88 88        88 88888888888");
-			move((nrows / 2) - 4, (ncols / 2) - 42);
+			move((nrows / 2) - 4, (ncols / 2) - 46);
 			printw(" d8''    `'8b d8''    `'8b  8888b     88      88      88 8888b     88 88        88 88");
-			move((nrows / 2), (ncols / 2) - 42);
+			move((nrows / 2), (ncols / 2) - 46);
 			printw("d8'          d8'        `8b 88 `8b    88      88      88 88 `8b    88 88        88 88");
-			move((nrows / 2) - 3, (ncols / 2) - 42);
+			move((nrows / 2) - 3, (ncols / 2) - 46);
 			printw("88           88          88 88  `8b   88      88      88 88  `8b   88 88        88 88aaaaa");
-			move((nrows / 2) - 2, (ncols / 2) - 42);
+			move((nrows / 2) - 2, (ncols / 2) - 46);
 			printw("88           88          88 88   `8b  88      88      88 88   `8b  88 88        88 88'");
-			move((nrows / 2) - 1, (ncols / 2) - 42);
+			move((nrows / 2) - 1, (ncols / 2) - 46);
 			printw("Y8,          Y8,        ,8P 88    `8b 88      88      88 88    `8b 88 88        88 88");
-			move((nrows / 2), (ncols / 2) - 42);
+			move((nrows / 2), (ncols / 2) - 46);
 			printw(" Y8a.    .a8P Y8a.    .a8P  88     `8888      88      88 88     `8888 Y8a.    .a8P 88");
-			move((nrows / 2) + 1, (ncols / 2) - 42);
+			move((nrows / 2) + 1, (ncols / 2) - 46);
 			printw("  `'Y8888Y''   `'Y8888Y''   88      `888      88      88 88      `888  `'Y8888Y''  88888888888");
 			attroff(COLOR_PAIR(COLOR_GREEN));
 			attron(COLOR_PAIR(COLOR_BLUE));
-			move((nrows / 2) + 4, (ncols / 2) - 24);
+			move((nrows / 2) + 4, (ncols / 2) - 26);
 			printw("88888888ba        db        ,ad8888ba,  88      a8P");
-			move((nrows / 2) + 5, (ncols / 2) - 24);
+			move((nrows / 2) + 5, (ncols / 2) - 26);
 			printw("88      '8b      d88b      d8''    `'8b 88    ,88'");
-			move((nrows / 2) + 6, (ncols / 2) - 24);
+			move((nrows / 2) + 6, (ncols / 2) - 26);
 			printw("88      ,8P     d8'`8b    d8'           88  ,88'");
-			move((nrows / 2) + 7, (ncols / 2) - 24);
+			move((nrows / 2) + 7, (ncols / 2) - 26);
 			printw("88aaaaaa8P'    d8'  `8b   88            88,d88'");
-			move((nrows / 2) + 8, (ncols / 2) - 24);
+			move((nrows / 2) + 8, (ncols / 2) - 26);
 			printw("88''''''8b,   d8YaaaaY8b  88            8888'88,");
-			move((nrows / 2) + 9, (ncols / 2) - 24);
+			move((nrows / 2) + 9, (ncols / 2) - 26);
 			printw("88      `8b  d8''''''''8b Y8,           88P   Y8b");
-			move((nrows / 2) + 10, (ncols / 2) - 24);
+			move((nrows / 2) + 10, (ncols / 2) - 26);
 			printw("88      a8P d8'        `8b Y8a.    .a8P 88     '88,");
-			move((nrows / 2) + 11, (ncols / 2) - 24);
+			move((nrows / 2) + 11, (ncols / 2) - 26);
 			printw("88888888P' d8'          `8b `'Y8888Y''  88       Y8b");
 			attroff(COLOR_PAIR(COLOR_BLUE));
 		}
@@ -606,46 +603,46 @@ void draw_pause (STATE *st, int ncols, int nrows) {
 			printw("PAUSED!");
 			attroff(COLOR_PAIR(COLOR_GREEN));
 			attron(COLOR_PAIR(COLOR_BLUE));
-			move((nrows / 2) - 5, (ncols / 2) - 42);
+			move((nrows / 2) - 5, (ncols / 2) - 46);
 			printw("  ,ad8888ba,   ,ad8888ba,   888b      88 888888888888 88 888b      88 88        88 88888888888");
-			move((nrows / 2) - 4, (ncols / 2) - 42);
+			move((nrows / 2) - 4, (ncols / 2) - 46);
 			printw(" d8''    `'8b d8''    `'8b  8888b     88      88      88 8888b     88 88        88 88");
-			move((nrows / 2), (ncols / 2) - 42);
+			move((nrows / 2), (ncols / 2) - 46);
 			printw("d8'          d8'        `8b 88 `8b    88      88      88 88 `8b    88 88        88 88");
-			move((nrows / 2) - 3, (ncols / 2) - 42);
+			move((nrows / 2) - 3, (ncols / 2) - 46);
 			printw("88           88          88 88  `8b   88      88      88 88  `8b   88 88        88 88aaaaa");
-			move((nrows / 2) - 2, (ncols / 2) - 42);
+			move((nrows / 2) - 2, (ncols / 2) - 46);
 			printw("88           88          88 88   `8b  88      88      88 88   `8b  88 88        88 88'");
-			move((nrows / 2) - 1, (ncols / 2) - 42);
+			move((nrows / 2) - 1, (ncols / 2) - 46);
 			printw("Y8,          Y8,        ,8P 88    `8b 88      88      88 88    `8b 88 88        88 88");
-			move((nrows / 2), (ncols / 2) - 42);
+			move((nrows / 2), (ncols / 2) - 46);
 			printw(" Y8a.    .a8P Y8a.    .a8P  88     `8888      88      88 88     `8888 Y8a.    .a8P 88");
-			move((nrows / 2) + 1, (ncols / 2) - 42);
+			move((nrows / 2) + 1, (ncols / 2) - 46);
 			printw("  `'Y8888Y''   `'Y8888Y''   88      `888      88      88 88      `888  `'Y8888Y''  88888888888");
 			attroff(COLOR_PAIR(COLOR_BLUE));
 			attron(COLOR_PAIR(COLOR_GREEN));
-			move((nrows / 2) + 4, (ncols / 2) - 24);
+			move((nrows / 2) + 4, (ncols / 2) - 26);
 			printw("88888888ba        db        ,ad8888ba,  88      a8P");
-			move((nrows / 2) + 5, (ncols / 2) - 24);
+			move((nrows / 2) + 5, (ncols / 2) - 26);
 			printw("88      '8b      d88b      d8''    `'8b 88    ,88'");
-			move((nrows / 2) + 6, (ncols / 2) - 24);
+			move((nrows / 2) + 6, (ncols / 2) - 26);
 			printw("88      ,8P     d8'`8b    d8'           88  ,88'");
-			move((nrows / 2) + 7, (ncols / 2) - 24);
+			move((nrows / 2) + 7, (ncols / 2) - 26);
 			printw("88aaaaaa8P'    d8'  `8b   88            88,d88'");
-			move((nrows / 2) + 8, (ncols / 2) - 24);
+			move((nrows / 2) + 8, (ncols / 2) - 26);
 			printw("88''''''8b,   d8YaaaaY8b  88            8888'88,");
-			move((nrows / 2) + 9, (ncols / 2) - 24);
+			move((nrows / 2) + 9, (ncols / 2) - 26);
 			printw("88      `8b  d8''''''''8b Y8,           88P   Y8b");
-			move((nrows / 2) + 10, (ncols / 2) - 24);
+			move((nrows / 2) + 10, (ncols / 2) - 26);
 			printw("88      a8P d8'        `8b Y8a.    .a8P 88     '88,");
-			move((nrows / 2) + 11, (ncols / 2) - 24);
+			move((nrows / 2) + 11, (ncols / 2) - 26);
 			printw("88888888P' d8'          `8b `'Y8888Y''  88       Y8b");
 			attroff(COLOR_PAIR(COLOR_GREEN));
 		}
 	}
 	else {
 		if (st->selection == TRUE) {
-			move((nrows / 2) - 15, (ncols / 2) - 3);
+			move((nrows / 2) - 5, (ncols / 2) - 3);
 			attron(COLOR_PAIR(COLOR_GREEN));
 			printw("PAUSED");
 			attroff(COLOR_PAIR(COLOR_GREEN));
@@ -659,7 +656,7 @@ void draw_pause (STATE *st, int ncols, int nrows) {
 			attroff(COLOR_PAIR(COLOR_BLUE));
 		}
 		else if (st->selection == FALSE) {
-			move((nrows / 2) - 15, (ncols / 2) - 3);
+			move((nrows / 2) - 5, (ncols / 2) - 3);
 			attron(COLOR_PAIR(COLOR_GREEN));
 			printw("PAUSED");
 			attroff(COLOR_PAIR(COLOR_GREEN));
@@ -696,7 +693,7 @@ void draw_GameWon (STATE *st, int ncols, int nrows) {
 	}
 	attroff(COLOR_PAIR(COLOR_BLUE));
 
-	if (ncols > 90 && nrows >= 40) {
+	if (ncols >= 160 && nrows >= 44) {
 		if (st->selection == TRUE) {
 			move((nrows / 2) - 15, (ncols / 2) - 5);
 			attron(COLOR_PAIR(COLOR_BLUE));
@@ -835,7 +832,7 @@ void draw_GameOver (STATE *st, int ncols, int nrows) {
 	}
 	attroff(COLOR_PAIR(COLOR_RED));
 
-	if (ncols > 90 && nrows >= 40) {
+	if (ncols >= 160 && nrows >= 44) {
 		if (st->selection == TRUE) {
 			move((nrows / 2) - 15, (ncols / 2) - 5);
 			attron(COLOR_PAIR(COLOR_RED));
@@ -923,7 +920,7 @@ void draw_GameOver (STATE *st, int ncols, int nrows) {
 	}
 	else {
 		if (st->selection == TRUE) {
-			move((nrows / 2) - 15, (ncols / 2) - 5);
+			move((nrows / 2) - 5, (ncols / 2) - 5);
 			attron(COLOR_PAIR(COLOR_RED));
 			printw("GAME LOST!");
 			attroff(COLOR_PAIR(COLOR_RED));
@@ -937,7 +934,7 @@ void draw_GameOver (STATE *st, int ncols, int nrows) {
 			attroff(COLOR_PAIR(COLOR_BLUE));
 		}
 		else if (st->selection == FALSE) {
-			move((nrows / 2) - 15, (ncols / 2) - 5);
+			move((nrows / 2) - 5, (ncols / 2) - 5);
 			attron(COLOR_PAIR(COLOR_RED));
 			printw("GAME LOST!");
 			attroff(COLOR_PAIR(COLOR_RED));
