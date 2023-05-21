@@ -244,16 +244,6 @@ void random_Enemy (STATE *st){
 
 
 
-    //função que limpa vida do hp para atualização.
-void atualiza_hp (void) {
-    attron (COLOR_PAIR(COLOR_RED));
-        move (2,3);
-        clrtoeol ();
-    attroff(COLOR_PAIR(COLOR_RED));
-}
-
-
-
     //função para combate nível fácil.
 void combat_easy (STATE *st, int ncols, int nrows){
     int playerX = (ncols/2) + st->playerX;

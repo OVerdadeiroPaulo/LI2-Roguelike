@@ -11,6 +11,7 @@
 	// Ultilizar essa função para eventualmente desenhar
 	// a vida e itens do jogador
 void draw_Cood (STATE *st, int ncols, int nrows){
+	// atualiza_hp(nrows);
 
 	attron(COLOR_PAIR(COLOR_BLUE));
 	// Coordenadas
@@ -19,7 +20,6 @@ void draw_Cood (STATE *st, int ncols, int nrows){
 	attroff(COLOR_PAIR(COLOR_BLUE));
 
 	// Vida doJogador
-	atualiza_hp();
 	attron(COLOR_PAIR(COLOR_GREEN));
 		move(1, 3);
 		printw("HP:\n");
@@ -177,6 +177,7 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 			mvaddch (y, x, '.' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));
 		}
+			// Caso seja um terreno de Mud
 		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_mud == TRUE) {
 			attron(COLOR_PAIR(COLOR_BLACK));
 			mvaddch (y, x, ')' | A_BOLD);
@@ -397,86 +398,557 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 
 void draw_menu (STATE *st, int ncols, int nrows) {
 	clear ();
+	int i;
 
-	if (st->selection == TRUE) {
-		move(nrows / 2, ncols / 2);
-		attron(COLOR_PAIR(COLOR_BLUE));
-		printw("Play");
-		attroff(COLOR_PAIR(COLOR_BLUE));
+	for (i = 5; i < ncols - 5; i++) {
+		move(7, i);
+		attron(COLOR_PAIR(COLOR_MAGENTA));
+		printw("-");
+		move(nrows - 7, i);
+		printw("-");
+		attroff(COLOR_PAIR(COLOR_MAGENTA));
+
 	}
-	else if (st->selection == FALSE) {
-		move(nrows / 2, ncols / 2);
-		attron(COLOR_PAIR(COLOR_BLUE));
-		printw("Exit");
-		attroff(COLOR_PAIR(COLOR_BLUE));
+	for (i = 6; i < nrows - 5; i++) {
+		move(i, 7);
+		attron(COLOR_PAIR(COLOR_MAGENTA));
+		printw("|");
+		move(i, ncols - 7);
+		printw("|");
+		attroff(COLOR_PAIR(COLOR_MAGENTA));
+
+	}
+
+	if (ncols > 90 && nrows >= 40) {
+		if (st->selection == TRUE) {
+			move((nrows / 2) - 15, (ncols / 2) - 4);
+			attron(COLOR_PAIR(COLOR_GREEN));
+			printw("WELCOME!");
+			attroff(COLOR_PAIR(COLOR_GREEN));
+			attron(COLOR_PAIR(COLOR_MAGENTA));
+			move((nrows / 2) - 5, (ncols / 2) - 27);
+			printw(" ad88888ba 888888888888   db        88888888ba 888888888888");
+			move((nrows / 2) - 4, (ncols / 2) - 27);
+			printw("d8'     '8b     88       d88b       88      '8b     88");
+			move((nrows / 2), (ncols / 2) - 27);
+			printw("Y8,             88      d8'`8b      88      ,8P     88");
+			move((nrows / 2) - 3, (ncols / 2) - 27);
+			printw("`Y8aaaaa,       88     d8'  `8b     88aaaaaa8P'     88");
+			move((nrows / 2) - 2, (ncols / 2) - 27);
+			printw("  `'''''8b,     88    d8YaaaaY8b    88''''88'       88");
+			move((nrows / 2) - 1, (ncols / 2) - 27);
+			printw("        `8b     88   d8''''''''8b   88    `8b       88");
+			move((nrows / 2), (ncols / 2) - 27);
+			printw("Y8a     a8P     88  d8'        `8b  88     `8b      88");
+			move((nrows / 2) + 1, (ncols / 2) - 27);
+			printw(" 'Y88888P'      88 d8'          `8b 88      `8b     88");
+			attroff(COLOR_PAIR(COLOR_MAGENTA));
+			attron(COLOR_PAIR(COLOR_BLUE));
+			move((nrows / 2) + 4, (ncols / 2) - 20);
+			printw("  ,ad8888ba,   88        88 88 888888888888");
+			move((nrows / 2) + 5, (ncols / 2) - 20);
+			printw(" d8''    `'8b  88        88 88      88");
+			move((nrows / 2) + 6, (ncols / 2) - 20);
+			printw("d8'        `8b 88        88 88      88");
+			move((nrows / 2) + 7, (ncols / 2) - 20);
+			printw("88          88 88        88 88      88");
+			move((nrows / 2) + 8, (ncols / 2) - 20);
+			printw("88          88 88        88 88      88");
+			move((nrows / 2) + 9, (ncols / 2) - 20);
+			printw("Y8,    '88,,8P 88        88 88      88");
+			move((nrows / 2) + 10, (ncols / 2) - 20);
+			printw(" Y8a.    Y88P  Y8a.    .a8P 88      88");
+			move((nrows / 2) + 11, (ncols / 2) - 20);
+			printw("  `'Y8888Y'Y8a  `'Y8888Y''  88      88");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+		}
+		else if (st->selection == FALSE) {
+			move((nrows / 2) - 15, (ncols / 2) - 4);
+			attron(COLOR_PAIR(COLOR_GREEN));
+			printw("WELCOME!");
+			attroff(COLOR_PAIR(COLOR_GREEN));
+			attron(COLOR_PAIR(COLOR_BLUE));
+			move((nrows / 2) - 5, (ncols / 2) - 27);
+			printw(" ad88888ba 888888888888   db        88888888ba 888888888888");
+			move((nrows / 2) - 4, (ncols / 2) - 27);
+			printw("d8'     '8b     88       d88b       88      '8b     88");
+			move((nrows / 2), (ncols / 2) - 27);
+			printw("Y8,             88      d8'`8b      88      ,8P     88");
+			move((nrows / 2) - 3, (ncols / 2) - 27);
+			printw("`Y8aaaaa,       88     d8'  `8b     88aaaaaa8P'     88");
+			move((nrows / 2) - 2, (ncols / 2) - 27);
+			printw("  `'''''8b,     88    d8YaaaaY8b    88''''88'       88");
+			move((nrows / 2) - 1, (ncols / 2) - 27);
+			printw("        `8b     88   d8''''''''8b   88    `8b       88");
+			move((nrows / 2), (ncols / 2) - 27);
+			printw("Y8a     a8P     88  d8'        `8b  88     `8b      88");
+			move((nrows / 2) + 1, (ncols / 2) - 27);
+			printw(" 'Y88888P'      88 d8'          `8b 88      `8b     88");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+			attron(COLOR_PAIR(COLOR_MAGENTA));
+			move((nrows / 2) + 4, (ncols / 2) - 20);
+			printw("  ,ad8888ba,   88        88 88 888888888888");
+			move((nrows / 2) + 5, (ncols / 2) - 20);
+			printw(" d8''    `'8b  88        88 88      88");
+			move((nrows / 2) + 6, (ncols / 2) - 20);
+			printw("d8'        `8b 88        88 88      88");
+			move((nrows / 2) + 7, (ncols / 2) - 20);
+			printw("88          88 88        88 88      88");
+			move((nrows / 2) + 8, (ncols / 2) - 20);
+			printw("88          88 88        88 88      88");
+			move((nrows / 2) + 9, (ncols / 2) - 20);
+			printw("Y8,    '88,,8P 88        88 88      88");
+			move((nrows / 2) + 10, (ncols / 2) - 20);
+			printw(" Y8a.    Y88P  Y8a.    .a8P 88      88");
+			move((nrows / 2) + 11, (ncols / 2) - 20);
+			printw("  `'Y8888Y'Y8a  `'Y8888Y''  88      88");
+			attroff(COLOR_PAIR(COLOR_MAGENTA));
+		}
+	}
+	else {
+		if (st->selection == TRUE) {
+			move((nrows / 2) - 15, (ncols / 2) - 4);
+			attron(COLOR_PAIR(COLOR_GREEN));
+			printw("WELCOME!");
+			attroff(COLOR_PAIR(COLOR_GREEN));
+			attron(COLOR_PAIR(COLOR_MAGENTA));
+			move((nrows / 2) - 5, (ncols / 2) - 2);
+			printw("START");
+			attroff(COLOR_PAIR(COLOR_MAGENTA));
+			attron(COLOR_PAIR(COLOR_BLUE));
+			move((nrows / 2) + 4, (ncols / 2) - 2);
+			printw("QUIT!");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+		}
+		else if (st->selection == FALSE) {
+			move((nrows / 2) - 15, (ncols / 2) - 4);
+			attron(COLOR_PAIR(COLOR_GREEN));
+			printw("WELCOME!");
+			attroff(COLOR_PAIR(COLOR_GREEN));
+			attron(COLOR_PAIR(COLOR_BLUE));
+			move((nrows / 2) - 5, (ncols / 2) - 2);
+			printw("START");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+			attron(COLOR_PAIR(COLOR_MAGENTA));
+			move((nrows / 2) + 4, (ncols / 2) - 2);
+			printw("QUIT!");
+			attroff(COLOR_PAIR(COLOR_MAGENTA));
+		}
 	}
 }
 
 
-
 void draw_pause (STATE *st, int ncols, int nrows) {
-	clear();
+	clear ();
+	int i;
 
-	if (st->selection == TRUE) {
-		move(nrows / 2, ncols / 2);
-		attron(COLOR_PAIR(COLOR_BLUE));
-		printw("Continue");
-		attroff(COLOR_PAIR(COLOR_BLUE));
+	attron(COLOR_PAIR(COLOR_GREEN));
+	for (i = 5; i < ncols - 5; i++) {
+		move(7, i);
+		printw("-");
+		move(nrows - 7, i);
+		printw("-");
 	}
-	else if (st->selection == FALSE) {
-		move(nrows / 2, ncols / 2);
-		attron(COLOR_PAIR(COLOR_BLUE));
-		printw("Back to menu");
-		attroff(COLOR_PAIR(COLOR_BLUE));
+	for (i = 6; i < nrows - 5; i++) {
+		move(i, 7);
+		printw("|");
+		move(i, ncols - 7);
+		printw("|");
+	}
+	attroff(COLOR_PAIR(COLOR_GREEN));
+
+	if (ncols > 90 && nrows >= 40) {
+		if (st->selection == TRUE) {
+			move((nrows / 2) - 15, (ncols / 2) - 3);
+			attron(COLOR_PAIR(COLOR_GREEN));
+			printw("PAUSED!");
+			attroff(COLOR_PAIR(COLOR_GREEN));
+			attron(COLOR_PAIR(COLOR_GREEN));
+			move((nrows / 2) - 5, (ncols / 2) - 42);
+			printw("  ,ad8888ba,   ,ad8888ba,   888b      88 888888888888 88 888b      88 88        88 88888888888");
+			move((nrows / 2) - 4, (ncols / 2) - 42);
+			printw(" d8''    `'8b d8''    `'8b  8888b     88      88      88 8888b     88 88        88 88");
+			move((nrows / 2), (ncols / 2) - 42);
+			printw("d8'          d8'        `8b 88 `8b    88      88      88 88 `8b    88 88        88 88");
+			move((nrows / 2) - 3, (ncols / 2) - 42);
+			printw("88           88          88 88  `8b   88      88      88 88  `8b   88 88        88 88aaaaa");
+			move((nrows / 2) - 2, (ncols / 2) - 42);
+			printw("88           88          88 88   `8b  88      88      88 88   `8b  88 88        88 88'");
+			move((nrows / 2) - 1, (ncols / 2) - 42);
+			printw("Y8,          Y8,        ,8P 88    `8b 88      88      88 88    `8b 88 88        88 88");
+			move((nrows / 2), (ncols / 2) - 42);
+			printw(" Y8a.    .a8P Y8a.    .a8P  88     `8888      88      88 88     `8888 Y8a.    .a8P 88");
+			move((nrows / 2) + 1, (ncols / 2) - 42);
+			printw("  `'Y8888Y''   `'Y8888Y''   88      `888      88      88 88      `888  `'Y8888Y''  88888888888");
+			attroff(COLOR_PAIR(COLOR_GREEN));
+			attron(COLOR_PAIR(COLOR_BLUE));
+			move((nrows / 2) + 4, (ncols / 2) - 24);
+			printw("88888888ba        db        ,ad8888ba,  88      a8P");
+			move((nrows / 2) + 5, (ncols / 2) - 24);
+			printw("88      '8b      d88b      d8''    `'8b 88    ,88'");
+			move((nrows / 2) + 6, (ncols / 2) - 24);
+			printw("88      ,8P     d8'`8b    d8'           88  ,88'");
+			move((nrows / 2) + 7, (ncols / 2) - 24);
+			printw("88aaaaaa8P'    d8'  `8b   88            88,d88'");
+			move((nrows / 2) + 8, (ncols / 2) - 24);
+			printw("88''''''8b,   d8YaaaaY8b  88            8888'88,");
+			move((nrows / 2) + 9, (ncols / 2) - 24);
+			printw("88      `8b  d8''''''''8b Y8,           88P   Y8b");
+			move((nrows / 2) + 10, (ncols / 2) - 24);
+			printw("88      a8P d8'        `8b Y8a.    .a8P 88     '88,");
+			move((nrows / 2) + 11, (ncols / 2) - 24);
+			printw("88888888P' d8'          `8b `'Y8888Y''  88       Y8b");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+		}
+		else if (st->selection == FALSE) {
+			move((nrows / 2) - 15, (ncols / 2) - 3);
+			attron(COLOR_PAIR(COLOR_GREEN));
+			printw("PAUSED!");
+			attroff(COLOR_PAIR(COLOR_GREEN));
+			attron(COLOR_PAIR(COLOR_BLUE));
+			move((nrows / 2) - 5, (ncols / 2) - 42);
+			printw("  ,ad8888ba,   ,ad8888ba,   888b      88 888888888888 88 888b      88 88        88 88888888888");
+			move((nrows / 2) - 4, (ncols / 2) - 42);
+			printw(" d8''    `'8b d8''    `'8b  8888b     88      88      88 8888b     88 88        88 88");
+			move((nrows / 2), (ncols / 2) - 42);
+			printw("d8'          d8'        `8b 88 `8b    88      88      88 88 `8b    88 88        88 88");
+			move((nrows / 2) - 3, (ncols / 2) - 42);
+			printw("88           88          88 88  `8b   88      88      88 88  `8b   88 88        88 88aaaaa");
+			move((nrows / 2) - 2, (ncols / 2) - 42);
+			printw("88           88          88 88   `8b  88      88      88 88   `8b  88 88        88 88'");
+			move((nrows / 2) - 1, (ncols / 2) - 42);
+			printw("Y8,          Y8,        ,8P 88    `8b 88      88      88 88    `8b 88 88        88 88");
+			move((nrows / 2), (ncols / 2) - 42);
+			printw(" Y8a.    .a8P Y8a.    .a8P  88     `8888      88      88 88     `8888 Y8a.    .a8P 88");
+			move((nrows / 2) + 1, (ncols / 2) - 42);
+			printw("  `'Y8888Y''   `'Y8888Y''   88      `888      88      88 88      `888  `'Y8888Y''  88888888888");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+			attron(COLOR_PAIR(COLOR_GREEN));
+			move((nrows / 2) + 4, (ncols / 2) - 24);
+			printw("88888888ba        db        ,ad8888ba,  88      a8P");
+			move((nrows / 2) + 5, (ncols / 2) - 24);
+			printw("88      '8b      d88b      d8''    `'8b 88    ,88'");
+			move((nrows / 2) + 6, (ncols / 2) - 24);
+			printw("88      ,8P     d8'`8b    d8'           88  ,88'");
+			move((nrows / 2) + 7, (ncols / 2) - 24);
+			printw("88aaaaaa8P'    d8'  `8b   88            88,d88'");
+			move((nrows / 2) + 8, (ncols / 2) - 24);
+			printw("88''''''8b,   d8YaaaaY8b  88            8888'88,");
+			move((nrows / 2) + 9, (ncols / 2) - 24);
+			printw("88      `8b  d8''''''''8b Y8,           88P   Y8b");
+			move((nrows / 2) + 10, (ncols / 2) - 24);
+			printw("88      a8P d8'        `8b Y8a.    .a8P 88     '88,");
+			move((nrows / 2) + 11, (ncols / 2) - 24);
+			printw("88888888P' d8'          `8b `'Y8888Y''  88       Y8b");
+			attroff(COLOR_PAIR(COLOR_GREEN));
+		}
+	}
+	else {
+		if (st->selection == TRUE) {
+			move((nrows / 2) - 15, (ncols / 2) - 3);
+			attron(COLOR_PAIR(COLOR_GREEN));
+			printw("PAUSED");
+			attroff(COLOR_PAIR(COLOR_GREEN));
+			move((nrows / 2), (ncols / 2) - 4);
+			attron(COLOR_PAIR(COLOR_GREEN));
+			printw("Continue");
+			attroff(COLOR_PAIR(COLOR_GREEN));
+			move((nrows / 2) + 1, (ncols / 2) - 6);
+			attron(COLOR_PAIR(COLOR_BLUE));
+			printw("Back to Menus");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+		}
+		else if (st->selection == FALSE) {
+			move((nrows / 2) - 15, (ncols / 2) - 3);
+			attron(COLOR_PAIR(COLOR_GREEN));
+			printw("PAUSED");
+			attroff(COLOR_PAIR(COLOR_GREEN));
+			move((nrows / 2), (ncols / 2) - 4);
+			attron(COLOR_PAIR(COLOR_BLUE));
+			printw("Continue");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+			move((nrows / 2) + 1, (ncols / 2) - 6);
+			attron(COLOR_PAIR(COLOR_GREEN));
+			printw("Back to Menus");
+			attroff(COLOR_PAIR(COLOR_GREEN));
+		}
 	}
 }
 
 
 
 void draw_GameWon (STATE *st, int ncols, int nrows) {
-	clear();
+	clear ();
+	int i;
 
-	move (nrows / 2 - 5, ncols / 2);
-		attron(COLOR_PAIR(COLOR_BLUE));
-		printw("Game Won!");
-		attroff(COLOR_PAIR(COLOR_BLUE));
-
-
-	if (st->selection == TRUE) {
-		move(nrows / 2, ncols / 2);
-		attron(COLOR_PAIR(COLOR_BLUE));
-		printw("Play Again");
-		attroff(COLOR_PAIR(COLOR_BLUE));
+	attron(COLOR_PAIR(COLOR_BLUE));
+	for (i = 5; i < ncols - 5; i++) {
+		move(7, i);
+		printw("-");
+		move(nrows - 7, i);
+		printw("-");
 	}
-	else if (st->selection == FALSE) {
-		move(nrows / 2, ncols / 2);
-		attron(COLOR_PAIR(COLOR_BLUE));
-		printw("Back to menu");
-		attroff(COLOR_PAIR(COLOR_BLUE));
+	for (i = 6; i < nrows - 5; i++) {
+		move(i, 7);
+		printw("|");
+		move(i, ncols - 7);
+		printw("|");
+	}
+	attroff(COLOR_PAIR(COLOR_BLUE));
+
+	if (ncols > 90 && nrows >= 40) {
+		if (st->selection == TRUE) {
+			move((nrows / 2) - 15, (ncols / 2) - 5);
+			attron(COLOR_PAIR(COLOR_BLUE));
+			printw("GAME WON!!");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+			attron(COLOR_PAIR(COLOR_MAGENTA));
+			move((nrows / 2) - 5, (ncols / 2) - 46);
+			printw("888888888888 88888888ba 8b        d8           db        ,ad8888ba,        db        88 888b      88");
+			move((nrows / 2) - 4, (ncols / 2) - 46);
+			printw("     88      88      '8b Y8,    ,8P           d88b      d8''    `'8b      d88b       88 8888b     88");
+			move((nrows / 2), (ncols / 2) - 46);
+			printw("     88      88      ,8P  Y8,  ,8P           d8'`8b    d8'               d8'`8b      88 88 `8b    88");
+			move((nrows / 2) - 3, (ncols / 2) - 46);
+			printw("     88      88aaaaaa8P'   '8aa8'           d8'  `8b   88               d8'  `8b     88 88  `8b   88");
+			move((nrows / 2) - 2, (ncols / 2) - 46);
+			printw("     88      88''''88'      `88'           d8YaaaaY8b  88      88888   d8YaaaaY8b    88 88   `8b  88");
+			move((nrows / 2) - 1, (ncols / 2) - 46);
+			printw("     88      88    `8b       88           d8''''''''8b Y8,        88  d8''''''''8b   88 88    `8b 88");
+			move((nrows / 2), (ncols / 2) - 46);
+			printw("     88      88     `8b      88          d8'        `8b Y8a.    .a88 d8'        `8b  88 88     `8888");
+			move((nrows / 2) + 1, (ncols / 2) - 46);
+			printw("     88      88      `8b     88         d8'          `8b `'Y88888P' d8'          `8b 88 88      `888");
+			attroff(COLOR_PAIR(COLOR_MAGENTA));
+			attron(COLOR_PAIR(COLOR_BLUE));
+			move((nrows / 2) + 4, (ncols / 2) - 24);
+			printw("88888888ba        db        ,ad8888ba,  88      a8P");
+			move((nrows / 2) + 5, (ncols / 2) - 24);
+			printw("88      '8b      d88b      d8''    `'8b 88    ,88'");
+			move((nrows / 2) + 6, (ncols / 2) - 24);
+			printw("88      ,8P     d8'`8b    d8'           88  ,88'");
+			move((nrows / 2) + 7, (ncols / 2) - 24);
+			printw("88aaaaaa8P'    d8'  `8b   88            88,d88'");
+			move((nrows / 2) + 8, (ncols / 2) - 24);
+			printw("88''''''8b,   d8YaaaaY8b  88            8888'88,");
+			move((nrows / 2) + 9, (ncols / 2) - 24);
+			printw("88      `8b  d8''''''''8b Y8,           88P   Y8b");
+			move((nrows / 2) + 10, (ncols / 2) - 24);
+			printw("88      a8P d8'        `8b Y8a.    .a8P 88     '88,");
+			move((nrows / 2) + 11, (ncols / 2) - 24);
+			printw("88888888P' d8'          `8b `'Y8888Y''  88       Y8b");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+		}
+		else if (st->selection == FALSE) {
+			move((nrows / 2) - 15, (ncols / 2) - 5);
+			attron(COLOR_PAIR(COLOR_BLUE));
+			printw("GAME WON!!");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+			attron(COLOR_PAIR(COLOR_BLUE));
+			move((nrows / 2) - 5, (ncols / 2) - 46);
+			printw("888888888888 88888888ba 8b        d8           db        ,ad8888ba,        db        88 888b      88");
+			move((nrows / 2) - 4, (ncols / 2) - 46);
+			printw("     88      88      '8b Y8,    ,8P           d88b      d8''    `'8b      d88b       88 8888b     88");
+			move((nrows / 2), (ncols / 2) - 46);
+			printw("     88      88      ,8P  Y8,  ,8P           d8'`8b    d8'               d8'`8b      88 88 `8b    88");
+			move((nrows / 2) - 3, (ncols / 2) - 46);
+			printw("     88      88aaaaaa8P'   '8aa8'           d8'  `8b   88               d8'  `8b     88 88  `8b   88");
+			move((nrows / 2) - 2, (ncols / 2) - 46);
+			printw("     88      88''''88'      `88'           d8YaaaaY8b  88      88888   d8YaaaaY8b    88 88   `8b  88");
+			move((nrows / 2) - 1, (ncols / 2) - 46);
+			printw("     88      88    `8b       88           d8''''''''8b Y8,        88  d8''''''''8b   88 88    `8b 88");
+			move((nrows / 2), (ncols / 2) - 46);
+			printw("     88      88     `8b      88          d8'        `8b Y8a.    .a88 d8'        `8b  88 88     `8888");
+			move((nrows / 2) + 1, (ncols / 2) - 46);
+			printw("     88      88      `8b     88         d8'          `8b `'Y88888P' d8'          `8b 88 88      `888");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+			attron(COLOR_PAIR(COLOR_MAGENTA));
+			move((nrows / 2) + 4, (ncols / 2) - 24);
+			printw("88888888ba        db        ,ad8888ba,  88      a8P");
+			move((nrows / 2) + 5, (ncols / 2) - 24);
+			printw("88      '8b      d88b      d8''    `'8b 88    ,88'");
+			move((nrows / 2) + 6, (ncols / 2) - 24);
+			printw("88      ,8P     d8'`8b    d8'           88  ,88'");
+			move((nrows / 2) + 7, (ncols / 2) - 24);
+			printw("88aaaaaa8P'    d8'  `8b   88            88,d88'");
+			move((nrows / 2) + 8, (ncols / 2) - 24);
+			printw("88''''''8b,   d8YaaaaY8b  88            8888'88,");
+			move((nrows / 2) + 9, (ncols / 2) - 24);
+			printw("88      `8b  d8''''''''8b Y8,           88P   Y8b");
+			move((nrows / 2) + 10, (ncols / 2) - 24);
+			printw("88      a8P d8'        `8b Y8a.    .a8P 88     '88,");
+			move((nrows / 2) + 11, (ncols / 2) - 24);
+			printw("88888888P' d8'          `8b `'Y8888Y''  88       Y8b");
+			attroff(COLOR_PAIR(COLOR_MAGENTA));
+		}
+	}
+	else {
+		if (st->selection == TRUE) {
+			move((nrows / 2) - 5, (ncols / 2) - 5);
+			attron(COLOR_PAIR(COLOR_BLUE));
+			printw("GAME WON!!");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+			move((nrows / 2), (ncols / 2) - 5);
+			attron(COLOR_PAIR(COLOR_MAGENTA));
+			printw("Play Again");
+			attroff(COLOR_PAIR(COLOR_MAGENTA));
+			move((nrows / 2) + 1, (ncols / 2) - 6);
+			attron(COLOR_PAIR(COLOR_BLUE));
+			printw("Back to Menus");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+		}
+		else if (st->selection == FALSE) {
+			move((nrows / 2) - 5, (ncols / 2) - 5);
+			attron(COLOR_PAIR(COLOR_BLUE));
+			printw("GAME WON!!");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+			move((nrows / 2), (ncols / 2) - 5);
+			attron(COLOR_PAIR(COLOR_BLUE));
+			printw("Play Again");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+			move((nrows / 2) + 1, (ncols / 2) - 6);
+			attron(COLOR_PAIR(COLOR_MAGENTA));
+			printw("Back to Menus");
+			attroff(COLOR_PAIR(COLOR_MAGENTA));
+		}
 	}
 }
 
 
 
 void draw_GameOver (STATE *st, int ncols, int nrows) {
-	clear();
+	clear ();
+	int i;
 
-	move (nrows / 2 - 5, ncols / 2);
-		attron(COLOR_PAIR(COLOR_BLUE));
-		printw("You Lose :(");
-		attroff(COLOR_PAIR(COLOR_BLUE));
-
-
-	if (st->selection == TRUE) {
-		move(nrows / 2, ncols / 2);
-		attron(COLOR_PAIR(COLOR_BLUE));
-		printw("Play Again");
-		attroff(COLOR_PAIR(COLOR_BLUE));
+	attron(COLOR_PAIR(COLOR_RED));
+	for (i = 5; i < ncols - 5; i++) {
+		move(7, i);
+		printw("-");
+		move(nrows - 7, i);
+		printw("-");
 	}
-	else if (st->selection == FALSE) {
-		move(nrows / 2, ncols / 2);
-		attron(COLOR_PAIR(COLOR_BLUE));
-		printw("Back to menu");
-		attroff(COLOR_PAIR(COLOR_BLUE));
+	for (i = 6; i < nrows - 5; i++) {
+		move(i, 7);
+		printw("|");
+		move(i, ncols - 7);
+		printw("|");
+	}
+	attroff(COLOR_PAIR(COLOR_RED));
+
+	if (ncols > 90 && nrows >= 40) {
+		if (st->selection == TRUE) {
+			move((nrows / 2) - 15, (ncols / 2) - 5);
+			attron(COLOR_PAIR(COLOR_RED));
+			printw("GAME LOST!");
+			attroff(COLOR_PAIR(COLOR_RED));
+			attron(COLOR_PAIR(COLOR_RED));
+			move((nrows / 2) - 5, (ncols / 2) - 46);
+			printw("888888888888 88888888ba 8b        d8           db        ,ad8888ba,        db        88 888b      88");
+			move((nrows / 2) - 4, (ncols / 2) - 46);
+			printw("     88      88      '8b Y8,    ,8P           d88b      d8''    `'8b      d88b       88 8888b     88");
+			move((nrows / 2), (ncols / 2) - 46);
+			printw("     88      88      ,8P  Y8,  ,8P           d8'`8b    d8'               d8'`8b      88 88 `8b    88");
+			move((nrows / 2) - 3, (ncols / 2) - 46);
+			printw("     88      88aaaaaa8P'   '8aa8'           d8'  `8b   88               d8'  `8b     88 88  `8b   88");
+			move((nrows / 2) - 2, (ncols / 2) - 46);
+			printw("     88      88''''88'      `88'           d8YaaaaY8b  88      88888   d8YaaaaY8b    88 88   `8b  88");
+			move((nrows / 2) - 1, (ncols / 2) - 46);
+			printw("     88      88    `8b       88           d8''''''''8b Y8,        88  d8''''''''8b   88 88    `8b 88");
+			move((nrows / 2), (ncols / 2) - 46);
+			printw("     88      88     `8b      88          d8'        `8b Y8a.    .a88 d8'        `8b  88 88     `8888");
+			move((nrows / 2) + 1, (ncols / 2) - 46);
+			printw("     88      88      `8b     88         d8'          `8b `'Y88888P' d8'          `8b 88 88      `888");
+			attroff(COLOR_PAIR(COLOR_RED));
+			attron(COLOR_PAIR(COLOR_BLUE));
+			move((nrows / 2) + 4, (ncols / 2) - 24);
+			printw("88888888ba        db        ,ad8888ba,  88      a8P");
+			move((nrows / 2) + 5, (ncols / 2) - 24);
+			printw("88      '8b      d88b      d8''    `'8b 88    ,88'");
+			move((nrows / 2) + 6, (ncols / 2) - 24);
+			printw("88      ,8P     d8'`8b    d8'           88  ,88'");
+			move((nrows / 2) + 7, (ncols / 2) - 24);
+			printw("88aaaaaa8P'    d8'  `8b   88            88,d88'");
+			move((nrows / 2) + 8, (ncols / 2) - 24);
+			printw("88''''''8b,   d8YaaaaY8b  88            8888'88,");
+			move((nrows / 2) + 9, (ncols / 2) - 24);
+			printw("88      `8b  d8''''''''8b Y8,           88P   Y8b");
+			move((nrows / 2) + 10, (ncols / 2) - 24);
+			printw("88      a8P d8'        `8b Y8a.    .a8P 88     '88,");
+			move((nrows / 2) + 11, (ncols / 2) - 24);
+			printw("88888888P' d8'          `8b `'Y8888Y''  88       Y8b");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+		}
+		else if (st->selection == FALSE) {
+			move((nrows / 2) - 15, (ncols / 2) - 5);
+			attron(COLOR_PAIR(COLOR_RED));
+			printw("GAME LOST!");
+			attroff(COLOR_PAIR(COLOR_RED));
+			attron(COLOR_PAIR(COLOR_BLUE));
+			move((nrows / 2) - 5, (ncols / 2) - 46);
+			printw("888888888888 88888888ba 8b        d8           db        ,ad8888ba,        db        88 888b      88");
+			move((nrows / 2) - 4, (ncols / 2) - 46);
+			printw("     88      88      '8b Y8,    ,8P           d88b      d8''    `'8b      d88b       88 8888b     88");
+			move((nrows / 2), (ncols / 2) - 46);
+			printw("     88      88      ,8P  Y8,  ,8P           d8'`8b    d8'               d8'`8b      88 88 `8b    88");
+			move((nrows / 2) - 3, (ncols / 2) - 46);
+			printw("     88      88aaaaaa8P'   '8aa8'           d8'  `8b   88               d8'  `8b     88 88  `8b   88");
+			move((nrows / 2) - 2, (ncols / 2) - 46);
+			printw("     88      88''''88'      `88'           d8YaaaaY8b  88      88888   d8YaaaaY8b    88 88   `8b  88");
+			move((nrows / 2) - 1, (ncols / 2) - 46);
+			printw("     88      88    `8b       88           d8''''''''8b Y8,        88  d8''''''''8b   88 88    `8b 88");
+			move((nrows / 2), (ncols / 2) - 46);
+			printw("     88      88     `8b      88          d8'        `8b Y8a.    .a88 d8'        `8b  88 88     `8888");
+			move((nrows / 2) + 1, (ncols / 2) - 46);
+			printw("     88      88      `8b     88         d8'          `8b `'Y88888P' d8'          `8b 88 88      `888");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+			attron(COLOR_PAIR(COLOR_RED));
+			move((nrows / 2) + 4, (ncols / 2) - 24);
+			printw("88888888ba        db        ,ad8888ba,  88      a8P");
+			move((nrows / 2) + 5, (ncols / 2) - 24);
+			printw("88      '8b      d88b      d8''    `'8b 88    ,88'");
+			move((nrows / 2) + 6, (ncols / 2) - 24);
+			printw("88      ,8P     d8'`8b    d8'           88  ,88'");
+			move((nrows / 2) + 7, (ncols / 2) - 24);
+			printw("88aaaaaa8P'    d8'  `8b   88            88,d88'");
+			move((nrows / 2) + 8, (ncols / 2) - 24);
+			printw("88''''''8b,   d8YaaaaY8b  88            8888'88,");
+			move((nrows / 2) + 9, (ncols / 2) - 24);
+			printw("88      `8b  d8''''''''8b Y8,           88P   Y8b");
+			move((nrows / 2) + 10, (ncols / 2) - 24);
+			printw("88      a8P d8'        `8b Y8a.    .a8P 88     '88,");
+			move((nrows / 2) + 11, (ncols / 2) - 24);
+			printw("88888888P' d8'          `8b `'Y8888Y''  88       Y8b");
+			attroff(COLOR_PAIR(COLOR_RED));
+		}
+	}
+	else {
+		if (st->selection == TRUE) {
+			move((nrows / 2) - 15, (ncols / 2) - 5);
+			attron(COLOR_PAIR(COLOR_RED));
+			printw("GAME LOST!");
+			attroff(COLOR_PAIR(COLOR_RED));
+			move((nrows / 2), (ncols / 2) - 5);
+			attron(COLOR_PAIR(COLOR_RED));
+			printw("Play Again");
+			attroff(COLOR_PAIR(COLOR_RED));
+			move((nrows / 2) + 1, (ncols / 2) - 6);
+			attron(COLOR_PAIR(COLOR_BLUE));
+			printw("Back to Menus");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+		}
+		else if (st->selection == FALSE) {
+			move((nrows / 2) - 15, (ncols / 2) - 5);
+			attron(COLOR_PAIR(COLOR_RED));
+			printw("GAME LOST!");
+			attroff(COLOR_PAIR(COLOR_RED));
+			move((nrows / 2), (ncols / 2) - 5);
+			attron(COLOR_PAIR(COLOR_BLUE));
+			printw("Play Again");
+			attroff(COLOR_PAIR(COLOR_BLUE));
+			move((nrows / 2) + 1, (ncols / 2) - 6);
+			attron(COLOR_PAIR(COLOR_RED));
+			printw("Back to Menus");
+			attroff(COLOR_PAIR(COLOR_RED));
+		}
 	}
 }

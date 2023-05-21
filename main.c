@@ -10,6 +10,7 @@
 
 
 void play (STATE *st, int ncols, int nrows, int raio) {
+	clear();
 
     draw_Cood (st, ncols, nrows);
     draw_light (st, raio, ncols, nrows);
@@ -76,6 +77,7 @@ int main () {
     init_pair(COLOR_GREEN, COLOR_GREEN, COLOR_BLACK);
     init_pair(COLOR_CYAN, COLOR_CYAN, COLOR_BLACK);
     init_pair(COLOR_RED, COLOR_RED, COLOR_BLACK);
+    init_pair(COLOR_MAGENTA, COLOR_MAGENTA, COLOR_BLACK);
 
 	
 	st.selection = TRUE;

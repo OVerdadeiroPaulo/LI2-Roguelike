@@ -46,6 +46,7 @@ void Initialize_dungeon_Mid(STATE *s) {
 }
 
 
+
 void Build_rios_relva(STATE *s,int i, int j, int size_rel, int size_rel_max, int altura_rel, int altura_rel_max, int center_rel_x, int center_rel_y, int radius, int center_rel_x_2, int center_rel_y_2, int radius_2, int size_rio ,int size_rio_max ,int altura_rio ,int altura_rio_max , int size_rio_1, int size_rio_max_1, int altura_rio_1, int altura_rio_max_1,int center_rio_x ,int center_rio_y ,int radius_rio){
 
  
@@ -108,6 +109,9 @@ void Build_rios_relva(STATE *s,int i, int j, int size_rel, int size_rel_max, int
 
 
 }
+
+
+
 // Funcao que pega no array inicializado e controi as grutas.
 void Build_dungeon_Mid(STATE *s) {
     int n_walls;
@@ -214,6 +218,7 @@ radius_rio = rand() % 5 + 5;
 }
 
 
+
 // Funcao que inicializa todo o array para criar grutas hard, grutas mais apertadas.
 void Initialize_dungeon_Hard(STATE *s) {
    
@@ -243,6 +248,8 @@ void Initialize_dungeon_Hard(STATE *s) {
     }
 }
 
+
+
 void Build_Mud(STATE *s, int i, int j, int center_mud_x, int center_mud_y, int radius_mud){  // Funcao que controi uma poca de lama no centro da caverna com tamanho aleatorio.
 
             int distance_x_mud = abs(j - center_mud_x);  // Calculos da distancia horizontal para o centro.
@@ -260,6 +267,8 @@ void Build_Mud(STATE *s, int i, int j, int center_mud_x, int center_mud_y, int r
 
     return; 
 }
+
+
 
 // Funcao que pega no array inicializado e controi as grutas.
 void Build_dungeon_Hard(STATE *s) {
@@ -334,7 +343,6 @@ radius_mud = rand() % 30 + 10;
 
 
 
-
 // Funcao que inicializa o array para com tudo walls para comecar a contruir os mapas.
 void Initialize_rooms(STATE *s){
      for(int y = 0; y < HEIGHT_room; y++){
@@ -365,7 +373,6 @@ void Initialize_rooms(STATE *s){
 
 
 // Funcao que verifica se um quarto esta a sobrepor-se a outro.
-
 int is_valid_room(STATE *s, int center_x, int center_y, int size_x, int size_y) {
     for (int y = center_y; y <= center_y + size_y; y++) {
         for (int x = center_x; x <= center_x + size_x; x++) {
