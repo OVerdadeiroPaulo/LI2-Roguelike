@@ -7,9 +7,10 @@
 #include "state.h"
 #include "moviment.c"
 
-	// Função que desenha as coordenadas do jogador
-	// Ultilizar essa função para eventualmente desenhar
-	// a vida e itens do jogador
+
+	// a105684 - Joshua David
+	// Função que desenha as coordenadas do jogador e
+	// a vida
 void draw_Cood (STATE *st, int ncols, int nrows){
 	// atualiza_hp(nrows);
 
@@ -33,6 +34,8 @@ void draw_Cood (STATE *st, int ncols, int nrows){
 }
 
 
+
+	// a105684 - Joshua David
 	// Função que desenha o jogador
 void draw_player (int ncols, int nrows) {
 
@@ -43,6 +46,8 @@ void draw_player (int ncols, int nrows) {
 }
 
 
+
+	// a105684 - Joshua David
 	// Função que identifica parede, inimigos ou vazio na CELL
 void draw_objects (STATE *st, int x, int y, int dif) {
 	int i;
@@ -194,6 +199,7 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 
 
 
+	// a105684 - Joshua David
 	// Função que identifica parede, inimigos ou vazio na CELL
 void draw_wall (int x, int y) {
 
@@ -204,6 +210,7 @@ void draw_wall (int x, int y) {
 
 
 
+	// a105684 - Joshua David
 	// Função que identifica parede, inimigos ou vazio na CELL
 void erase_objects (int x, int y) {
 
@@ -214,6 +221,7 @@ void erase_objects (int x, int y) {
 
 
 
+	// a105684 - Joshua David
 	// Função que desenha a iluminação
 void draw_light (STATE *st, int raio, int ncols, int nrows) {
 	int x, y;
@@ -396,6 +404,8 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 
 
 
+	// a105684 - Joshua David
+	// Função que desenha o Menu Principal
 void draw_menu (STATE *st, int ncols, int nrows) {
 	clear ();
 	int i;
@@ -535,6 +545,8 @@ void draw_menu (STATE *st, int ncols, int nrows) {
 
 
 
+	// a105684 - Joshua David
+	// Função que desenha o menu de Pausa
 void draw_pause (STATE *st, int ncols, int nrows) {
 	clear ();
 	int i;
@@ -674,6 +686,8 @@ void draw_pause (STATE *st, int ncols, int nrows) {
 
 
 
+	// a105684 - Joshua David
+	// Função que desenha o menu de jogo vencido
 void draw_GameWon (STATE *st, int ncols, int nrows) {
 	clear ();
 	int i;
@@ -813,6 +827,8 @@ void draw_GameWon (STATE *st, int ncols, int nrows) {
 
 
 
+	// a105684 - Joshua David
+	// Função que desenha o menu de jogo Perdido
 void draw_GameOver (STATE *st, int ncols, int nrows) {
 	clear ();
 	int i;

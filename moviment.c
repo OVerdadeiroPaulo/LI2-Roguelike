@@ -8,7 +8,7 @@
 #include "start.c"
 
 
-
+	// a105684 - Joshua David
     // Função que avalia se o terreno é valido para movimento
 void move_action (STATE *st, int movex, int movey, int ncols, int nrows) {
 	int x = st->playerX + movex + (ncols / 2);
@@ -60,7 +60,8 @@ void move_action (STATE *st, int movex, int movey, int ncols, int nrows) {
 
 
 
-    // Função que avalia se o terreno é valido para movimento
+	// a105684 - Joshua David
+    // Função a Seleção no menu
 void move_menu (STATE *st, int move, int ncols, int nrows) {
 	if  (move == 1)
 		if (st->selection == FALSE)
@@ -108,6 +109,8 @@ void move_menu (STATE *st, int move, int ncols, int nrows) {
 
 
 
+	// a105684 - Joshua David
+    // Função que avalia se o terreno é um item ou escada
 void activate_move (STATE *st, int ncols, int nrows) {
 	int i;
 	int  items_easy = 0, items_Mid = 0;
@@ -173,6 +176,7 @@ void activate_move (STATE *st, int ncols, int nrows) {
 
 
 
+	// a105684 - Joshua David
     // Função que busca o caractere do jogador
 void moviment(STATE *st, int ncols, int nrows) {
 
@@ -191,7 +195,8 @@ void moviment(STATE *st, int ncols, int nrows) {
 
 
 
-    // Função que busca o caractere do jogador
+	// a105684 - Joshua David
+    // Função que busca o caractere da seleção de menu
 void moviment_menu(STATE *st, int ncols, int nrows) {
 
 	int key = getch();
