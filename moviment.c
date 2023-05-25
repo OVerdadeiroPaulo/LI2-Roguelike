@@ -125,15 +125,21 @@ void activate_move (STATE *st, int ncols, int nrows) {
 		}
 
 		if (st->mapaEasy[y][x].is_stairs) {
-			st->dificulty ++;
-			int i, j = 0;
-
-			for (i = 0; st->mapaHard[j][i].is_wall == TRUE; i++) {
-				for (j = 0; st->mapaHard[j][i].is_wall == TRUE; j++) { };
-			} 
-
-			st->playerX = i;
-			st->playerY = j;
+			
+       // clausula que recebe o nivel de deficuldade para reposicionar o player dentro de um espaco aberto, caso contrario, poderiamos mudar de nivel e ter as cair numa parede.
+           int x = 0;
+           int y = 0;  // valor para comecar a colocar o player no centro da dungeon.
+    
+        for ( ; st->mapaMid[y + (nrows/2)][x + (ncols/2)].is_wall == TRUE; y++) {    // loop para dar a volta ao mapa ate encontrar uma posicao aberta.
+            for ( ; st->mapaMid[y + (nrows/2)][x + (ncols/2)].is_wall == TRUE; x++) { };
+        }
+    
+        st->playerX = x;  // posicao actual X do player.
+        st->playerY = y; // posicao actual Y do player. 
+    
+	    st->dificulty ++; // incrementacao do nivel de dificuldade.
+ 
+       
 		}
 		else if (items_easy != 0) {
 			st->playerHP = st->playerHP + st->items_list_easy[items_easy - 1].magnitude;
@@ -149,16 +155,23 @@ void activate_move (STATE *st, int ncols, int nrows) {
 		}
 
 		if (st->mapaMid[y][x].is_stairs) {
-			st->dificulty ++;
-			int i, j = 0;
 
-			for (i = 0; st->mapaHard[j][i].is_wall == TRUE; i++) {
-				for (j = 0; st->mapaHard[j][i].is_wall == TRUE; j++) { };
-			} 
+       // clausula que recebe o nivel de deficuldade para reposicionar o player dentro de um espaco aberto, caso contrario, poderiamos mudar de nivel e ter as cair numa parede.
+           int x = 0;
+           int y = HEIGHT_dungeon/2;  // valor para comecar a colocar o player no canto da dungeon.
+    
+        for ( ; st->mapaHard[y + (nrows/2)][x + (ncols/2)].is_wall == TRUE; y++) {    // loop para dar a volta ao mapa ate encontrar uma posicao aberta.
+            for ( ; st->mapaHard[y + (nrows/2)][x + (ncols/2)].is_wall == TRUE; x++) { };
+        }
+    
+        st->playerX = x;  // posicao actual X do player.
+        st->playerY = y; // posicao actual Y do player. 
+    
+	    st->dificulty ++; // incrementacao do nivel de dificuldade.
+ 
 
-			st->playerX = i;
-			st->playerY = j;
 		}
+		
 		else if (items_Mid != 0) {
 			st->playerHP = st->playerHP + st->items_list_Mid[items_Mid - 1].magnitude;
 			st->items_list_Mid[items_Mid - 1].used = TRUE;
