@@ -95,18 +95,6 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 		else if (items_easy >= 1 && st->items_list_easy[items_easy - 1].used == FALSE) {
 			draw_items (st->items_list_easy[items_easy - 1], x, y);
 		}
-			// Caso seja um terreno de Rio
-		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_water == TRUE) {
-			attron(COLOR_PAIR(COLOR_BLUE));
-			mvaddch (y, x, '~' | A_BOLD);
-			attroff(COLOR_PAIR(COLOR_BLUE));
-		}
-			// Caso seja um terreno de Relva
-		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_grass == TRUE) {
-			attron(COLOR_PAIR(COLOR_GREEN));
-			mvaddch (y, x, '.' | A_BOLD);
-			attroff(COLOR_PAIR(COLOR_GREEN));
-		}
 			// Caso seja um terreno vazio
 		else {
 			attron(COLOR_PAIR(COLOR_WHITE));
@@ -136,14 +124,29 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 		}
 			// Caso seja um terreno de Rio
 		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_water == TRUE) {
-			attron(COLOR_PAIR(COLOR_BLUE));
-			mvaddch (y, x, '~' | A_BOLD);
-			attroff(COLOR_PAIR(COLOR_BLUE));
+			int dist_player = sqrt(((x - st->playerX) * (x - st->playerX)) + ((y - st->playerY) * (y - st->playerY)));
+			if (dist_player == 1) {
+				attron(COLOR_PAIR(COLOR_CYAN));
+				if ((x + y) % 2 == 0)
+					mvaddch (y, x, 'V' | A_BOLD);
+				else
+					mvaddch (y, x, '^' | A_BOLD);
+				attroff(COLOR_PAIR(COLOR_CYAN));
+			}
+			else {
+				attron(COLOR_PAIR(COLOR_BLUE));
+				if ((x + y) % 2 == 0)
+					mvaddch (y, x, 'V' | A_BOLD);
+				else
+					mvaddch (y, x, '^' | A_BOLD);
+				attroff(COLOR_PAIR(COLOR_BLUE));
+				
+			}
 		}
 			// Caso seja um terreno de Relva
 		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_grass == TRUE) {
 			attron(COLOR_PAIR(COLOR_GREEN));
-			mvaddch (y, x, '.' | A_BOLD);
+			mvaddch (y, x, '"' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));
 		}
 			// Caso seja um terreno vazio
@@ -170,23 +173,11 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 			mvaddch (y, x, '^' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));
 		}
-			// Caso seja um terreno de Rio
-		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_water == TRUE) {
-			attron(COLOR_PAIR(COLOR_BLUE));
-			mvaddch (y, x, '~' | A_BOLD);
-			attroff(COLOR_PAIR(COLOR_BLUE));
-		}
-			// Caso seja um terreno de Relva
-		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_grass == TRUE) {
-			attron(COLOR_PAIR(COLOR_GREEN));
-			mvaddch (y, x, '.' | A_BOLD);
-			attroff(COLOR_PAIR(COLOR_GREEN));
-		}
 			// Caso seja um terreno de Mud
 		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_mud == TRUE) {
-			attron(COLOR_PAIR(COLOR_BLACK));
-			mvaddch (y, x, ')' | A_BOLD);
-			attroff(COLOR_PAIR(COLOR_BLACK));
+			attron(COLOR_PAIR(COLOR_YELLOW));
+			mvaddch (y, x, 'u' | A_BOLD);
+			attroff(COLOR_PAIR(COLOR_YELLOW));
 		}
 			// Caso seja um terreno vazio
 		else {
