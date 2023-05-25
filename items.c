@@ -5,6 +5,8 @@
 #include "state.h"
 
 
+	// aXXXXXX - Paulo Alexandre
+    // Funções para inicializzar items aleatorios
 void random_Items (STATE *st, int ncols, int nrows) {
     int i = 0;
     srand(time(NULL));
@@ -42,7 +44,8 @@ void random_Items (STATE *st, int ncols, int nrows) {
 
 
 
-    //Funções para desenhar os inimigos.
+	// aXXXXXX - Paulo Alexandre
+    // Funções para desenhar os inimigos.
 void draw_items (Item item, int x, int y){
     if (item.magnitude <= 10 && item.magnitude >= 0) {
         attron(COLOR_PAIR(COLOR_WHITE));

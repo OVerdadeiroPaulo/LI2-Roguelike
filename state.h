@@ -7,6 +7,7 @@
 #include "type_items.h"
 
 
+	// aXXXXXX - Paulo Alexandre
 	// Definição do Jogo e estados
 typedef struct state {
  	// Coordenadas do Jogador

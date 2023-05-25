@@ -2,6 +2,7 @@
 #define __type_enemies_H__
 
 
+	// aXXXXXX - Paulo Alexandre
  	// Definição para os inimigos e monstros
 typedef struct enemy {
  	// Ataque e Hp do inimigo

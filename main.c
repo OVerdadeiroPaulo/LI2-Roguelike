@@ -9,6 +9,8 @@
 
 
 
+	// a105684 - Joshua David
+	// Função que atualiza o jogo
 void play (STATE *st, int ncols, int nrows, int raio) {
 	clear();
 
@@ -25,6 +27,8 @@ void play (STATE *st, int ncols, int nrows, int raio) {
 
 
 
+	// a105684 - Joshua David
+	// Função que atualiza o menu Principal
 void play_menu (STATE *st, int ncols, int nrows) {
 	draw_menu (st, ncols, nrows);
 	moviment_menu (st, ncols, nrows);
@@ -32,6 +36,8 @@ void play_menu (STATE *st, int ncols, int nrows) {
 
 
 
+	// a105684 - Joshua David
+	// Função que atualiza o menu de pause
 void play_pause (STATE *st, int ncols, int nrows) {
 	draw_pause (st, ncols, nrows);
 	moviment_menu (st, ncols, nrows);
@@ -39,6 +45,8 @@ void play_pause (STATE *st, int ncols, int nrows) {
 
 
 
+	// a105684 - Joshua David
+	// Função que atualiza o menu de jogo Vencido
 void play_GameWon (STATE *st, int ncols, int nrows) {
 	draw_GameWon (st, ncols, nrows);
 	moviment_menu (st, ncols, nrows);
@@ -46,6 +54,8 @@ void play_GameWon (STATE *st, int ncols, int nrows) {
 
 
 
+	// a105684 - Joshua David
+	// Função que atualiza o menu de jogo perdido
 void play_GameOver (STATE *st, int ncols, int nrows) {
 	draw_GameOver (st, ncols, nrows);
 	moviment_menu (st, ncols, nrows);
@@ -53,6 +63,7 @@ void play_GameOver (STATE *st, int ncols, int nrows) {
 
 
 
+	// a105684 - Joshua David
 int main () {
 	WINDOW *wnd = initscr();
 	int ncols, nrows;

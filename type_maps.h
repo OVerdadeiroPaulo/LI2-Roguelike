@@ -1,6 +1,8 @@
 #ifndef ___type_maps_H___
 #define ___type_maps_H___
 
+
+	// aXXXXXX - Paulo Alexandre
 	// Deinição para cada bloco de piso
 typedef struct cell {
 	bool is_wall;

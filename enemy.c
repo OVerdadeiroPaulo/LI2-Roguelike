@@ -8,6 +8,7 @@
 
 
 
+	// a76231 - Rui Felipe Sá Fernandes
     //Função para gerar posições aleatórias dos inimigos na dificuldade Easy
 void random_Pos_Easy (STATE *st, int x, int y, int i) {
     int aux = 0;
@@ -100,6 +101,7 @@ void random_Pos_Easy (STATE *st, int x, int y, int i) {
 
 
 
+	// a76231 - Rui Felipe Sá Fernandes
     //Função para gerar posições aleatórias dos inimigos na dificuldade Mid
 void random_Pos_Mid (STATE *st, int x, int y, int i) {
     if (st->mapaMid[y][x].is_wall == FALSE) {
@@ -119,6 +121,7 @@ void random_Pos_Mid (STATE *st, int x, int y, int i) {
 
 
 
+	// a76231 - Rui Felipe Sá Fernandes
     //Função para gerar posições aleatórias dos inimigos na dificuldade Hard
 void random_Pos_Hard (STATE *st, int x, int y, int i) {
     if (st->mapaHard[y][x].is_wall == FALSE) {
@@ -138,6 +141,7 @@ void random_Pos_Hard (STATE *st, int x, int y, int i) {
 
 
 
+	// a76231 - Rui Felipe Sá Fernandes
     //Função para gerar inimigos
 void random_Enemy (STATE *st){
     int i = 0;
@@ -215,6 +219,7 @@ void random_Enemy (STATE *st){
 
 
 
+	// a76231 - Rui Felipe Sá Fernandes
 //     // Função que define o caminho do inimigo sem direção
 // void walk_unactive (STATE *st, int ind) {
     
@@ -244,6 +249,7 @@ void random_Enemy (STATE *st){
 
 
 
+	// a76231 - Rui Felipe Sá Fernandes
     //função para combate nível fácil.
 void combat_easy (STATE *st, int ncols, int nrows){
     int playerX = (ncols/2) + st->playerX;
@@ -322,6 +328,7 @@ void combat_easy (STATE *st, int ncols, int nrows){
 
 
 
+	// a76231 - Rui Felipe Sá Fernandes
     //função para combate nível médio.
 void combat_mid (STATE *st, int ncols, int nrows){
     int playerX = (ncols/2) + st->playerX;
@@ -400,6 +407,7 @@ void combat_mid (STATE *st, int ncols, int nrows){
 
 
 
+	// a76231 - Rui Felipe Sá Fernandes
     //função para combate nível difícil.
 void combat_hard (STATE *st, int ncols, int nrows){
     int playerX = (ncols/2) + st->playerX;
@@ -451,6 +459,7 @@ void combat_hard (STATE *st, int ncols, int nrows){
 
 
 
+	// a76231 - Rui Felipe Sá Fernandes
     //Funções para desenhar os inimigos.
 void draw_enemy (ENEMY enemy, int x, int y, int dif){
     if (dif < 3) {

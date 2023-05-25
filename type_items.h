@@ -3,7 +3,10 @@
 
 #include "type_enemies.h"
 
-typedef struct item // struct que define os items
+
+	// aXXXXXX - Paulo Alexandre
+    // struct que define os items
+typedef struct item 
 {
     int posx, posy;
     int magnitude;
