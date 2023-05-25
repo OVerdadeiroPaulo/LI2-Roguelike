@@ -1,10 +1,3 @@
-# LI2-Roguelike
-
-Este repositório é para o jogo de LI2.
-
-Ainda não há nada implementado. Podem ir vendo o Brogue incluindo o codigo fonte para tirar ideias, NAO COPIEM APENAS INSPIREM-SE
-Vamos usar o github para trabalhar incluindo PR's e com brances novos para alteraçoes , eu mais tarde edito isto com o procedimento.
-
 ## To-Do
 
 * Criar gerador de mapas com vários estilos, por exemplo:
@@ -18,4 +11,4 @@ Vamos usar o github para trabalhar incluindo PR's e com brances novos para alter
 * Struct para os vários quadrados.
 * Função para a iluminação e deslocamento do jogador. As funções devem ser modulares e também poderem ser usadas para mobs.
 * Completar esta to-do com o que falta. Vou aproveitar o sábado, que está ensolarado.
-* Ver como integrar Unicode (baixa prioridade).
+* Ver como integrar Unicode (baixa prioridade)
