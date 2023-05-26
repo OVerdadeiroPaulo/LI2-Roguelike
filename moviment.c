@@ -18,11 +18,6 @@ void move_action (STATE *st, int movex, int movey, int ncols, int nrows) {
 
 	if (st->dificulty == 1) {
 		if (y <= 0 || y >= 55 || x <= 0 || x >= 250) { }
-		else if (st->mapaEasy[ny][x].is_water == TRUE &&
-			st->mapaEasy[st->playerY + (nrows / 2)][st->playerX + (ncols / 2)].is_water == TRUE) {
-				st->playerX += movex;
-				st->playerY -= movey;
-		}
 		else if (st->mapaEasy[y][x].is_wall != TRUE) {
 			st->playerX += movex;
 			st->playerY += movey;
@@ -32,10 +27,33 @@ void move_action (STATE *st, int movex, int movey, int ncols, int nrows) {
 	
 	else if (st->dificulty == 2) {	
 		if (y <= 0 || y >= 55 || x <= 0 || x >= 250) { }
-		else if (st->mapaMid[ny][x].is_water == TRUE &&
-			st->mapaMid[st->playerY + (nrows / 2)][st->playerX + (ncols / 2)].is_water == TRUE) {
-				st->playerX += movex;
-				st->playerY -= movey;
+
+		else if (st->onWater) {
+			if (st->mapaMid[ny][x].is_wall) { }
+
+			else if (st->mapaMid[ny][x].is_water == TRUE) {
+					st->playerX += movex;
+					st->playerY -= movey;
+			}
+
+			else if (st->mapaMid[ny][x].is_water == FALSE) {
+				if (st->mapaMid[y][x].is_wall == FALSE) {
+					if (st->mapaMid[st->playerY + (movey * 2) + (nrows / 2)][x].is_wall == FALSE) {
+						if (st->mapaMid[st->playerY + (movey * 3) + (nrows / 2)][x].is_wall == FALSE) {
+						st->playerX += movex;
+						st->playerY += (3 * movey);
+						}
+						else {
+							st->playerX += movex;
+							st->playerY += (2 * movey);
+						}
+					}
+					else {
+						st->playerX += movex;
+						st->playerY += movey;
+					}
+				}
+			}
 		}
 		else if (st->mapaMid[y][x].is_wall != TRUE) {
 			st->playerX += movex;
@@ -46,11 +64,6 @@ void move_action (STATE *st, int movex, int movey, int ncols, int nrows) {
 	
 	else if (st->dificulty == 3) {
 		if (y <= 0 || y >= 55 || x <= 0 || x >= 250) { }
-		else if (st->mapaHard[ny][x].is_water == TRUE &&
-			st->mapaHard[st->playerY + (nrows / 2)][st->playerX + (ncols / 2)].is_water == TRUE) {
-				st->playerX += movex;
-				st->playerY -= movey;
-		}
 		else if (st->mapaHard[y][x].is_wall != TRUE) {
 			st->playerX += movex;
 			st->playerY += movey;

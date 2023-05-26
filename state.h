@@ -13,6 +13,9 @@ typedef struct state {
  	// Coordenadas do Jogador
 	int playerX, playerY;
 
+	bool onWater;
+	bool onGrass;
+
  	// Ataque e Hp do Jogador
 	int playerHP, playerAttack;
 

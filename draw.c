@@ -54,44 +54,60 @@ void draw_objects (STATE *st, int x, int y, int dif, int raio) {
 	int  enemy_easy = 0, enemy_Mid = 0, enemy_Hard = 0;
 	int  items_easy = 0, items_Mid = 0;
 
-	for (i = 0; i < 20; i++) {
-		if (st->enemy_list_Easy[i].enemyX == x + st->playerX && st->enemy_list_Easy[i].enemyY == y + st->playerY)
-			enemy_easy = i + 1;
+		// Identificando caso exista um inimigo nessa posição
+	if (dif == 1) {
+		for (i = 0; i < 20; i++) {
+			if (st->enemy_list_Easy[i].enemyX == x + st->playerX && st->enemy_list_Easy[i].enemyY == y + st->playerY)
+				enemy_easy = i + 1;
+		}
 	}
-	for (i = 0; i < 40; i++) {
-		if (st->enemy_list_Mid[i].enemyX == x + st->playerX && st->enemy_list_Mid[i].enemyY == y + st->playerY)
-			enemy_Mid = i + 1;
+	else if (dif == 2) {
+		for (i = 0; i < 40; i++) {
+			if (st->enemy_list_Mid[i].enemyX == x + st->playerX && st->enemy_list_Mid[i].enemyY == y + st->playerY)
+				enemy_Mid = i + 1;
+		}
 	}
-	for (i = 0; i < 50; i++) {
-		if (st->enemy_list_Hard[i].enemyX == x + st->playerX && st->enemy_list_Hard[i].enemyY == y + st->playerY)
-			enemy_Hard = i + 1;
+	else {
+		for (i = 0; i < 50; i++) {
+			if (st->enemy_list_Hard[i].enemyX == x + st->playerX && st->enemy_list_Hard[i].enemyY == y + st->playerY)
+				enemy_Hard = i + 1;
+		}
 	}
 
-	for (i = 0; i < 10; i++) {
-		if (st->items_list_easy[i].posx == x + st->playerX && st->items_list_easy[i].posy == y + st->playerY)
-			items_easy = i + 1;
+		// Identificando caso exista um item nessa posição
+	if (dif == 1) {
+		for (i = 0; i < 10; i++) {
+			if (st->items_list_easy[i].posx == x + st->playerX && st->items_list_easy[i].posy == y + st->playerY)
+				items_easy = i + 1;
+		}
 	}
-	for (i = 0; i < 10; i++) {
-		if (st->items_list_Mid[i].posx == x + st->playerX && st->items_list_Mid[i].posy == y + st->playerY)
-			items_Mid = i + 1;
+	else {
+		for (i = 0; i < 10; i++) {
+			if (st->items_list_Mid[i].posx == x + st->playerX && st->items_list_Mid[i].posy == y + st->playerY)
+				items_Mid = i + 1;
+		}
 	}
 
 
 
 	if (dif == 1) {
-		if (enemy_easy >= 1 && st->enemy_list_Easy[enemy_easy - 1].hp > 0) {
-			draw_enemy (st->enemy_list_Easy[enemy_easy - 1], x, y, 1);
-		}
-		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_wall == TRUE) {
+				// Caso seja uma parede
+		if (st->mapaEasy[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 			attron(COLOR_PAIR(COLOR_GREEN));
 			mvaddch (y, x, '#' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));
 		}
+				// Caso seja uma escada
 		else if (st->mapaEasy[y + st->playerY][x + st->playerX].is_stairs == TRUE) {
 			attron(COLOR_PAIR(COLOR_GREEN));
 			mvaddch (y, x, '^' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));
 		}
+				// Caso seja um inimigo
+		else if (enemy_easy >= 1 && st->enemy_list_Easy[enemy_easy - 1].hp > 0) {
+			draw_enemy (st->enemy_list_Easy[enemy_easy - 1], x, y, 1);
+		}
+				// Caso seja um item
 		else if (items_easy >= 1 && st->items_list_easy[items_easy - 1].used == FALSE) {
 			draw_items (st->items_list_easy[items_easy - 1], x, y);
 		}
@@ -106,71 +122,118 @@ void draw_objects (STATE *st, int x, int y, int dif, int raio) {
 
 	
 	else if (dif == 2) {
-		if (enemy_Mid >= 1 && st->enemy_list_Mid[enemy_Mid - 1].hp > 0) {
-			draw_enemy (st->enemy_list_Mid[enemy_Mid - 1], x, y, 2);
+			// Caso jogadore não esteja na Relva
+		if (st->onGrass == FALSE) {
+				// Caso seja uma parede
+			if (st->mapaMid[y + st->playerY][x + st->playerX].is_wall == TRUE) {
+				attron(COLOR_PAIR(COLOR_YELLOW));
+				mvaddch (y, x, '#' | A_BOLD);
+				attroff(COLOR_PAIR(COLOR_YELLOW));
+			}
+				// Caso seja uma escada
+			else if (st->mapaMid[y + st->playerY][x + st->playerX].is_stairs == TRUE) {
+				attron(COLOR_PAIR(COLOR_GREEN));
+				mvaddch (y, x, '^' | A_BOLD);
+				attroff(COLOR_PAIR(COLOR_GREEN));
+			}
+				// Caso seja uma inimigo
+			else if (enemy_Mid >= 1 && st->enemy_list_Mid[enemy_Mid - 1].hp > 0) {
+				draw_enemy (st->enemy_list_Mid[enemy_Mid - 1], x, y, 2);
+			}
+				// Caso seja uma item
+			else if (items_Mid >= 1 && st->items_list_Mid[items_Mid - 1].used == FALSE) {
+				draw_items (st->items_list_Mid[items_Mid - 1], x, y);
+			}
+				// Caso seja um terreno de Rio
+			else if (st->mapaMid[y + st->playerY][x + st->playerX].is_water == TRUE) {
+				if (st->onWater == TRUE) {
+					if (raio <= 2 || raio == 4) {
+						attron(COLOR_PAIR(COLOR_CYAN));
+						if ((x + y) % 2 == 0)
+							mvaddch (y, x, 'V' | A_BOLD);
+						else
+							mvaddch (y, x, '^' | A_BOLD);
+						attroff(COLOR_PAIR(COLOR_CYAN));
+					}
+					else {
+						attron(COLOR_PAIR(COLOR_BLUE));
+						if ((x + y) % 2 == 0)
+							mvaddch (y, x, 'V' | A_BOLD);
+						else
+							mvaddch (y, x, '^' | A_BOLD);
+						attroff(COLOR_PAIR(COLOR_BLUE));
+					}
+				}
+				else {
+					attron(COLOR_PAIR(COLOR_BLUE));
+					if ((x + y) % 2 == 0)
+						mvaddch (y, x, 'V' | A_BOLD);
+					else
+						mvaddch (y, x, '^' | A_BOLD);
+					attroff(COLOR_PAIR(COLOR_BLUE));
+				}
+			}
+				// Caso seja um terreno de Relva
+			else if (st->mapaMid[y + st->playerY][x + st->playerX].is_grass == TRUE) {
+				attron(COLOR_PAIR(COLOR_GREEN));
+				mvaddch (y, x, '"' | A_BOLD);
+				attroff(COLOR_PAIR(COLOR_GREEN));
+			}
+				// Caso seja um terreno vazio
+			else {
+				attron(COLOR_PAIR(COLOR_WHITE));
+				mvaddch (y, x, '-' | A_BOLD);
+				attroff(COLOR_PAIR(COLOR_WHITE));
+			}
 		}
-		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_wall == TRUE) {
-			attron(COLOR_PAIR(COLOR_YELLOW));
-			mvaddch (y, x, '#' | A_BOLD);
-			attroff(COLOR_PAIR(COLOR_YELLOW));
-		}
-		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_stairs == TRUE) {
-			attron(COLOR_PAIR(COLOR_GREEN));
-			mvaddch (y, x, '^' | A_BOLD);
-			attroff(COLOR_PAIR(COLOR_GREEN));
-		}
-		else if (items_Mid >= 1 && st->items_list_Mid[items_Mid - 1].used == FALSE) {
-			draw_items (st->items_list_Mid[items_Mid - 1], x, y);
-		}
-			// Caso seja um terreno de Rio
-		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_water == TRUE) {
-			if (raio <= 3 || raio == 6) {
-				attron(COLOR_PAIR(COLOR_CYAN));
-				if ((x + y) % 2 == 0)
-					mvaddch (y, x, 'V' | A_BOLD);
-				else
-					mvaddch (y, x, '^' | A_BOLD);
-				attroff(COLOR_PAIR(COLOR_CYAN));
+			// Caso jogadore esteja na Relva
+		else {
+				// Caso seja uma parede
+			if (st->mapaMid[y + st->playerY][x + st->playerX].is_wall == TRUE) {
+				attron(COLOR_PAIR(COLOR_YELLOW));
+				mvaddch (y, x, '#' | A_BOLD);
+				attroff(COLOR_PAIR(COLOR_YELLOW));
+			}
+				// Caso seja uma escada
+			else if (st->mapaMid[y + st->playerY][x + st->playerX].is_stairs == TRUE) {
+				attron(COLOR_PAIR(COLOR_GREEN));
+				mvaddch (y, x, '^' | A_BOLD);
+				attroff(COLOR_PAIR(COLOR_GREEN));
+			}
+				// Caso seja uma inimigo
+			else if (enemy_Mid >= 1 && st->enemy_list_Mid[enemy_Mid - 1].hp > 0) {
+				draw_enemy (st->enemy_list_Mid[enemy_Mid - 1], x, y, 2);
+			}
+				// Caso seja uma item
+			else if (items_Mid >= 1 && st->items_list_Mid[items_Mid - 1].used == FALSE) {
+				draw_items (st->items_list_Mid[items_Mid - 1], x, y);
 			}
 			else {
-				attron(COLOR_PAIR(COLOR_BLUE));
-				if ((x + y) % 2 == 0)
-					mvaddch (y, x, 'V' | A_BOLD);
-				else
-					mvaddch (y, x, '^' | A_BOLD);
-				attroff(COLOR_PAIR(COLOR_BLUE));
-				
+				attron(COLOR_PAIR(COLOR_GREEN));
+				mvaddch (y, x, '"' | A_BOLD);
+				attroff(COLOR_PAIR(COLOR_GREEN));
 			}
-		}
-			// Caso seja um terreno de Relva
-		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_grass == TRUE) {
-			attron(COLOR_PAIR(COLOR_GREEN));
-			mvaddch (y, x, '"' | A_BOLD);
-			attroff(COLOR_PAIR(COLOR_GREEN));
-		}
-			// Caso seja um terreno vazio
-		else {
-			attron(COLOR_PAIR(COLOR_WHITE));
-			mvaddch (y, x, '-' | A_BOLD);
-			attroff(COLOR_PAIR(COLOR_WHITE));
 		}
 	}
 	
 
 	
 	else if (dif == 3) {
-		if (enemy_Hard >= 1  && st->enemy_list_Hard[enemy_Hard - 1].hp > 0) {
-			draw_enemy (st->enemy_list_Hard[enemy_Hard - 1], x, y, 3);
-		}
-		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_wall == TRUE) {
+				// Caso seja uma parede
+		if (st->mapaHard[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 			attron(COLOR_PAIR(COLOR_RED));
 			mvaddch (y, x, '#' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_RED));
 		}
+				// Caso seja uma escada
 		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_stairs == TRUE) {
 			attron(COLOR_PAIR(COLOR_GREEN));
 			mvaddch (y, x, '^' | A_BOLD);
 			attroff(COLOR_PAIR(COLOR_GREEN));
+		}
+				// Caso seja um inimigo
+		else if (enemy_Hard >= 1  && st->enemy_list_Hard[enemy_Hard - 1].hp > 0) {
+			draw_enemy (st->enemy_list_Hard[enemy_Hard - 1], x, y, 3);
 		}
 			// Caso seja um terreno de Mud
 		else if (st->mapaHard[y + st->playerY][x + st->playerX].is_mud == TRUE) {
@@ -286,6 +349,18 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 
 
 	else if (st->dificulty == 2) {
+		if (1) {
+			if (st->mapaMid[st->playerY + (nrows / 2)][st->playerX + (ncols / 2)].is_water)
+				st->onWater = TRUE;
+			else
+				st->onWater = FALSE;
+
+			if (st->mapaMid[st->playerY + (nrows / 2)][st->playerX + (ncols / 2)].is_grass)
+				st->onGrass = TRUE;
+			else
+				st->onGrass = FALSE;
+		}
+
 		for (i = 360; i > 0; i--) {
 			aux = TRUE;
 			grau = i * 0.01745329251;
