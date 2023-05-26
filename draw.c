@@ -49,7 +49,7 @@ void draw_player (int ncols, int nrows) {
 
 	// a105684 - Joshua David
 	// Função que identifica parede, inimigos ou vazio na CELL
-void draw_objects (STATE *st, int x, int y, int dif) {
+void draw_objects (STATE *st, int x, int y, int dif, int raio) {
 	int i;
 	int  enemy_easy = 0, enemy_Mid = 0, enemy_Hard = 0;
 	int  items_easy = 0, items_Mid = 0;
@@ -124,8 +124,7 @@ void draw_objects (STATE *st, int x, int y, int dif) {
 		}
 			// Caso seja um terreno de Rio
 		else if (st->mapaMid[y + st->playerY][x + st->playerX].is_water == TRUE) {
-			int dist_player = sqrt(((x - st->playerX) * (x - st->playerX)) + ((y - st->playerY) * (y - st->playerY)));
-			if (dist_player == 1) {
+			if (raio <= 3 || raio == 6) {
 				attron(COLOR_PAIR(COLOR_CYAN));
 				if ((x + y) % 2 == 0)
 					mvaddch (y, x, 'V' | A_BOLD);
@@ -232,7 +231,7 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 
 				if (st->mapaEasy[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 					if (aux == TRUE) {
-						draw_objects (st, x, y, 1);
+						draw_objects (st, x, y, 1, j);
 						aux = FALSE;
 					}
 					else
@@ -248,7 +247,7 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 				}
 				else
 					if (aux == TRUE)
-						draw_objects (st, x, y, 1);
+						draw_objects (st, x, y, 1, j);
 					else
 						erase_objects (x, y);
 			}
@@ -265,7 +264,7 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 
 				if (st->mapaEasy[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 					if (aux == TRUE) {
-						draw_objects (st, x, y, 1);
+						draw_objects (st, x, y, 1, j);
 						aux = FALSE;
 					}
 				}
@@ -297,7 +296,7 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 
 				if (st->mapaMid[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 					if (aux == TRUE) {
-						draw_objects (st, x, y, 2);
+						draw_objects (st, x, y, 2, j);
 						aux = FALSE;
 					}
 					else
@@ -305,7 +304,7 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 				}
 				else
 					if (aux == TRUE)
-						draw_objects (st, x, y, 2);
+						draw_objects (st, x, y, 2, j);
 					else
 						erase_objects (x, y);
 			}
@@ -322,7 +321,7 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 
 				if (st->mapaMid[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 					if (aux == TRUE) {
-						draw_objects (st, x, y, 2);
+						draw_objects (st, x, y, 2, j);
 						aux = FALSE;
 					}
 				}
@@ -343,7 +342,7 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 
 				if (st->mapaHard[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 					if (aux == TRUE) {
-						draw_objects (st, x, y, 3);
+						draw_objects (st, x, y, 3, j);
 						aux = FALSE;
 					}
 					else
@@ -359,7 +358,7 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 				}
 				else
 					if (aux == TRUE)
-						draw_objects (st, x, y, 3);
+						draw_objects (st, x, y, 3, j);
 					else
 						erase_objects (x, y);
 			}
@@ -376,7 +375,7 @@ void draw_light (STATE *st, int raio, int ncols, int nrows) {
 
 				if (st->mapaHard[y + st->playerY][x + st->playerX].is_wall == TRUE) {
 					if (aux == TRUE) {
-						draw_objects (st, x, y, 3);
+						draw_objects (st, x, y, 3, j);
 						aux = FALSE;
 					}
 				}
@@ -542,7 +541,7 @@ void draw_pause (STATE *st, int ncols, int nrows) {
 	clear ();
 	int i;
 
-	attron(COLOR_PAIR(COLOR_GREEN));
+	attron(COLOR_PAIR(COLOR_YELLOW));
 	for (i = 5; i < ncols - 5; i++) {
 		move(7, i);
 		printw("-");
@@ -555,15 +554,15 @@ void draw_pause (STATE *st, int ncols, int nrows) {
 		move(i, ncols - 7);
 		printw("|");
 	}
-	attroff(COLOR_PAIR(COLOR_GREEN));
+	attroff(COLOR_PAIR(COLOR_YELLOW));
 
 	if (ncols >= 160 && nrows >= 44) {
 		if (st->selection == TRUE) {
 			move((nrows / 2) - 15, (ncols / 2) - 3);
-			attron(COLOR_PAIR(COLOR_GREEN));
+			attron(COLOR_PAIR(COLOR_YELLOW));
 			printw("PAUSED!");
-			attroff(COLOR_PAIR(COLOR_GREEN));
-			attron(COLOR_PAIR(COLOR_GREEN));
+			attroff(COLOR_PAIR(COLOR_YELLOW));
+			attron(COLOR_PAIR(COLOR_YELLOW));
 			move((nrows / 2) - 5, (ncols / 2) - 46);
 			printw("  ,ad8888ba,   ,ad8888ba,   888b      88 888888888888 88 888b      88 88        88 88888888888");
 			move((nrows / 2) - 4, (ncols / 2) - 46);
@@ -580,7 +579,7 @@ void draw_pause (STATE *st, int ncols, int nrows) {
 			printw(" Y8a.    .a8P Y8a.    .a8P  88     `8888      88      88 88     `8888 Y8a.    .a8P 88");
 			move((nrows / 2) + 1, (ncols / 2) - 46);
 			printw("  `'Y8888Y''   `'Y8888Y''   88      `888      88      88 88      `888  `'Y8888Y''  88888888888");
-			attroff(COLOR_PAIR(COLOR_GREEN));
+			attroff(COLOR_PAIR(COLOR_YELLOW));
 			attron(COLOR_PAIR(COLOR_BLUE));
 			move((nrows / 2) + 4, (ncols / 2) - 26);
 			printw("88888888ba        db        ,ad8888ba,  88      a8P");
@@ -602,9 +601,9 @@ void draw_pause (STATE *st, int ncols, int nrows) {
 		}
 		else if (st->selection == FALSE) {
 			move((nrows / 2) - 15, (ncols / 2) - 3);
-			attron(COLOR_PAIR(COLOR_GREEN));
+			attron(COLOR_PAIR(COLOR_YELLOW));
 			printw("PAUSED!");
-			attroff(COLOR_PAIR(COLOR_GREEN));
+			attroff(COLOR_PAIR(COLOR_YELLOW));
 			attron(COLOR_PAIR(COLOR_BLUE));
 			move((nrows / 2) - 5, (ncols / 2) - 46);
 			printw("  ,ad8888ba,   ,ad8888ba,   888b      88 888888888888 88 888b      88 88        88 88888888888");
@@ -623,7 +622,7 @@ void draw_pause (STATE *st, int ncols, int nrows) {
 			move((nrows / 2) + 1, (ncols / 2) - 46);
 			printw("  `'Y8888Y''   `'Y8888Y''   88      `888      88      88 88      `888  `'Y8888Y''  88888888888");
 			attroff(COLOR_PAIR(COLOR_BLUE));
-			attron(COLOR_PAIR(COLOR_GREEN));
+			attron(COLOR_PAIR(COLOR_YELLOW));
 			move((nrows / 2) + 4, (ncols / 2) - 26);
 			printw("88888888ba        db        ,ad8888ba,  88      a8P");
 			move((nrows / 2) + 5, (ncols / 2) - 26);
@@ -640,19 +639,19 @@ void draw_pause (STATE *st, int ncols, int nrows) {
 			printw("88      a8P d8'        `8b Y8a.    .a8P 88     '88,");
 			move((nrows / 2) + 11, (ncols / 2) - 26);
 			printw("88888888P' d8'          `8b `'Y8888Y''  88       Y8b");
-			attroff(COLOR_PAIR(COLOR_GREEN));
+			attroff(COLOR_PAIR(COLOR_YELLOW));
 		}
 	}
 	else {
 		if (st->selection == TRUE) {
 			move((nrows / 2) - 5, (ncols / 2) - 3);
-			attron(COLOR_PAIR(COLOR_GREEN));
+			attron(COLOR_PAIR(COLOR_YELLOW));
 			printw("PAUSED");
-			attroff(COLOR_PAIR(COLOR_GREEN));
+			attroff(COLOR_PAIR(COLOR_YELLOW));
 			move((nrows / 2), (ncols / 2) - 4);
-			attron(COLOR_PAIR(COLOR_GREEN));
+			attron(COLOR_PAIR(COLOR_YELLOW));
 			printw("Continue");
-			attroff(COLOR_PAIR(COLOR_GREEN));
+			attroff(COLOR_PAIR(COLOR_YELLOW));
 			move((nrows / 2) + 1, (ncols / 2) - 6);
 			attron(COLOR_PAIR(COLOR_BLUE));
 			printw("Back to Menus");
@@ -660,17 +659,17 @@ void draw_pause (STATE *st, int ncols, int nrows) {
 		}
 		else if (st->selection == FALSE) {
 			move((nrows / 2) - 5, (ncols / 2) - 3);
-			attron(COLOR_PAIR(COLOR_GREEN));
+			attron(COLOR_PAIR(COLOR_YELLOW));
 			printw("PAUSED");
-			attroff(COLOR_PAIR(COLOR_GREEN));
+			attroff(COLOR_PAIR(COLOR_YELLOW));
 			move((nrows / 2), (ncols / 2) - 4);
 			attron(COLOR_PAIR(COLOR_BLUE));
 			printw("Continue");
 			attroff(COLOR_PAIR(COLOR_BLUE));
 			move((nrows / 2) + 1, (ncols / 2) - 6);
-			attron(COLOR_PAIR(COLOR_GREEN));
+			attron(COLOR_PAIR(COLOR_YELLOW));
 			printw("Back to Menus");
-			attroff(COLOR_PAIR(COLOR_GREEN));
+			attroff(COLOR_PAIR(COLOR_YELLOW));
 		}
 	}
 }
@@ -704,7 +703,7 @@ void draw_GameWon (STATE *st, int ncols, int nrows) {
 			attron(COLOR_PAIR(COLOR_BLUE));
 			printw("GAME WON!!");
 			attroff(COLOR_PAIR(COLOR_BLUE));
-			attron(COLOR_PAIR(COLOR_MAGENTA));
+			attron(COLOR_PAIR(COLOR_GREEN));
 			move((nrows / 2) - 5, (ncols / 2) - 46);
 			printw("888888888888 88888888ba 8b        d8           db        ,ad8888ba,        db        88 888b      88");
 			move((nrows / 2) - 4, (ncols / 2) - 46);
@@ -721,7 +720,7 @@ void draw_GameWon (STATE *st, int ncols, int nrows) {
 			printw("     88      88     `8b      88          d8'        `8b Y8a.    .a88 d8'        `8b  88 88     `8888");
 			move((nrows / 2) + 1, (ncols / 2) - 46);
 			printw("     88      88      `8b     88         d8'          `8b `'Y88888P' d8'          `8b 88 88      `888");
-			attroff(COLOR_PAIR(COLOR_MAGENTA));
+			attroff(COLOR_PAIR(COLOR_GREEN));
 			attron(COLOR_PAIR(COLOR_BLUE));
 			move((nrows / 2) + 4, (ncols / 2) - 24);
 			printw("88888888ba        db        ,ad8888ba,  88      a8P");
@@ -764,7 +763,7 @@ void draw_GameWon (STATE *st, int ncols, int nrows) {
 			move((nrows / 2) + 1, (ncols / 2) - 46);
 			printw("     88      88      `8b     88         d8'          `8b `'Y88888P' d8'          `8b 88 88      `888");
 			attroff(COLOR_PAIR(COLOR_BLUE));
-			attron(COLOR_PAIR(COLOR_MAGENTA));
+			attron(COLOR_PAIR(COLOR_GREEN));
 			move((nrows / 2) + 4, (ncols / 2) - 24);
 			printw("88888888ba        db        ,ad8888ba,  88      a8P");
 			move((nrows / 2) + 5, (ncols / 2) - 24);
@@ -781,7 +780,7 @@ void draw_GameWon (STATE *st, int ncols, int nrows) {
 			printw("88      a8P d8'        `8b Y8a.    .a8P 88     '88,");
 			move((nrows / 2) + 11, (ncols / 2) - 24);
 			printw("88888888P' d8'          `8b `'Y8888Y''  88       Y8b");
-			attroff(COLOR_PAIR(COLOR_MAGENTA));
+			attroff(COLOR_PAIR(COLOR_GREEN));
 		}
 	}
 	else {
@@ -791,9 +790,9 @@ void draw_GameWon (STATE *st, int ncols, int nrows) {
 			printw("GAME WON!!");
 			attroff(COLOR_PAIR(COLOR_BLUE));
 			move((nrows / 2), (ncols / 2) - 5);
-			attron(COLOR_PAIR(COLOR_MAGENTA));
+			attron(COLOR_PAIR(COLOR_GREEN));
 			printw("Play Again");
-			attroff(COLOR_PAIR(COLOR_MAGENTA));
+			attroff(COLOR_PAIR(COLOR_GREEN));
 			move((nrows / 2) + 1, (ncols / 2) - 6);
 			attron(COLOR_PAIR(COLOR_BLUE));
 			printw("Back to Menus");
@@ -809,9 +808,9 @@ void draw_GameWon (STATE *st, int ncols, int nrows) {
 			printw("Play Again");
 			attroff(COLOR_PAIR(COLOR_BLUE));
 			move((nrows / 2) + 1, (ncols / 2) - 6);
-			attron(COLOR_PAIR(COLOR_MAGENTA));
+			attron(COLOR_PAIR(COLOR_GREEN));
 			printw("Back to Menus");
-			attroff(COLOR_PAIR(COLOR_MAGENTA));
+			attroff(COLOR_PAIR(COLOR_GREEN));
 		}
 	}
 }
