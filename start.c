@@ -240,7 +240,7 @@ void Initialize_dungeon_Hard(STATE *s) {
                }
             else {
                
-                if (rand() % 100 < 40){
+                if (rand() % 100 < 30){
                    s->mapaHard[i][j].is_wall = TRUE;
                    }
                     else{
@@ -307,7 +307,7 @@ void Build_dungeon_Hard(STATE *s) {
                     }
             }
                 else {
-                    if (n_walls >= 4){   // numeros de probabilidade de paredes mais baixos para criar grutas mais fechadas.
+                    if (n_walls >= 3){   // numeros de probabilidade de paredes mais baixos para criar grutas mais fechadas.
                        dungeon_data [i][j] = TRUE;
                        }
                     else {
