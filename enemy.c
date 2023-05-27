@@ -8,7 +8,7 @@
 
 
 
-	// a76231 - Rui Felipe Sá Fernandes
+    // a76231 - Rui Felipe Sá Fernandes
     //Função para gerar posições aleatórias dos inimigos na dificuldade Easy
 void random_Pos_Easy (STATE *st, int x, int y, int i) {
     int aux = 0;
@@ -101,7 +101,7 @@ void random_Pos_Easy (STATE *st, int x, int y, int i) {
 
 
 
-	// a76231 - Rui Felipe Sá Fernandes
+    // a76231 - Rui Felipe Sá Fernandes
     //Função para gerar posições aleatórias dos inimigos na dificuldade Mid
 void random_Pos_Mid (STATE *st, int x, int y, int i) {
     if (st->mapaMid[y][x].is_wall == FALSE) {
@@ -121,7 +121,7 @@ void random_Pos_Mid (STATE *st, int x, int y, int i) {
 
 
 
-	// a76231 - Rui Felipe Sá Fernandes
+    // a76231 - Rui Felipe Sá Fernandes
     //Função para gerar posições aleatórias dos inimigos na dificuldade Hard
 void random_Pos_Hard (STATE *st, int x, int y, int i) {
     if (st->mapaHard[y][x].is_wall == FALSE) {
@@ -141,7 +141,7 @@ void random_Pos_Hard (STATE *st, int x, int y, int i) {
 
 
 
-	// a76231 - Rui Felipe Sá Fernandes
+    // a76231 - Rui Felipe Sá Fernandes
     //Função para gerar inimigos
 void random_Enemy (STATE *st){
     int i = 0;
@@ -151,7 +151,7 @@ void random_Enemy (STATE *st){
 
         int x = ((rand() % 50) * (rand() % 50)) / 10;
         int y = ((rand() % 25) * (rand() % 25)) / 10;
-        
+       
         random_Pos_Easy (st, x, y, i);
         st->enemy_list_Easy[i].lastSwing = 0;
         st->enemy_list_Easy[i].direction = 1;
@@ -179,7 +179,7 @@ void random_Enemy (STATE *st){
 
         int x = (rand() % 249) + 1;
         int y = (rand () % 54) + 1;
-        
+       
         random_Pos_Mid (st, x, y, i);
         st->enemy_list_Mid[i].lastSwing = 0;
         st->enemy_list_Mid[i].direction = 1;
@@ -207,7 +207,7 @@ void random_Enemy (STATE *st){
 
         int x = (rand() % 299) + 1;
         int y = (rand () % 149) + 1;
-        
+       
         random_Pos_Hard (st, x, y, i);
         st->enemy_list_Hard[i].lastSwing = 0;
         st->enemy_list_Hard[i].direction = 1;
@@ -219,43 +219,121 @@ void random_Enemy (STATE *st){
 
 
 
-	// a76231 - Rui Felipe Sá Fernandes
-//     // Função que define o caminho do inimigo sem direção
-// void walk_unactive (STATE *st, int ind) {
-    
-//     if (st->enemy_list_Easy[ind].type != 4){
-//         int x = st->enemy_list_Easy[ind].enemyX;
-//         int y = st->enemy_list_Easy[ind].enemyY;
-//         int direction = st->enemy_list_Easy[ind].direction;
+// a101536 - Silverio Mario Samuel
+// Funcao para cacar o player
+void enemy_hunt(STATE *st, ENEMY *enemy_list, int numEnemies, int ncols, int nrows){
+    int playerX = st->playerX + (ncols / 2);
+    int playerY = st->playerY + (nrows / 2);
+   
+    for (int i = 0; i < numEnemies; i++) {  // Loop que vai passar de todos os monstros
+        int enemyX = enemy_list[i].enemyX;
+        int enemyY = enemy_list[i].enemyY;
 
-//         if (direction == 1){
-//             st->enemy_list_Easy[ind].enemyX++;
-//             st->enemy_list_Easy[ind].direction++;  
-//         }
-//         else if (direction == -1 && x-1 > 0){
-//             st->enemy_list_Easy[ind].enemyX--;
-//         }
-//         st->enemy_list_Easy[ind].direction *= -1;
-//     }
-// }
+        // calculos da distancia do monstro para o player.
+        int dx = abs(playerX - enemyX);
+        int dy = abs(playerY - enemyY);
+               
+        if (dy < 9 && dx < 9) {   // Clausula para usar somente os monstros a uma distancia de 9 blocos.
+   
+            // Funcao que move os monstros.
+            if (dy > dx) {
+                if (enemyY < playerY)
+                    enemyY++;
+                else
+                    enemyY--;
+            }
+            else {
+                if (enemyX < playerX)
+                    enemyX++;
+                else
+                    enemyX--;
+            }
+       
+            // Funcao que esquiva da parede
+            if (st->mapaEasy[enemyY][enemyX].is_wall == TRUE) {
+           
+                enemyY = enemy_list[i].enemyY;
+                enemyX = enemy_list[i].enemyX;
+
+                if (dy < playerY)
+                    enemyY++;
+                else
+                    enemyY--;
+
+                if (dx < playerX)
+                    enemyX++;
+                else
+                    enemyX--;
+            }
+
+            // Funcao para caso o inimigo fique preso na parede.
+            if (st->mapaEasy[enemyY][enemyX].is_wall == TRUE) {
+                if (dy > dx) {
+                    if (enemyY > playerY)
+                        enemyY++;
+                    else
+                        enemyY--;
+                }
+                else {
+                    if (enemyX > playerX)
+                        enemyX++;
+                    else
+                        enemyX--;
+                }
+            }
+
+            if (enemyY <= 1 && enemyX <= 1) {
+                st->playerHP -= 1;
+            }
+            else if (st->mapaEasy[enemyY][enemyX].is_wall == FALSE) {
+                enemy_list[i].enemyY = enemyY;
+                enemy_list[i].enemyX = enemyX;
+            }
+        }
+    }
+}
 
 
 
-// void update_enemies (STATE *st) {
-//     for (int i = 0; i < 10; i++) {
-//         walk_unactive (st, i);
-//     }
-// }
+/*
+    // a76231 - Rui Felipe Sá Fernandes
+     // Função que define o caminho do inimigo sem direção
+ void walk_unactive (STATE *st, int ind) {  
+     if (st->enemy_list_Easy[ind].type != 4){
+         int x = st->enemy_list_Easy[ind].enemyX;
+         int y = st->enemy_list_Easy[ind].enemyY;
+         int direction = st->enemy_list_Easy[ind].direction;
+         if (direction == 1){
+             st->enemy_list_Easy[ind].enemyX++;
+             st->enemy_list_Easy[ind].direction++;  
+         }
+         else if (direction == -1 && x-1 > 0){
+             st->enemy_list_Easy[ind].enemyX--;
+         }
+         st->enemy_list_Easy[ind].direction *= -1;
+     }
+ }
 
 
 
-	// a76231 - Rui Felipe Sá Fernandes
+ void update_enemies (STATE *st) {
+     for (int i = 0; i < 10; i++) {
+         walk_unactive (st, i);
+     }
+ }*/
+
+
+
+    // a76231 - Rui Felipe Sá Fernandes
     //função para combate nível fácil.
 void combat_easy (STATE *st, int ncols, int nrows){
     int playerX = (ncols/2) + st->playerX;
     int playerY = (nrows/2) + st->playerY;
 
     time_t currentTime = time(NULL);
+
+    enemy_hunt(st, st->enemy_list_Easy, st->numEnemies_Easy, ncols, nrows);
+   
 
     for (int i = 0; i < st->numEnemies_Easy; i++) {
         int enemyX = st->enemy_list_Easy[i].enemyX;
@@ -290,7 +368,7 @@ void combat_easy (STATE *st, int ncols, int nrows){
                         st->enemy_list_Easy[i].lastSwing = currentTime;
                     }
                 }
-                
+               
                 if (playerX == enemyX && (playerY + 1 == enemyY || playerY - 1 == enemyY)) {
                     if (currentTime - st->enemy_list_Easy[i].lastSwing >= 2){
                         st->playerHP -= st->enemy_list_Easy[i].attack;
@@ -314,7 +392,7 @@ void combat_easy (STATE *st, int ncols, int nrows){
                         st->enemy_list_Easy[i].lastSwing = currentTime;
                     }
                 }
-                
+               
                 if (playerX == enemyX && (playerY + 1 == enemyY || playerY - 1 == enemyY)) {
                     if (currentTime - st->enemy_list_Easy[i].lastSwing >= 3){
                         st->playerHP -= st->enemy_list_Easy[i].attack;
@@ -328,13 +406,15 @@ void combat_easy (STATE *st, int ncols, int nrows){
 
 
 
-	// a76231 - Rui Felipe Sá Fernandes
+    // a76231 - Rui Felipe Sá Fernandes
     //função para combate nível médio.
 void combat_mid (STATE *st, int ncols, int nrows){
     int playerX = (ncols/2) + st->playerX;
     int playerY = (nrows/2) + st->playerY;
 
     time_t currentTime = time(NULL);
+
+    enemy_hunt(st, st->enemy_list_Mid, st->numEnemies_Mid, ncols, nrows);
 
     for (int i = 0; i < st->numEnemies_Mid; i++) {
         int enemyX = st->enemy_list_Mid[i].enemyX;
@@ -369,7 +449,7 @@ void combat_mid (STATE *st, int ncols, int nrows){
                         st->enemy_list_Mid[i].lastSwing = currentTime;
                     }
                 }
-                
+               
                 if (playerX == enemyX && (playerY + 1 == enemyY || playerY - 1 == enemyY)) {
                     if (currentTime - st->enemy_list_Mid[i].lastSwing >= 2){
                         st->playerHP -= st->enemy_list_Mid[i].attack;
@@ -393,7 +473,7 @@ void combat_mid (STATE *st, int ncols, int nrows){
                         st->enemy_list_Mid[i].lastSwing = currentTime;
                     }
                 }
-                
+               
                 if (playerX == enemyX && (playerY + 1 == enemyY || playerY - 1 == enemyY)) {
                     if (currentTime - st->enemy_list_Mid[i].lastSwing >= 3){
                         st->playerHP -= st->enemy_list_Mid[i].attack;
@@ -407,13 +487,15 @@ void combat_mid (STATE *st, int ncols, int nrows){
 
 
 
-	// a76231 - Rui Felipe Sá Fernandes
+    // a76231 - Rui Felipe Sá Fernandes
     //função para combate nível difícil.
 void combat_hard (STATE *st, int ncols, int nrows){
     int playerX = (ncols/2) + st->playerX;
     int playerY = (nrows/2) + st->playerY;
 
     time_t currentTime = time(NULL);
+
+    enemy_hunt(st, st->enemy_list_Hard, st->numEnemies_Hard, ncols, nrows);
 
     for (int i = 0; i < st->numEnemies_Hard; i++) {
         int enemyX = st->enemy_list_Hard[i].enemyX;
@@ -446,7 +528,7 @@ void combat_hard (STATE *st, int ncols, int nrows){
                     st->enemy_list_Hard[i].lastSwing = currentTime;
                 }
             }
-            
+           
             if (playerX == enemyX && (playerY + 1 == enemyY || playerY - 1 == enemyY)) {
                 if (currentTime - st->enemy_list_Hard[i].lastSwing >= 3){
                     st->playerHP -= st->enemy_list_Hard[i].attack;
@@ -459,7 +541,7 @@ void combat_hard (STATE *st, int ncols, int nrows){
 
 
 
-	// a76231 - Rui Felipe Sá Fernandes
+    // a76231 - Rui Felipe Sá Fernandes
     //Funções para desenhar os inimigos.
 void draw_enemy (ENEMY enemy, int x, int y, int dif){
     if (dif < 3) {
