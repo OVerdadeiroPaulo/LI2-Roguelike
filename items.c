@@ -5,7 +5,7 @@
 #include "state.h"
 
 
-	// aXXXXXX - Paulo Alexandre
+	// a64459 - Paulo Alexandre
     // Funções para inicializzar items aleatorios
 void random_Items (STATE *st, int ncols, int nrows) {
     int i = 0;
@@ -44,7 +44,7 @@ void random_Items (STATE *st, int ncols, int nrows) {
 
 
 
-	// aXXXXXX - Paulo Alexandre
+	// a64459 - Paulo Alexandre
     // Funções para desenhar os inimigos.
 void draw_items (Item item, int x, int y){
     if (item.magnitude <= 10 && item.magnitude >= 0) {

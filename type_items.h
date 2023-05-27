@@ -4,7 +4,7 @@
 #include "type_enemies.h"
 
 
-	// aXXXXXX - Paulo Alexandre
+	// a64459 - Paulo Alexandre
     // struct que define os items
 typedef struct item 
 {
