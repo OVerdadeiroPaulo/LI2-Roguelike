@@ -295,35 +295,6 @@ void enemy_hunt(STATE *st, ENEMY *enemy_list, int numEnemies, int ncols, int nro
 
 
 
-/*
-    // a76231 - Rui Felipe Sá Fernandes
-     // Função que define o caminho do inimigo sem direção
- void walk_unactive (STATE *st, int ind) {  
-     if (st->enemy_list_Easy[ind].type != 4){
-         int x = st->enemy_list_Easy[ind].enemyX;
-         int y = st->enemy_list_Easy[ind].enemyY;
-         int direction = st->enemy_list_Easy[ind].direction;
-         if (direction == 1){
-             st->enemy_list_Easy[ind].enemyX++;
-             st->enemy_list_Easy[ind].direction++;  
-         }
-         else if (direction == -1 && x-1 > 0){
-             st->enemy_list_Easy[ind].enemyX--;
-         }
-         st->enemy_list_Easy[ind].direction *= -1;
-     }
- }
-
-
-
- void update_enemies (STATE *st) {
-     for (int i = 0; i < 10; i++) {
-         walk_unactive (st, i);
-     }
- }*/
-
-
-
     // a76231 - Rui Felipe Sá Fernandes
     //função para combate nível fácil.
 void combat_easy (STATE *st, int ncols, int nrows){
